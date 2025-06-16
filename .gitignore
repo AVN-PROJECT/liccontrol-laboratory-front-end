@@ -26,14 +26,5 @@ coverage
 *.njsproj
 *.sln
 *.sw?
-
+build/Release
 *.tsbuildinfo
-
-# Local .env-files.
-.env
-../.env
-.env.local
-.env.
-.env.prod
-*.mp4
-src/assets/video/formstream_demo.mp4
