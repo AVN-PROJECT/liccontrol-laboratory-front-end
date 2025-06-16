@@ -1,0 +1,12 @@
+services:
+  my-laboratory-web-front:
+    build: .
+    container_name: my-laboratory-web-front
+    command: ["make", "run"]
+    networks:
+      - license_control
+
+networks:
+  license_control:
+    driver: bridge
+    name: license_control
