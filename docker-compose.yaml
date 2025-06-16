@@ -1,0 +1,11 @@
+services:
+  laboratory-web-front:
+    container_name: laboratory-web-front
+    command: ["make", "run_production"]
+    networks:
+      - license_control
+
+networks:
+  license_control:
+    driver: bridge
+    name: license_control
