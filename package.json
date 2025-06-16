@@ -19,7 +19,7 @@
     "lint-staged": "^13.3.0",
     "prettier": "^3.0.0",
     "stylelint": "^15.0.0",
-    "stylelint-config-standard-scss": "^11.0.0"
+    "stylelint-config-standard-scss": "^11.1.0"
   },
   "lint-staged": {
     "*.{js,vue}": [
