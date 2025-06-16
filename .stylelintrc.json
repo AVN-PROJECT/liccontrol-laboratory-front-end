@@ -2,9 +2,7 @@
   "customSyntax": "postcss-scss",
   "overrides": [
     {
-      "files": [
-        "**/*.vue"
-      ],
+      "files": ["**/*.vue"],
       "customSyntax": "postcss-html"
     }
   ],
@@ -13,10 +11,7 @@
     "stylelint-config-standard-scss",
     "stylelint-config-css-modules"
   ],
-  "plugins": [
-    "stylelint-scss",
-    "stylelint-order"
-  ],
+  "plugins": ["stylelint-scss", "stylelint-order"],
   "rules": {
     "media-feature-range-notation": null,
     "declaration-block-no-redundant-longhand-properties": null,
@@ -30,28 +25,16 @@
     "at-rule-empty-line-before": [
       "always",
       {
-        "except": [
-          "blockless-after-same-name-blockless",
-          "first-nested"
-        ],
-        "ignore": [
-          "after-comment"
-        ],
-        "ignoreAtRules": [
-          "if",
-          "else"
-        ]
+        "except": ["blockless-after-same-name-blockless", "first-nested"],
+        "ignore": ["after-comment"],
+        "ignoreAtRules": ["if", "else"]
       }
     ],
     "rule-empty-line-before": [
       "always",
       {
-        "except": [
-          "first-nested"
-        ],
-        "ignore": [
-          "after-comment"
-        ]
+        "except": ["first-nested"],
+        "ignore": ["after-comment"]
       }
     ],
     "comment-empty-line-before": "always",
