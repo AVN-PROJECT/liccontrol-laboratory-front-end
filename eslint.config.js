@@ -2,6 +2,7 @@ import js from "@eslint/js";
 import globals from "globals";
 import vue from "eslint-plugin-vue";
 import babelParser from "@babel/eslint-parser";
+import vueParser from "vue-eslint-parser";
 
 export default [
   js.configs.recommended,
@@ -15,9 +16,10 @@ export default [
         ...globals.node,
         _: false
       },
-      parser: babelParser,
+      parser: vueParser,
       parserOptions: {
-        requireConfigFile: false
+        requireConfigFile: false,
+        parser: babelParser
       }
     },
     rules: {
@@ -80,7 +82,7 @@ export default [
       "function-call-argument-newline": ["error", "never"],
       "function-paren-newline": ["error", "multiline"],
       "implicit-arrow-linebreak": ["error", "beside"],
-      indent: ["error", 4, { SwitchCase: 1 }],
+      indent: ["error", 2, { SwitchCase: 1 }],
       "jsx-quotes": ["error", "prefer-double"],
       "key-spacing": [
         "error",
