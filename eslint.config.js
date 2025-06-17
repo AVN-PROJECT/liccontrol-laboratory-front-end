@@ -162,7 +162,7 @@ export default [
       "vue/html-closing-bracket-newline": "error",
       "vue/html-indent": [
         "error",
-        4,
+        2,
         {
           attribute: 1,
           baseIndent: 1,
