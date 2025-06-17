@@ -1,7 +1,8 @@
 node_modules
 .next
-yarn.lock
 public
 coverage
-.gitkeep
-*.hbs
+docker-compose.dev.yaml
+docker-compose.yaml
+README.md
+Makefile
