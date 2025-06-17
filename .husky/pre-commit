@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/husky.sh"
 
-NODE_OPTIONS='--experimental-vm-modules --no-warnings' npx lint-staged
+npx lint-staged

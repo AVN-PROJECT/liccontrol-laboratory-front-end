@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "prepare": "husky install",
-    "lint": "NODE_OPTIONS='--experimental-vm-modules --no-warnings' eslint .",
+    "lint": "eslint .",
     "format": "prettier --write ."
   },
   "dependencies": {
