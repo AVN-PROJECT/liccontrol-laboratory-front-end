@@ -1,6 +1,7 @@
 import js from '@eslint/js';
 import globals from 'globals';
 import vue from 'eslint-plugin-vue';
+import prettier from 'eslint-plugin-prettier';
 import babelParser from '@babel/eslint-parser';
 import vueParser from 'vue-eslint-parser';
 
@@ -14,13 +15,16 @@ export default [
       globals: {
         ...globals.browser,
         ...globals.node,
-        _: false
+        _: false,
       },
       parser: vueParser,
       parserOptions: {
         requireConfigFile: false,
-        parser: babelParser
-      }
+        parser: babelParser,
+      },
+    },
+    plugins: {
+      prettier,
     },
     rules: {
       'no-alert': 'off',
@@ -54,7 +58,7 @@ export default [
       'no-unused-expressions': ['error', { allowTernary: true }],
       'no-unused-vars': [
         'error',
-        { vars: 'local', args: 'none', caughtErrors: 'none' }
+        { vars: 'local', args: 'none', caughtErrors: 'none' },
       ],
       'no-useless-call': 'error',
       'no-useless-concat': 'error',
@@ -86,20 +90,20 @@ export default [
       'jsx-quotes': ['error', 'prefer-double'],
       'key-spacing': [
         'error',
-        { beforeColon: false, afterColon: true, mode: 'strict' }
+        { beforeColon: false, afterColon: true, mode: 'strict' },
       ],
       'keyword-spacing': ['error', { before: true, after: true }],
       'linebreak-style': ['error', 'unix'],
       'lines-between-class-members': [
         'error',
         'always',
-        { exceptAfterSingleLine: true }
+        { exceptAfterSingleLine: true },
       ],
       'multiline-comment-style': ['error', 'separate-lines'],
       'multiline-ternary': ['error', 'always-multiline'],
       'new-cap': [
         'error',
-        { newIsCap: true, capIsNew: true, properties: false }
+        { newIsCap: true, capIsNew: true, properties: false },
       ],
       'new-parens': ['error', 'always'],
       'newline-per-chained-call': ['error', { ignoreChainWithDepth: 2 }],
@@ -117,7 +121,7 @@ export default [
       'object-curly-spacing': ['error', 'always'],
       'object-property-newline': [
         'error',
-        { allowMultiplePropertiesPerLine: true }
+        { allowMultiplePropertiesPerLine: true },
       ],
       'one-var': ['error', 'never'],
       'one-var-declaration-per-line': ['error', 'initializations'],
@@ -131,7 +135,7 @@ export default [
       'space-before-blocks': 'error',
       'space-before-function-paren': [
         'error',
-        { anonymous: 'never', named: 'never', asyncArrow: 'always' }
+        { anonymous: 'never', named: 'never', asyncArrow: 'always' },
       ],
       'space-in-parens': ['error', 'never'],
       'space-unary-ops': 'error',
@@ -146,8 +150,8 @@ export default [
           before: false,
           after: true,
           anonymous: 'neither',
-          method: { before: true, after: true }
-        }
+          method: { before: true, after: true },
+        },
       ],
       'no-duplicate-imports': 'error',
       'no-useless-computed-key': 'error',
@@ -168,29 +172,29 @@ export default [
           baseIndent: 1,
           closeBracket: 0,
           alignAttributesVertically: true,
-          ignores: []
-        }
+          ignores: [],
+        },
       ],
       'vue/max-attributes-per-line': [
         'error',
-        { singleline: 2, multiline: { max: 1 } }
+        { singleline: 2, multiline: { max: 1 } },
       ],
       'vue/html-self-closing': [
         'error',
         {
           html: { void: 'any', normal: 'any', component: 'any' },
           svg: 'always',
-          math: 'always'
-        }
+          math: 'always',
+        },
       ],
       'vue/multiline-html-element-content-newline': [
         'error',
-        { ignoreWhenEmpty: false, allowEmptyLines: true }
+        { ignoreWhenEmpty: false, allowEmptyLines: true },
       ],
       'vue/script-indent': [
         'error',
         2,
-        { baseIndent: 0, switchCase: 1, ignores: [] }
+        { baseIndent: 0, switchCase: 1, ignores: [] },
       ],
       'vue/no-v-html': 'off',
       'vue/singleline-html-element-content-newline': 'off',
@@ -200,13 +204,14 @@ export default [
       'vue/padding-line-between-blocks': 2,
       'vue/new-line-between-multi-line-property': [
         'error',
-        { minLineOfMultilineProperty: 2 }
+        { minLineOfMultilineProperty: 2 },
       ],
       'vue/first-attribute-linebreak': [
         'error',
-        { singleline: 'ignore', multiline: 'below' }
+        { singleline: 'ignore', multiline: 'below' },
       ],
-      'vue/no-lone-template': 'off'
-    }
-  }
+      'vue/no-lone-template': 'off',
+      'prettier/prettier': ['error', { trailingComma: 'es5' }],
+    },
+  },
 ];
