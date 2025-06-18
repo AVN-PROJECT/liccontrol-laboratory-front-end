@@ -6,7 +6,7 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      component: () => import(''),
+      component: () => import('@/layouts/MainLayout.vue'),
       meta: { authenticator: true },
       children: [],
     },
