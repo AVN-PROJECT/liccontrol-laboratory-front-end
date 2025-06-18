@@ -4,8 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "start": "vite",
     "prepare": "husky install",
-    "lint": "NODE_OPTIONS='--experimental-require-module' eslint --fix .",
+    "lint": "eslint --fix .",
     "format": "prettier --write ."
   },
   "dependencies": {
