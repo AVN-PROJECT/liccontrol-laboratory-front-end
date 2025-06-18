@@ -4,6 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "dev": "vite",
+    "build": "vite build",
     "start": "vite",
     "prepare": "husky install",
     "lint": "eslint --fix .",
@@ -28,6 +30,7 @@
     "@babel/core": "^7.27.4",
     "@babel/eslint-parser": "^7.27.5",
     "@babel/preset-env": "^7.27.2",
+    "@types/node": "^24.0.3",
     "eslint": "^8.0.0",
     "eslint-plugin-prettier": "^5.5.0",
     "eslint-plugin-vue": "^9.0.0",

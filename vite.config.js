@@ -23,6 +23,15 @@ export default defineConfig(({ mode }) => {
         },
       },
     },
-    define: { 'process.env': env },
+    define: {
+      'process.env.BASE_URL': JSON.stringify(env.BASE_URL),
+
+      ...Object.keys(env).reduce((acc, key) => {
+        if (key.startsWith('VITE_')) {
+          acc[`process.env.${key}`] = JSON.stringify(env[key]);
+        }
+        return acc;
+      }, {}),
+    },
   };
 });
