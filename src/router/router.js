@@ -6,14 +6,19 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      component: () => import('@/layouts/MainLayout.vue'),
+      component: () => import('@/views/MainView.vue'),
       meta: { authenticator: true },
       children: [],
     },
     {
       path: '/login',
-      name: 'login',
+      name: 'Login',
       component: () => import('@/views/LoginView.vue'),
+    },
+    {
+      path: '/:catchAll(.*)',
+      name: 'NotFound',
+      component: () => import('@/views/NotFoundView.vue'),
     },
   ],
 });
