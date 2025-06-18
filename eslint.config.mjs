@@ -19,7 +19,7 @@ export default [
       },
       parser: vueParser,
       parserOptions: {
-        ConfigFile: './babel.config.json',
+        ConfigFile: './babel.config.js',
         parser: babelParser,
       },
     },

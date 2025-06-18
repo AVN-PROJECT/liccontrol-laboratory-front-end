@@ -1,4 +1,5 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/husky.sh"
 
+export NODE_OPTIONS='--experimental-require-module --no-warnings'
 npx lint-staged
