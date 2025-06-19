@@ -115,7 +115,7 @@ export default [
       // ==== VUE RULES ====
       'vue/html-indent': [
         'error',
-        4,
+        2,
         {
           attribute: 1,
           baseIndent: 1,
@@ -160,7 +160,7 @@ export default [
       ],
       'vue/script-indent': [
         'error',
-        4,
+        2,
         {
           baseIndent: 0,
           switchCase: 1,

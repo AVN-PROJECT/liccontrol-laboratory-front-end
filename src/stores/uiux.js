@@ -5,7 +5,7 @@ import { ref } from 'vue';
 export const useUiUxStore = defineStore('uiux', () => {
   const currentForm = ref('LoginFormComponent');
 
-  const setCurrentForm = name => {
+  const setCurrentForm = (name) => {
     currentForm.value = name;
   };
 

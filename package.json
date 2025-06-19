@@ -16,7 +16,6 @@
     "@babel/plugin-transform-private-property-in-object": "^7.27.1",
     "@eslint/js": "^9.29.0",
     "@vitejs/plugin-vue": "^5.2.4",
-    "babel": "^6.23.0",
     "globals": "^16.2.0",
     "js-cookies": "^1.0.4",
     "pinia": "^3.0.3",
@@ -34,7 +33,7 @@
     "@types/node": "^24.0.3",
     "@typescript-eslint/eslint-plugin": "^8.34.1",
     "@typescript-eslint/parser": "^8.34.1",
-    "eslint": "^8.57.1",
+    "eslint": "^9.29.0",
     "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-prettier": "^5.5.0",
     "eslint-plugin-vue": "^9.33.0",
@@ -50,16 +49,13 @@
     "stylelint-scss": "^6.12.1"
   },
   "lint-staged": {
-    "*.{js,vue}": [
-      "eslint --fix .",
-      "prettier --write ."
+    "*.{js,ts,vue}": [
+      "prettier --write",
+      "eslint --fix"
     ],
-    "*.{css,scss}": [
-      "stylelint --fix .",
-      "prettier --write ."
-    ],
-    "*.{json,md}": [
-      "prettier --write ."
+    "*.{css,scss,vue}": [
+      "prettier --write",
+      "stylelint --fix"
     ]
   }
 }
