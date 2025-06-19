@@ -1,11 +1,19 @@
-// import './assets/main.css';
-
 import { createApp } from 'vue';
-import App from './App.vue';
+
+import { createPinia } from 'pinia';
+
 import routerApp from '@/router/router.js';
+
+import App from './App.vue';
+
+import '@/styles/base/global.scss';
 
 const app = createApp(App);
 
-app.use(routerApp);
+const pinia = createPinia();
 
-app.mount('#app');
+async function initialApp() {
+  app.use(routerApp).use(pinia).mount('#app');
+}
+
+window.addEventListener('load', initialApp);
