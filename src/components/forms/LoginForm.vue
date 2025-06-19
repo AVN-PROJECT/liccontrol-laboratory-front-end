@@ -262,14 +262,6 @@
 </script>
 
 <style scoped lang="scss">
-  .header-login {
-    &__text {
-      margin: 0;
-      padding-bottom: 6%;
-      font-size: 1.9vw;
-    }
-  }
-
   .login-form {
     display: flex;
     width: 70.6%;
@@ -286,7 +278,9 @@
       margin-bottom: 5%;
       padding: 1.9% 3.3%;
       border-radius: 10px;
+      border: 0;
       background-color: #d9d9d9;
+      font-family: $font-family-base;
     }
 
     .input-error {
