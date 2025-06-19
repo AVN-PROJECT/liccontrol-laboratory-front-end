@@ -1,11 +1,37 @@
 <template>
-  <div>
-    <h1>Вход</h1>
-  </div>
+  <LoginLayout>
+    <component
+      :is="componentForm"
+      :key="formKey"
+    />
+  </LoginLayout>
 </template>
 
-<script setup></script>
+<script setup>
+  import { computed, ref, watch } from 'vue';
+  import { storeToRefs } from 'pinia';
+  import { useUiUxStore } from '@/stores/uiuxStore.js';
 
-<style scoped>
+  import LoginLayout from '@/layouts/LoginLayout.vue';
+  import LoginForm from '@/components/forms/LoginForm.vue';
+
+  const { currentForm } = storeToRefs(useUiUxStore());
+
+  const componentsMap = {
+    LoginForm,
+  };
+
+  const componentForm = computed(() => {
+    return componentsMap[currentForm.value] ?? LoginForm;
+  });
+
+  const formKey = ref(Date.now());
+
+  watch(currentForm, () => {
+    formKey.value = Date.now();
+  });
+</script>
+
+<style scoped lang="scss">
   /* styles go here */
 </style>
