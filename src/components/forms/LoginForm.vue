@@ -290,7 +290,7 @@
 
   .support {
     margin: 0;
-    font-size: 0.85vw;
+    font-size: 0.95vw;
     color: $color-blue;
   }
 
@@ -325,22 +325,22 @@
       cursor: pointer;
     }
 
-    .request_code {
-      border-bottom: 0 solid $color-dark;
-      color: $color-blue;
-      cursor: pointer;
-    }
+    // .request_code {
+    //  border-bottom: 0 solid $color-dark;
+    //  color: $color-blue;
+    //  cursor: pointer;
+    // }
   }
 
   .button-login {
     margin: 5% 0 2.4% 0;
-    padding: 4% 7%;
+    padding: 3% 5%;
     border-radius: 10px;
     border: none;
     background-color: $color-blue-sky;
     text-align: center;
     font-family: Jura, sans-serif;
-    font-size: 1.9vw;
+    font-size: 1.7vw;
     font-weight: 400;
     color: #001f3f;
     cursor: pointer;
