@@ -127,11 +127,12 @@
 </template>
 
 <script setup>
-  import { ref } from 'vue';
-
+  import { ref, onMounted } from 'vue';
+  // import { storeToRefs } from 'pinia';
+  import { useLockBodyScroll } from '@/composables/useBlockScrollBody.js';
   import { strValidate } from '@/helpers/validation/validate.js';
 
-  // import { storeToRefs } from 'pinia';
+  const { disableBodyScroll } = useLockBodyScroll();
 
   // import { useUiUxStore } from '@/stores/uiuxStore.js';
   // // import { nextTick } from 'vue';
@@ -180,7 +181,7 @@
 
   const handlerLoginButton = async () => {
     validate(form);
-    //
+
     if (Object.keys(errors.value).some((item) => item !== '')) {
       return;
     }
@@ -254,6 +255,10 @@
     showCookieBlock.value = false;
   };
   const showPassword = ref(false);
+
+  onMounted(() => {
+    disableBodyScroll();
+  });
 </script>
 
 <style scoped lang="scss">
@@ -285,14 +290,14 @@
     }
 
     .input-error {
-      //border: 2px solid $color-red;
+      border: 2px solid $color-red;
     }
   }
 
   .support {
     margin: 0;
     font-size: 0.85vw;
-    //color: $color-blue;
+    color: $color-blue;
   }
 
   .footer-login {
@@ -321,16 +326,16 @@
     margin: 0;
 
     a {
-      //border-bottom: 1px solid $color-dark;
+      border-bottom: 1px solid $color-dark;
       color: $color-dark;
       cursor: pointer;
     }
 
-    // .request_code {
-    //  cursor: pointer;
-    //  border-bottom: 0 solid $color-dark;
-    //  color: $color-blue;
-    // }
+    .request_code {
+      border-bottom: 0 solid $color-dark;
+      color: $color-blue;
+      cursor: pointer;
+    }
   }
 
   .button-login {

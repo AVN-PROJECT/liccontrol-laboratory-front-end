@@ -1,10 +1,19 @@
 export const useLockBodyScroll = () => {
   const disableBodyScroll = () => {
-    const scrollY = document.documentElement.style.getPropertyValue('--scroll-y');
     const body = document.body;
-    body.style.width = '100%';
-    body.style.position = 'fixed';
-    body.style.top = `-${scrollY}`;
+    const scrollY = window.scrollY || document.documentElement.scrollTop;
+
+    console.log('Saved scroll position:', scrollY);
+
+    document.documentElement.style.setProperty('--scroll-y', `${scrollY}px`);
+
+    const storedScrollY = document.documentElement.style.getPropertyValue('--scroll-y');
+
+    if (storedScrollY !== null && storedScrollY !== '') {
+      body.style.width = '100%';
+      body.style.position = 'fixed';
+      body.style.top = `-${storedScrollY}`;
+    }
   };
 
   const enableBodyScroll = () => {
