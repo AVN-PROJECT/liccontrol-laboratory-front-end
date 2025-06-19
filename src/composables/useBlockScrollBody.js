@@ -3,8 +3,6 @@ export const useLockBodyScroll = () => {
     const body = document.body;
     const scrollY = window.scrollY || document.documentElement.scrollTop;
 
-    console.log('Saved scroll position:', scrollY);
-
     document.documentElement.style.setProperty('--scroll-y', `${scrollY}px`);
 
     const storedScrollY = document.documentElement.style.getPropertyValue('--scroll-y');

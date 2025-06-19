@@ -128,36 +128,37 @@
 
 <script setup>
   import { ref, onMounted } from 'vue';
-  // import { storeToRefs } from 'pinia';
+  import { storeToRefs } from 'pinia';
+  import apiClient from '@/composables/apiClient.js';
   import { useLockBodyScroll } from '@/composables/useBlockScrollBody.js';
   import { strValidate } from '@/helpers/validation/validate.js';
 
   const { disableBodyScroll } = useLockBodyScroll();
 
-  // import { useUiUxStore } from '@/stores/uiuxStore.js';
-  // // import { nextTick } from 'vue';
+  import { useUiUxStore } from '@/stores/uiuxStore.js';
+  import { useUserStore } from '@/stores/userStore.js';
 
-  // const toastList = ref([]);
+  const toastList = ref([]);
 
   defineProps({
-    // message,
+    message: String,
     type: {
       type: String,
       default: 'info',
     },
   });
 
-  // function showToast(message, type = 'info') {
-  //   const id = Date.now() + Math.random();
-  //   toastList.value.push({ message, id, type });
-  //
-  //   setTimeout(() => {
-  //     toastList.value = toastList.value.filter(t => t.id !== id);
-  //   }, 5000);
-  // }
+  const showToast = (message, type = 'info') => {
+    const id = Date.now() + Math.random();
+    toastList.value.push({ message, id, type });
 
-  // const { setCurrentForm } = useUiUxStore();
-  // // const { loginName, loginEmail } = storeToRefs(useUserStore());
+    setTimeout(() => {
+      toastList.value = toastList.value.filter((t) => t.id !== id);
+    }, 5000);
+  };
+
+  const { setCurrentForm } = useUiUxStore();
+  const { loginName, loginEmail } = storeToRefs(useUserStore());
 
   const form = ref({
     name: '',
@@ -186,62 +187,51 @@
       return;
     }
 
-    // try {
-    //   const response = await apiClient.post(
-    //     process.env.VITE_BASE_SERVER_URL + '/user/auth/login',
-    //     {
-    //       name: form.value.name?.trim() || '',
-    //       inn: form.value.inn?.trim() || '',
-    //       email: form.value.email?.trim() || '',
-    //       password: form.value.password?.trim() || '',
-    //       license_key: form.value.license_key?.trim() || '',
-    //     }
-    //   );
-    //
-    //   if (response.status === 200) {
-    //     loginEmail.value = form.value.email.trim();
-    //     loginName.value = form.value.name.trim();
-    //
-    //     setCurrentForm('MailFormComponent');
-    //
-    //     await nextTick();
-    //     await nextTick();
-    //   }
-    // } catch (err) {
-    //   const responseData = err.response?.data;
-    //
-    //   if (responseData?.errors && typeof responseData.errors === 'object') {
-    //     Object.values(responseData.errors).forEach(msg =>
-    //       showToast(msg, 'error')
-    //     );
-    //     return;
-    //   }
-    //
-    //   if (Array.isArray(responseData?.errors)) {
-    //     responseData.errors.forEach(msg => showToast(msg, 'error'));
-    //     return;
-    //   }
-    //
-    //   if (typeof responseData?.message === 'string') {
-    //     showToast(responseData.message, 'error');
-    //     return;
-    //   }
-    //
-    //   if (typeof responseData?.detail === 'string') {
-    //     showToast(responseData.detail, 'error');
-    //     return;
-    //   }
-    //
-    //   if (err.response?.status) {
-    //     showToast(
-    //       `Ошибка сервера: ${err.response.status} ${err.response.statusText}`,
-    //       'error'
-    //     );
-    //     return;
-    //   }
-    //
-    //   showToast('Неизвестная ошибка сервера. Попробуйте позже.', 'error');
-    // }
+    try {
+      const response = await apiClient.post('/user/auth/login', {
+        name: form.value.name?.trim() || '',
+        inn: form.value.inn?.trim() || '',
+        email: form.value.email?.trim() || '',
+        password: form.value.password?.trim() || '',
+        license_key: form.value.license_key?.trim() || '',
+      });
+
+      if (response.status === 200) {
+        loginEmail.value = form.value.email.trim();
+        loginName.value = form.value.name.trim();
+
+        setCurrentForm('LoginConfirmForm');
+      }
+    } catch (err) {
+      const responseData = err.response?.data;
+
+      if (responseData?.errors && typeof responseData.errors === 'object') {
+        Object.values(responseData.errors).forEach((msg) => showToast(msg, 'error'));
+        return;
+      }
+
+      if (Array.isArray(responseData?.errors)) {
+        responseData.errors.forEach((msg) => showToast(msg, 'error'));
+        return;
+      }
+
+      if (typeof responseData?.message === 'string') {
+        showToast(responseData.message, 'error');
+        return;
+      }
+
+      if (typeof responseData?.detail === 'string') {
+        showToast(responseData.detail, 'error');
+        return;
+      }
+
+      if (err.response?.status) {
+        showToast(`Ошибка сервера: ${err.response.status} ${err.response.statusText}`, 'error');
+        return;
+      }
+
+      showToast('Неизвестная ошибка сервера. Попробуйте позже.', 'error');
+    }
   };
 
   const cookieAccepted = ref(false);

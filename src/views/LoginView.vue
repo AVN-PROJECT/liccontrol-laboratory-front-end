@@ -14,11 +14,13 @@
 
   import LoginLayout from '@/layouts/LoginLayout.vue';
   import LoginForm from '@/components/forms/LoginForm.vue';
+  import LoginConfirmForm from '@/components/forms/LoginConfirmForm.vue';
 
   const { currentForm } = storeToRefs(useUiUxStore());
 
   const componentsMap = {
     LoginForm,
+    LoginConfirmForm,
   };
 
   const componentForm = computed(() => {

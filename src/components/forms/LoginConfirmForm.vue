@@ -72,7 +72,7 @@
   import Cookies from 'js-cookies/src/cookies.js';
 
   import apiClient from '@/composables/apiClient.js';
-  import { useUserStore } from '@/stores/user.js';
+  import { useUserStore } from '@/stores/userStore.js';
 
   const handlePaste = (event) => {
     event.preventDefault();
@@ -115,11 +115,9 @@
   const handlerConfirmButton = async () => {
     const code = twoFAInput.value.join('');
 
-    console.log(code, loginEmail.value, loginName.value);
-
     if (code.length === 4) {
       try {
-        const response = await apiClient.post(process.env.VITE_BASE_SERVER_URL + '/code', {
+        const response = await apiClient.post('/user/auth/login-code', {
           name: loginName.value,
           email: loginEmail.value,
           code: code,
