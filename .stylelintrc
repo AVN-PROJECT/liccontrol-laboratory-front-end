@@ -18,6 +18,7 @@
     "shorthand-property-no-redundant-values": null,
     "property-no-vendor-prefix": null,
     "at-rule-no-unknown": null,
+    "declaration-property-value-no-unknown": null,
     "scss/at-rule-no-unknown": true,
     "declaration-block-no-redundant-longhand-properties": [
       true,
