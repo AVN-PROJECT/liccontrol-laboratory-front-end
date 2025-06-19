@@ -13,15 +13,18 @@
   ],
   "plugins": ["stylelint-scss", "stylelint-order"],
   "rules": {
-    "media-feature-range-notation": null,
-    "declaration-block-no-redundant-longhand-properties": null,
     "selector-class-pattern": null,
     "scss/comment-no-empty": null,
     "shorthand-property-no-redundant-values": null,
     "property-no-vendor-prefix": null,
-    "max-line-length": null,
     "at-rule-no-unknown": null,
     "scss/at-rule-no-unknown": true,
+    "declaration-block-no-redundant-longhand-properties": [
+      true,
+      {
+        "ignoreShorthands": ["inset"]
+      }
+    ],
     "at-rule-empty-line-before": [
       "always",
       {
@@ -37,7 +40,12 @@
         "ignore": ["after-comment"]
       }
     ],
-    "comment-empty-line-before": "always",
+    "comment-empty-line-before": [
+      "always",
+      {
+        "except": ["first-nested"]
+      }
+    ],
     "declaration-no-important": true,
     "no-descending-specificity": null,
     "value-no-vendor-prefix": true,
@@ -178,6 +186,12 @@
       "animation-play-state",
       "animation-timing-function",
       "cursor"
+    ],
+    "function-no-unknown": [
+      true,
+      {
+        "ignoreFunctions": ["v-bind"]
+      }
     ]
   }
 }
