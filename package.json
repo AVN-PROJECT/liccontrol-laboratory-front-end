@@ -16,6 +16,7 @@
     "@babel/plugin-transform-private-property-in-object": "^7.27.1",
     "@eslint/js": "^9.29.0",
     "@vitejs/plugin-vue": "^5.2.4",
+    "axios": "^1.10.0",
     "globals": "^16.2.0",
     "js-cookies": "^1.0.4",
     "pinia": "^3.0.3",
