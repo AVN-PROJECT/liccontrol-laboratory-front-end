@@ -1,0 +1,262 @@
+<template>
+  <div
+    v-if="loginEmail"
+    class="mail-login-form-component"
+  >
+    <h2>Подтвердите электронную почту</h2>
+
+    <p>
+      На Вашу почту {{ loginEmail }} было отправлено письмо с кодом подтверждения.
+      <br />
+      <br />
+      Введите код ниже:
+    </p>
+
+    <div class="two-fa-input">
+      <input
+        v-for="(digit, index) in twoFAInput"
+        :key="index"
+        ref="inputRefs"
+        v-model="twoFAInput[index]"
+        type="text"
+        maxlength="1"
+        class="two-fa-box"
+        :class="{
+          'border-green': isCodeCorrect === true,
+          'border-red': isCodeCorrect === false,
+        }"
+        @input="handleInput(index)"
+        @keydown="handlerBackspace($event, index)"
+        @paste="handlePaste"
+      />
+    </div>
+
+    <p
+      v-if="isCodeCorrect === false"
+      class="error-text"
+    >
+      Введен неверный код
+    </p>
+
+    <button
+      class="button-login"
+      @click="handlerConfirmButton"
+    >
+      Подтвердить
+    </button>
+
+    <div class="footer-login">
+      <p class="footer-base-user-agreements">
+        Не получили код?
+        <br />
+        <br />
+        <a
+          class="request_code"
+          href="#"
+          @click.prevent=""
+        >
+          Запросить код повторно
+        </a>
+      </p>
+    </div>
+  </div>
+</template>
+
+<script setup>
+  import { ref } from 'vue';
+
+  import { storeToRefs } from 'pinia';
+
+  import { useRouter } from 'vue-router';
+
+  import Cookies from 'js-cookies/src/cookies.js';
+
+  import apiClient from '@/composables/apiClient.js';
+  import { useUserStore } from '@/stores/userStore.js';
+
+  const handlePaste = (event) => {
+    event.preventDefault();
+
+    const pastedText = event.clipboardData?.getData('text/plain') ?? '';
+
+    const digits = pastedText.replace(/\D/g, '').split('');
+
+    digits.slice(0, 4).forEach((digit, index) => {
+      twoFAInput.value[index] = digit;
+    });
+
+    const nextIndex = digits.length < 4 ? digits.length : 3;
+    inputRefs.value[nextIndex]?.focus();
+  };
+
+  const twoFAInput = ref(['', '', '', '']);
+  const inputRefs = ref([]);
+  const isCodeCorrect = ref(null);
+  const errors = ref({
+    server: '',
+  });
+
+  const { loginEmail, loginName } = storeToRefs(useUserStore());
+
+  const router = useRouter();
+
+  const handleInput = (index) => {
+    if (twoFAInput.value[index].length === 1 && index < twoFAInput.value.length - 1) {
+      inputRefs.value[index + 1]?.focus();
+    }
+  };
+
+  const handlerBackspace = (event, index) => {
+    if (event.key === 'Backspace' && !twoFAInput.value[index] && index > 0) {
+      inputRefs.value[index - 1]?.focus();
+    }
+  };
+
+  const handlerConfirmButton = async () => {
+    const code = twoFAInput.value.join('');
+
+    if (code.length === 4) {
+      try {
+        const response = await apiClient.post('/user/auth/login-code', {
+          name: loginName.value,
+          email: loginEmail.value,
+          code: code,
+        });
+
+        if (response.status === 200) {
+          const cookieOptions = {
+            path: '/',
+          };
+
+          if (location.hostname !== 'localhost') {
+            cookieOptions.domain = 'liccontrol.ru';
+            cookieOptions.secure = true;
+          }
+
+          Cookies.setItem('accessToken', response.data.access_token, cookieOptions);
+          Cookies.setItem('refreshToken', response.data.refresh_token, cookieOptions);
+          Cookies.setItem('userEmail', loginEmail.value, cookieOptions);
+          Cookies.setItem('userName', loginName.value, cookieOptions);
+
+          await router.push('/profile');
+        }
+      } catch {
+        isCodeCorrect.value = false;
+
+        errors.value.server = 'Ошибка соединения с сервером';
+      }
+    }
+  };
+</script>
+
+<style scoped lang="scss">
+  .header-login-text {
+    margin: 0;
+    padding-bottom: 6%;
+    font-size: 1.9vw;
+  }
+
+  .login-form {
+    display: flex;
+    width: 70.6%;
+    margin: 0 auto;
+    flex-direction: column;
+
+    input {
+      margin-bottom: 5%;
+      padding: 1.9% 3.3%;
+      border-radius: 10px;
+      border: 0;
+      background-color: #d9d9d9;
+    }
+
+    .input-error {
+      border: 2px solid $color-red;
+    }
+  }
+
+  .login-form-errors {
+    font-size: 0.85vw;
+    color: $color-red;
+
+    p {
+      margin: 0;
+      padding-bottom: 10px;
+    }
+  }
+
+  .support {
+    margin: 0;
+    font-size: 0.85vw;
+    color: $color-blue;
+  }
+
+  .footer-base-user-agreements {
+    margin-top: 6.4%;
+
+    a {
+      border-bottom: 1px solid $color-dark;
+      color: $color-dark;
+      cursor: pointer;
+    }
+
+    .request_code {
+      border-bottom: 0 solid $color-dark;
+      color: $color-blue;
+      cursor: pointer;
+    }
+  }
+
+  .button-login {
+    margin: 5% 0 6.4% 0;
+    padding: 4% 7%;
+    border-radius: 10px;
+    border: none;
+    background-color: $color-blue-sky;
+    text-align: center;
+    font-family: Jura, sans-serif;
+    font-size: 1.9vw;
+    font-weight: 400;
+    color: #001f3f;
+    cursor: pointer;
+  }
+
+  .two-fa-input {
+    display: flex;
+    justify-content: center;
+    gap: 61px;
+    margin-top: 8%;
+  }
+
+  .two-fa-box {
+    width: 80px;
+    height: 80px;
+    border-radius: 5px;
+    border: none;
+    background: rgb(217 217 217 / 30%);
+    text-align: center;
+    font-family: Montserrat, sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    font-style: normal;
+    color: #000;
+    box-shadow: inset 0 0 4px 2px rgb(0 0 0 / 25%);
+  }
+
+  .border-green {
+    border: 2px solid #48a600;
+  }
+
+  .border-red {
+    border: 2px solid $color-red;
+  }
+
+  .error-text {
+    margin-top: 6%;
+    margin-bottom: 0;
+    font-family: Montserrat, sans-serif;
+    font-size: 0.9vw;
+    font-style: normal;
+    color: $color-red;
+  }
+</style>
