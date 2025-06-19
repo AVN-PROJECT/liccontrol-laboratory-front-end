@@ -334,6 +334,61 @@
     font-weight: 400;
     color: #001f3f;
     cursor: pointer;
+    box-shadow: 0 2px 4px rgb(0 31 63 / 20%);
+
+    &:hover {
+      background-color: #7ab8d6;
+      box-shadow: 0 4px 8px rgb(0 31 63 / 30%);
+      transform: translateY(-2px);
+    }
+
+    &:active {
+      animation: buttonClick 0.4s ease;
+    }
+
+    &:after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 5px;
+      height: 5px;
+      border-radius: 100%;
+      background: rgb(255 255 255 / 50%);
+      opacity: 0;
+      transform: scale(1, 1) translate(-50%, -50%);
+      transform-origin: 50% 50%;
+    }
+
+    &:focus:not(:active):after {
+      animation: ripple 0.6s ease-out;
+    }
+  }
+
+  @keyframes buttonClick {
+    0% {
+      transform: scale(1);
+    }
+
+    50% {
+      transform: scale(0.95);
+    }
+
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  @keyframes ripple {
+    0% {
+      opacity: 0.5;
+      transform: scale(0, 0);
+    }
+
+    100% {
+      opacity: 0;
+      transform: scale(20, 20);
+    }
   }
 
   // .border-green {
