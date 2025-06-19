@@ -6,4 +6,6 @@
 
 <script setup></script>
 
-<style scoped></style>
+<style scoped>
+  /* styles go here */
+</style>

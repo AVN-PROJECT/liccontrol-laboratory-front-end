@@ -29,7 +29,7 @@ router.beforeEach(async (to, from, next) => {
   const refresh_token = Cookies.getItem('refreshToken');
   const access_token = Cookies.getItem('accessToken');
 
-  if (to.matched.some(record => record.meta.authentication)) {
+  if (to.matched.some((record) => record.meta.authentication)) {
     if (!refresh_token && !access_token) {
       return next('/login');
     } else if (!access_token && refresh_token) {

@@ -8,4 +8,8 @@
 
 <script setup lang="ts"></script>
 
-<style scoped></style>
+<style scoped>
+  .login-layout {
+    /* styles go here */
+  }
+</style>
