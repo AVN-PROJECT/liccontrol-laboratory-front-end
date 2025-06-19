@@ -50,6 +50,19 @@ export default [
           ignores: [],
         },
       ],
+      'vue/html-self-closing': [
+        'error',
+        {
+          html: {
+            void: 'any',
+            normal: 'any',
+            component: 'any',
+          },
+          svg: 'always',
+          math: 'always',
+        },
+      ],
+      'vue/singleline-html-element-content-newline': 'off',
       'vue/script-indent': 'off',
       indent: 'off',
       'no-console': 'off',
