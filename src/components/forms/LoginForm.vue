@@ -10,6 +10,7 @@
             // 'input-error':
             //   errors.organization
           }"
+          color="grey"
           type="text"
           placeholder="Наименование организации"
         />
@@ -18,6 +19,7 @@
           v-model="form.inn"
           :class="{ 'input-error': errors.inn }"
           type="text"
+          color="grey"
           placeholder="ИНН"
         />
 
@@ -25,6 +27,7 @@
           v-model="form.email"
           :class="{ 'input-error': errors.email }"
           type="email"
+          color="grey"
           placeholder="Электронная почта"
         />
 
@@ -33,6 +36,7 @@
             v-model="form.password"
             :class="{ 'input-error': errors.password }"
             :type="showPassword ? 'text' : 'password'"
+            color="grey"
             placeholder="Пароль"
           />
           <!--          <button-->
@@ -53,6 +57,7 @@
           v-model="form.license_key"
           :class="{ 'input-error': errors.license_key }"
           type="text"
+          color="grey"
           placeholder="Введите ваш ключ"
         />
       </div>
@@ -268,8 +273,6 @@
 
     input {
       margin-bottom: 5%;
-      padding: 1.9% 3.3%;
-      background-color: #d9d9d9;
     }
 
     .input-error {

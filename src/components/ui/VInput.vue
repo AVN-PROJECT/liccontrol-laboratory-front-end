@@ -1,7 +1,7 @@
 <template>
   <component
     :is="'input'"
-    class="VInput"
+    :class="['VInput', classes]"
     :v-model="model"
     :type="type"
     :placeholder="placeholder"
@@ -10,7 +10,9 @@
 </template>
 
 <script setup>
-  defineProps({
+  import { computed } from 'vue';
+
+  const prop = defineProps({
     model: {
       type: String,
       default: 'input',
@@ -24,13 +26,35 @@
       default: 'text',
       validator: (value) => ['text', 'number', 'email'].includes(value),
     },
+    color: {
+      type: String,
+      default: 'base',
+      validator: (value) => ['grey'].includes(value),
+    },
+    size: {
+      type: String,
+      default: 'medium',
+      validator: (value) => ['medium'].includes(value),
+    },
+  });
+
+  const classes = computed(() => {
+    return { [`_${prop.color}`]: prop.color, [`_${prop.size}`]: prop.size };
   });
 </script>
 
 <style scoped lang="scss">
   .VInput {
-    border-radius: 10px;
-    border: 0;
     font-family: $font-family-base;
+
+    &._grey {
+      border-radius: 10px;
+      border: 0;
+      background-color: $color-white-grey;
+    }
+
+    &._medium {
+      padding: 1.9% 3.3%;
+    }
   }
 </style>
