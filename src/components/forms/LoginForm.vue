@@ -4,7 +4,7 @@
       <h1 class="header-login__text">Вход в личный кабинет</h1>
 
       <div class="login-form">
-        <input
+        <VInput
           v-model="form.name"
           :class="{
             // 'input-error':
@@ -14,14 +14,14 @@
           placeholder="Наименование организации"
         />
 
-        <input
+        <VInput
           v-model="form.inn"
           :class="{ 'input-error': errors.inn }"
           type="text"
           placeholder="ИНН"
         />
 
-        <input
+        <VInput
           v-model="form.email"
           :class="{ 'input-error': errors.email }"
           type="email"
@@ -29,7 +29,7 @@
         />
 
         <div class="password-input-wrapper">
-          <input
+          <VInput
             v-model="form.password"
             :class="{ 'input-error': errors.password }"
             :type="showPassword ? 'text' : 'password'"
@@ -49,7 +49,7 @@
           <!--          </button>-->
         </div>
 
-        <input
+        <VInput
           v-model="form.license_key"
           :class="{ 'input-error': errors.license_key }"
           type="text"
@@ -132,6 +132,8 @@
   import apiClient from '@/composables/apiClient.js';
   import { useLockBodyScroll } from '@/composables/useBlockScrollBody.js';
   import { strValidate } from '@/helpers/validation/validate.js';
+
+  import VInput from '@/components/ui/VInput.vue';
 
   const { disableBodyScroll } = useLockBodyScroll();
 
@@ -267,10 +269,7 @@
     input {
       margin-bottom: 5%;
       padding: 1.9% 3.3%;
-      border-radius: 10px;
-      border: 0;
       background-color: #d9d9d9;
-      font-family: $font-family-base;
     }
 
     .input-error {
