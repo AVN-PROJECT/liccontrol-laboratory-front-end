@@ -10,7 +10,13 @@ const router = createRouter({
       path: '/',
       component: () => import('@/views/MainView.vue'),
       meta: { authentication: true },
-      children: [],
+      children: [
+        {
+          path: '/profile',
+          meta: { authentication: true },
+          component: () => import(''),
+        },
+      ],
     },
     {
       path: '/login',
