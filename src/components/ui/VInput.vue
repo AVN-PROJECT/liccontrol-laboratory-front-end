@@ -28,7 +28,7 @@
     },
     color: {
       type: String,
-      default: 'base',
+      default: 'grey',
       validator: (value) => ['grey'].includes(value),
     },
     error: {
