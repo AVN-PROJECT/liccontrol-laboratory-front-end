@@ -1,6 +1,6 @@
 <template>
-  <header>
-    <div class="div1">
+  <header class="header__base">
+    <div class="header__menu">
       <img
         src="@/assets/icons/logo.svg"
         alt="logo-main.svg"

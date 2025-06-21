@@ -62,7 +62,7 @@
 
       <div class="login-form-submit">
         <button
-          class="button-login"
+          class="login__form-button-login"
           @click="handlerLoginButton"
         >
           Войти
@@ -77,7 +77,7 @@
         Тех. поддержка
       </a>
 
-      <div class="footer-login">
+      <div class="login__footer">
         <div
           class="custom-checkbox"
           @click="cookieAccepted = !cookieAccepted"
@@ -284,7 +284,7 @@
     color: $color-blue;
   }
 
-  .footer-login {
+  .login__footer {
     display: flex;
     margin-top: 20px;
 
@@ -322,7 +322,7 @@
     // }
   }
 
-  .button-login {
+  .login__form-button-login {
     margin: 5% 0 2.4% 0;
     padding: 3% 5%;
     border-radius: 10px;

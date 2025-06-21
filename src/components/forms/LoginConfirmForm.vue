@@ -1,18 +1,18 @@
 <template>
   <div
     v-if="loginEmail"
-    class="mail-login-form-component"
+    class="login__email-form"
   >
-    <h2>Подтвердите электронную почту</h2>
+    <h2 class="login__form-text">Подтвердите электронную почту</h2>
 
-    <p>
+    <p class="login__email-description">
       На Вашу почту {{ loginEmail }} было отправлено письмо с кодом подтверждения.
       <br />
       <br />
       Введите код ниже:
     </p>
 
-    <div class="two-fa-input">
+    <div class="login__form-two-fa">
       <input
         v-for="(digit, index) in twoFAInput"
         :key="index"
@@ -39,13 +39,13 @@
     </p>
 
     <button
-      class="button-login"
+      class="login__form-button-login"
       @click="handlerConfirmButton"
     >
       Подтвердить
     </button>
 
-    <div class="footer-login">
+    <div class="login__footer">
       <p class="footer-base-user-agreements">
         Не получили код?
         <br />
@@ -133,8 +133,7 @@
             cookieOptions.secure = true;
           }
 
-          Cookies.setItem('accessToken', response.data.access_token, cookieOptions);
-          Cookies.setItem('refreshToken', response.data.refresh_token, cookieOptions);
+          Cookies.setItem('accessToken', response.data.accessToken, cookieOptions);
           Cookies.setItem('userEmail', loginEmail.value, cookieOptions);
           Cookies.setItem('userName', loginName.value, cookieOptions);
 
@@ -207,7 +206,7 @@
     }
   }
 
-  .button-login {
+  .login__form-button-login {
     margin: 5% 0 6.4% 0;
     padding: 4% 7%;
     border-radius: 10px;
@@ -221,7 +220,7 @@
     cursor: pointer;
   }
 
-  .two-fa-input {
+  .login__form-two-fa {
     display: flex;
     justify-content: center;
     gap: 61px;
