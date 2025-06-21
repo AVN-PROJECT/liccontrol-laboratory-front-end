@@ -6,28 +6,25 @@
       <div class="login-form">
         <VInput
           v-model="form.name"
-          :class="{
-            // 'input-error':
-            //   errors.organization
-          }"
           color="grey"
+          :errors="form.name"
           type="text"
           placeholder="Наименование организации"
         />
 
         <VInput
           v-model="form.inn"
-          :class="{ 'input-error': errors.inn }"
           type="text"
           color="grey"
+          :errors="form.inn"
           placeholder="ИНН"
         />
 
         <VInput
           v-model="form.email"
-          :class="{ 'input-error': errors.email }"
           type="email"
           color="grey"
+          :errors="form.email"
           placeholder="Электронная почта"
         />
 
@@ -36,6 +33,7 @@
             v-model="form.password"
             :class="{ 'input-error': errors.password }"
             :type="showPassword ? 'text' : 'password'"
+            :errors="form.password"
             color="grey"
             placeholder="Пароль"
           />
@@ -55,7 +53,7 @@
 
         <VInput
           v-model="form.license_key"
-          :class="{ 'input-error': errors.license_key }"
+          :errors="form.license_key"
           type="text"
           color="grey"
           placeholder="Введите ваш ключ"

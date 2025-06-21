@@ -31,6 +31,10 @@
       default: 'base',
       validator: (value) => ['grey'].includes(value),
     },
+    error: {
+      type: String,
+      default: '',
+    },
     size: {
       type: String,
       default: 'medium',
@@ -39,7 +43,11 @@
   });
 
   const classes = computed(() => {
-    return { [`_${prop.color}`]: prop.color, [`_${prop.size}`]: prop.size };
+    return {
+      [`_${prop.color}`]: prop.color,
+      [`_${prop.size}`]: prop.size,
+      [`_${prop.error}`]: prop.error,
+    };
   });
 </script>
 
