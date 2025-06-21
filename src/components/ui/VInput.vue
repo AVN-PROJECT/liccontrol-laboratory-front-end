@@ -5,7 +5,7 @@
     :type="type"
     :placeholder="placeholder"
     v-bind="$attrs"
-    @input="$emit('update:modelValue', $event.target.value)"
+    @input="handleInput"
   />
 </template>
 
@@ -42,7 +42,7 @@
     },
   });
 
-  defineEmits(['input', 'update:modelValue']);
+  const emit = defineEmits(['update:modelValue', 'update']);
 
   const classes = computed(() => {
     console.log(prop.error);
@@ -53,15 +53,21 @@
       ['_error']: prop.error,
     };
   });
+
+  const handleInput = (event) => {
+    emit('update:modelValue', event.target.value);
+    emit('update');
+  };
 </script>
 
 <style scoped lang="scss">
   .VInput {
     font-family: $font-family-base;
+    transition: border 0.3s ease-in-out;
 
     &._grey {
       border-radius: 10px;
-      border: 0;
+      border: 1px solid $color-white-grey;
       background-color: $color-white-grey;
     }
 
