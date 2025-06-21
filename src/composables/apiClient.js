@@ -57,7 +57,7 @@ axiosClient.interceptors.response.use(
         Cookies.removeItem('userEmail');
         Cookies.removeItem('userName');
 
-        window.location.href = '/user/auth/login';
+        window.location.href = '/login';
 
         return Promise.reject(refreshError);
       }

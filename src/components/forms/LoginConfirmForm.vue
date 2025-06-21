@@ -13,7 +13,7 @@
     </p>
 
     <div class="login__form-two-fa">
-      <input
+      <VInput
         v-for="(digit, index) in twoFAInput"
         :key="index"
         ref="inputRefs"
@@ -21,10 +21,6 @@
         type="text"
         maxlength="1"
         class="two-fa-box"
-        :class="{
-          'border-green': isCodeCorrect === true,
-          'border-red': isCodeCorrect === false,
-        }"
         @input="handleInput(index)"
         @keydown="handlerBackspace($event, index)"
         @paste="handlePaste"
@@ -76,6 +72,9 @@
   // utils.
   import Cookies from 'js-cookies/src/cookies.js';
   import { useUserStore } from '@/stores/userStore.js';
+
+  // components.
+  import VInput from '@/components/ui/VInput.vue';
 
   // constants.
   const twoFAInput = ref(['', '', '', '']);
@@ -164,14 +163,6 @@
     width: 70.6%;
     margin: 0 auto;
     flex-direction: column;
-
-    input {
-      margin-bottom: 5%;
-      padding: 1.9% 3.3%;
-      border-radius: 10px;
-      border: 0;
-      background-color: #d9d9d9;
-    }
 
     .input-error {
       border: 2px solid $color-red;

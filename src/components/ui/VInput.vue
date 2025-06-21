@@ -6,6 +6,8 @@
     :placeholder="placeholder"
     v-bind="$attrs"
     @input="handleInput"
+    @paste="$emit('paste', $event)"
+    @keydown="$emit('keydown', $event)"
   />
 </template>
 
@@ -28,8 +30,8 @@
     },
     color: {
       type: String,
-      default: 'grey',
-      validator: (value) => ['grey'].includes(value),
+      default: 'white',
+      validator: (value) => ['grey', 'white'].includes(value),
     },
     error: {
       type: Boolean,
@@ -42,7 +44,7 @@
     },
   });
 
-  const emit = defineEmits(['update:modelValue', 'update']);
+  const emit = defineEmits(['update:modelValue', 'update', 'paste', 'keydown']);
 
   const classes = computed(() => {
     console.log(prop.error);
@@ -77,6 +79,12 @@
 
     &._error {
       border: 1px solid $color-red;
+    }
+
+    &._white {
+      border-radius: 10px;
+      border: 0;
+      background-color: #d9d9d9;
     }
   }
 </style>

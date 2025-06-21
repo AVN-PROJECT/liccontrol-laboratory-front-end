@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router';
 
 import Cookies from 'js-cookies/src/cookies.js';
 
+import { useUserStore } from '@/stores/userStore.js';
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
 
@@ -32,6 +34,8 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
+  const userStore = useUserStore();
+
   const refresh_token = Cookies.getItem('refreshToken');
   const access_token = Cookies.getItem('accessToken');
 
@@ -39,6 +43,7 @@ router.beforeEach(async (to, from, next) => {
     if (!refresh_token && !access_token) {
       return next('/login');
     } else if (!access_token && refresh_token) {
+      await userStore.preLoginUserStatus();
       return next();
     } else {
       return next();

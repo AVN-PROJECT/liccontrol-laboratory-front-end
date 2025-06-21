@@ -150,7 +150,7 @@
   import { strValidate } from '@/helpers/validation/validate.js';
   import { useLockBodyScroll } from '@/composables/useBlockScrollBody.js';
 
-  // componetns.
+  // components.
   import VInput from '@/components/ui/VInput.vue';
 
   // constants.
@@ -213,26 +213,22 @@
       ...errors.value,
       ...newErrors,
     };
-
-    console.log('errors:', errors.value);
   };
 
   const handlerLoginButton = async () => {
     validate(form);
 
-    console.log('errors', errors.value);
-
-    if (Object.keys(errors.value).some((item) => item !== '')) {
-      return;
-    }
+    // if (Object.keys(errors.value).some((item) => item !== '')) {
+    //   return;
+    // }
 
     try {
       const response = await apiClient.post('/user/auth/login', {
-        name: form.value.name?.trim() || '',
-        inn: form.value.inn?.trim() || '',
-        email: form.value.email?.trim() || '',
-        password: form.value.password?.trim() || '',
-        license_key: form.value.license_key?.trim() || '',
+        name: form.value.name,
+        inn: form.value.inn,
+        email: form.value.email,
+        password: form.value.password,
+        license_key: form.value.license_key,
       });
 
       if (response.status === 200) {

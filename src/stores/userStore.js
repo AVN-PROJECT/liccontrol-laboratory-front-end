@@ -16,6 +16,7 @@ export const useUserStore = defineStore('user', () => {
 
   const preLoginUserStatus = async () => {
     try {
+      console.log('Привет!');
       const response = await apiClient.post('/user/auth/token');
 
       if (response.status === 200) {
