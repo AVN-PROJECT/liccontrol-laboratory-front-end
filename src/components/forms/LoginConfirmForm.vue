@@ -63,16 +63,31 @@
 </template>
 
 <script setup>
+  // vue.
   import { ref } from 'vue';
 
+  // vuex.
   import { storeToRefs } from 'pinia';
-
   import { useRouter } from 'vue-router';
 
-  import Cookies from 'js-cookies/src/cookies.js';
-
+  // composables.
   import apiClient from '@/composables/apiClient.js';
+
+  // utils.
+  import Cookies from 'js-cookies/src/cookies.js';
   import { useUserStore } from '@/stores/userStore.js';
+
+  // constants.
+  const twoFAInput = ref(['', '', '', '']);
+  const inputRefs = ref([]);
+  const isCodeCorrect = ref(null);
+  const errors = ref({
+    server: '',
+  });
+
+  const { loginEmail, loginName } = storeToRefs(useUserStore());
+
+  const router = useRouter();
 
   const handlePaste = (event) => {
     event.preventDefault();
@@ -88,17 +103,6 @@
     const nextIndex = digits.length < 4 ? digits.length : 3;
     inputRefs.value[nextIndex]?.focus();
   };
-
-  const twoFAInput = ref(['', '', '', '']);
-  const inputRefs = ref([]);
-  const isCodeCorrect = ref(null);
-  const errors = ref({
-    server: '',
-  });
-
-  const { loginEmail, loginName } = storeToRefs(useUserStore());
-
-  const router = useRouter();
 
   const handleInput = (index) => {
     if (twoFAInput.value[index].length === 1 && index < twoFAInput.value.length - 1) {
@@ -134,8 +138,8 @@
           }
 
           Cookies.setItem('accessToken', response.data.accessToken, cookieOptions);
-          Cookies.setItem('userEmail', loginEmail.value, cookieOptions);
-          Cookies.setItem('userName', loginName.value, cookieOptions);
+          // Cookies.setItem('userEmail', loginEmail.value, cookieOptions);
+          // Cookies.setItem('userName', loginName.value, cookieOptions);
 
           await router.push('/profile');
         }

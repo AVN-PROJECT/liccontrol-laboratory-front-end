@@ -134,26 +134,26 @@
 </template>
 
 <script setup>
-  // vue
+  // vue.
   import { ref, onMounted } from 'vue';
 
-  // vuex
+  // vuex.
   import { storeToRefs } from 'pinia';
   import { useUiUxStore } from '@/stores/uiuxStore.js';
   import { useUserStore } from '@/stores/userStore.js';
 
-  // composables
+  // composables.
   import apiClient from '@/composables/apiClient.js';
 
-  // utils
+  // utils.
   const { disableBodyScroll } = useLockBodyScroll();
   import { strValidate } from '@/helpers/validation/validate.js';
   import { useLockBodyScroll } from '@/composables/useBlockScrollBody.js';
 
-  // componetns
+  // componetns.
   import VInput from '@/components/ui/VInput.vue';
 
-  // constants
+  // constants.
   const { setCurrentForm } = useUiUxStore();
   const { loginName, loginEmail } = storeToRefs(useUserStore());
 
