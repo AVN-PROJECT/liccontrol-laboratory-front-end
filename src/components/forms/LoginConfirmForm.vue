@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="loginEmail"
-    class="login__email-form"
+    class="login__confirm-email-form"
   >
     <h2 class="login__form-text">Подтвердите электронную почту</h2>
 

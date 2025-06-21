@@ -7,34 +7,38 @@
         <VInput
           v-model="form.name"
           color="grey"
-          :errors="form.name"
+          :error="!!errors.license_key"
           type="text"
           placeholder="Наименование организации"
+          @input="errors.name = ' '"
         />
 
         <VInput
           v-model="form.inn"
           type="text"
           color="grey"
-          :errors="form.inn"
+          :error="!!errors.inn"
           placeholder="ИНН"
+          @input="errors.inn = ' '"
         />
 
         <VInput
           v-model="form.email"
           type="email"
           color="grey"
-          :errors="form.email"
+          :error="!!errors.email"
           placeholder="Электронная почта"
+          @input="errors.email = ' '"
         />
 
         <div class="password-input-wrapper">
           <VInput
             v-model="form.password"
             :type="showPassword ? 'text' : 'password'"
-            :errors="form.password"
+            :error="!!errors.password"
             color="grey"
             placeholder="Пароль"
+            @input="errors.password = ' '"
           />
           <!--          <button-->
           <!--            type="button"-->
@@ -52,10 +56,11 @@
 
         <VInput
           v-model="form.license_key"
-          :errors="form.license_key"
+          :error="!!errors.license_key"
           type="text"
           color="grey"
           placeholder="Введите ваш ключ"
+          @input="errors.license_key = ' '"
         />
       </div>
 
@@ -187,7 +192,7 @@
   const handlerLoginButton = async () => {
     validate(form);
 
-    if (Object.keys(errors.value).some((item) => item !== '')) {
+    if (Object.keys(errors).some((item) => item !== '')) {
       return;
     }
 

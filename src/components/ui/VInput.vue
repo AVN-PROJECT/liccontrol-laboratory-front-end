@@ -24,7 +24,7 @@
     type: {
       type: String,
       default: 'text',
-      validator: (value) => ['text', 'number', 'email'].includes(value),
+      validator: (value) => ['text', 'password', 'email'].includes(value),
     },
     color: {
       type: String,
@@ -32,8 +32,8 @@
       validator: (value) => ['grey'].includes(value),
     },
     error: {
-      type: String,
-      default: '',
+      type: Boolean,
+      default: true,
     },
     size: {
       type: String,
@@ -43,10 +43,12 @@
   });
 
   const classes = computed(() => {
+    console.log(prop.error);
+
     return {
       [`_${prop.color}`]: prop.color,
       [`_${prop.size}`]: prop.size,
-      [`_${prop.error}`]: prop.error,
+      ['_error']: prop.error,
     };
   });
 </script>
@@ -63,6 +65,10 @@
 
     &._medium {
       padding: 1.9% 3.3%;
+    }
+
+    &._error {
+      border: 1px solid $color-red;
     }
   }
 </style>
