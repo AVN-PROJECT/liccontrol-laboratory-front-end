@@ -1,6 +1,6 @@
 <template>
-  <div class="base-layout">
-    <main class="content">
+  <div class="main__layout-base">
+    <main class="main__layout-content">
       <router-view />
     </main>
   </div>

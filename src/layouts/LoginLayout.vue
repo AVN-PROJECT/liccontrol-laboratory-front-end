@@ -1,6 +1,6 @@
 <template>
-  <div class="login-layout">
-    <div class="login-view">
+  <div class="login__layout-base">
+    <div class="login__layout-view">
       <slot />
     </div>
   </div>
@@ -9,14 +9,14 @@
 <script setup></script>
 
 <style scoped lang="scss">
-  .login-layout {
+  .login__layout-base {
     width: 100%;
     min-height: 100vh;
     padding: 6% 0;
     background-color: rgba($color-dark, 0.5);
   }
 
-  .login-view {
+  .login__layout-view {
     width: 52%;
     height: 100%;
     margin: 0 auto;

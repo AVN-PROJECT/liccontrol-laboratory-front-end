@@ -3,37 +3,42 @@
     <div class="login-form__component">
       <h1 class="header-login__text">Вход в личный кабинет</h1>
 
-      <div class="login-form">
-        <input
+      <div class="login__form">
+        <VInput
           v-model="form.name"
-          :class="{
-            // 'input-error':
-            //   errors.organization
-          }"
+          color="grey"
+          :error="!!errors.name"
           type="text"
           placeholder="Наименование организации"
+          @update="errors.name = ''"
         />
 
-        <input
+        <VInput
           v-model="form.inn"
-          :class="{ 'input-error': errors.inn }"
           type="text"
+          color="grey"
+          :error="!!errors.inn"
           placeholder="ИНН"
+          @update="errors.inn = ''"
         />
 
-        <input
+        <VInput
           v-model="form.email"
-          :class="{ 'input-error': errors.email }"
           type="email"
+          color="grey"
+          :error="!!errors.email"
           placeholder="Электронная почта"
+          @update="errors.email = ''"
         />
 
         <div class="password-input-wrapper">
-          <input
+          <VInput
             v-model="form.password"
-            :class="{ 'input-error': errors.password }"
             :type="showPassword ? 'text' : 'password'"
+            :error="!!errors.password"
+            color="grey"
             placeholder="Пароль"
+            @update="errors.password = ''"
           />
           <!--          <button-->
           <!--            type="button"-->
@@ -49,17 +54,19 @@
           <!--          </button>-->
         </div>
 
-        <input
+        <VInput
           v-model="form.license_key"
-          :class="{ 'input-error': errors.license_key }"
+          :error="!!errors.license_key"
           type="text"
+          color="grey"
           placeholder="Введите ваш ключ"
+          @update="errors.license_key = ''"
         />
       </div>
 
       <div class="login-form-submit">
         <button
-          class="button-login"
+          class="login__form-button-login"
           @click="handlerLoginButton"
         >
           Войти
@@ -74,7 +81,7 @@
         Тех. поддержка
       </a>
 
-      <div class="footer-login">
+      <div class="login__footer">
         <div
           class="custom-checkbox"
           @click="cookieAccepted = !cookieAccepted"
@@ -86,7 +93,7 @@
             class="checkmark"
           />
         </div>
-        <p class="footer-base-user-agreements">
+        <p class="login__footer-user-agreements">
           Нажимая “Войти”, вы соглашаетесь с
 
           <a href="#">Условиями использования сервиса</a>
@@ -97,10 +104,10 @@
     </div>
     <div
       v-if="showCookieBlock"
-      class="cookie_block"
-      :style="{ top: `${scrollY + 20}px` }"
+      class="login__cookie"
+      :style="{ bottom: `${scrollY + 20}px` }"
     >
-      <p>
+      <p class="login__cookie-text">
         Мы используем файлы cookies для улучшения работы сайта и большего удобства его
         использования. Более подробную информацию об использовании файлов cookies можно найти здесь
         <a
@@ -114,11 +121,11 @@
         файлов cookies сайтом https://liccontrol.ru/ и согласны с нашими правилами обработки
         персональных данных. Вы можете отключить файлы cookies в настройках Вашего браузера.
       </p>
-      <div class="cookie_">
-        <div class="cookie_t">
+      <div class="login__cookie_options">
+        <div class="login__cookie-accept">
           <a @click="acceptCookies">Принято</a>
         </div>
-        <div class="cookie_f">
+        <div class="login__cookie-reject">
           <a @click="rejectCookies">Отклонить</a>
         </div>
       </div>
@@ -127,18 +134,28 @@
 </template>
 
 <script setup>
+  // vue
   import { ref, onMounted } from 'vue';
+
+  // vuex
   import { storeToRefs } from 'pinia';
-  import apiClient from '@/composables/apiClient.js';
-  import { useLockBodyScroll } from '@/composables/useBlockScrollBody.js';
-  import { strValidate } from '@/helpers/validation/validate.js';
-
-  const { disableBodyScroll } = useLockBodyScroll();
-
   import { useUiUxStore } from '@/stores/uiuxStore.js';
   import { useUserStore } from '@/stores/userStore.js';
 
-  const toastList = ref([]);
+  // composables
+  import apiClient from '@/composables/apiClient.js';
+
+  // utils
+  const { disableBodyScroll } = useLockBodyScroll();
+  import { strValidate } from '@/helpers/validation/validate.js';
+  import { useLockBodyScroll } from '@/composables/useBlockScrollBody.js';
+
+  // componetns
+  import VInput from '@/components/ui/VInput.vue';
+
+  // constants
+  const { setCurrentForm } = useUiUxStore();
+  const { loginName, loginEmail } = storeToRefs(useUserStore());
 
   defineProps({
     message: String,
@@ -146,6 +163,33 @@
       type: String,
       default: 'info',
     },
+  });
+
+  const form = ref({
+    name: '',
+    inn: '',
+    email: '',
+    password: '',
+    license_key: '',
+  });
+  const errors = ref({
+    name: '',
+    inn: '',
+    email: '',
+    password: '',
+    license_key: '',
+  });
+  const scrollY = ref(0);
+  const toastList = ref([]);
+  const cookieAccepted = ref(false);
+  const showCookieBlock = ref(true);
+  const showPassword = ref(false);
+
+  onMounted(() => {
+    window.addEventListener('scroll', () => {
+      scrollY.value = window.scrollY;
+    });
+    disableBodyScroll();
   });
 
   const showToast = (message, type = 'info') => {
@@ -157,31 +201,26 @@
     }, 5000);
   };
 
-  const { setCurrentForm } = useUiUxStore();
-  const { loginName, loginEmail } = storeToRefs(useUserStore());
-
-  const form = ref({
-    name: '',
-    inn: '',
-    email: '',
-    password: '',
-    license_key: '',
-  });
-
-  const errors = ref({});
-
-  const validate = (form) => {
-    const errors = {
-      inn: strValidate(form.inn, 'inn', true),
-      email: strValidate(form.email, 'email', true),
-      password: strValidate(form.password, 'password', true),
+  const validate = () => {
+    const newErrors = {
+      inn: strValidate(form.value.inn, 'inn', true),
+      email: strValidate(form.value.email, 'email', true),
+      password: strValidate(form.value.password, 'password', true),
+      license_key: strValidate(form.value.license_key, '', true),
     };
 
-    errors.value = errors;
+    errors.value = {
+      ...errors.value,
+      ...newErrors,
+    };
+
+    console.log('errors:', errors.value);
   };
 
   const handlerLoginButton = async () => {
     validate(form);
+
+    console.log('errors', errors.value);
 
     if (Object.keys(errors.value).some((item) => item !== '')) {
       return;
@@ -234,9 +273,6 @@
     }
   };
 
-  const cookieAccepted = ref(false);
-  const showCookieBlock = ref(true);
-
   const acceptCookies = () => {
     showCookieBlock.value = false;
   };
@@ -244,15 +280,10 @@
   const rejectCookies = () => {
     showCookieBlock.value = false;
   };
-  const showPassword = ref(false);
-
-  onMounted(() => {
-    disableBodyScroll();
-  });
 </script>
 
 <style scoped lang="scss">
-  .login-form {
+  .login__form {
     display: flex;
     width: 70.6%;
     margin: 0 auto;
@@ -266,11 +297,6 @@
 
     input {
       margin-bottom: 5%;
-      padding: 1.9% 3.3%;
-      border-radius: 10px;
-      border: 0;
-      background-color: #d9d9d9;
-      font-family: $font-family-base;
     }
 
     .input-error {
@@ -284,7 +310,7 @@
     color: $color-blue;
   }
 
-  .footer-login {
+  .login__footer {
     display: flex;
     margin-top: 20px;
 
@@ -306,7 +332,7 @@
     }
   }
 
-  .footer-base-user-agreements {
+  .login__footer-user-agreements {
     margin: 0;
 
     a {
@@ -322,7 +348,7 @@
     // }
   }
 
-  .button-login {
+  .login__form-button-login {
     margin: 5% 0 2.4% 0;
     padding: 3% 5%;
     border-radius: 10px;
@@ -408,7 +434,7 @@
   //  font-family: 'Montserrat', sans-serif;
   //  font-style: normal;
   // }
-  .cookie_block {
+  .login__cookie {
     position: fixed;
     top: 73%;
     left: 3%;
@@ -434,7 +460,7 @@
       }
     }
 
-    .cookie_t {
+    .login__cookie-accept {
       display: inline-block;
       width: 120px;
       height: 47px;
@@ -450,7 +476,7 @@
       }
     }
 
-    .cookie_f {
+    .login__cookie-reject {
       margin-top: 20px;
       margin-left: 10px;
 

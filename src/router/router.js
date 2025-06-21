@@ -8,9 +8,15 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      component: () => import('@/views/MainView.vue'),
+      component: () => import('@/layouts/MainLayout.vue'),
       meta: { authentication: true },
-      children: [],
+      children: [
+        {
+          path: '/profile',
+          meta: { authentication: true },
+          component: () => import('@/views/ProfileView.vue'),
+        },
+      ],
     },
     {
       path: '/login',
