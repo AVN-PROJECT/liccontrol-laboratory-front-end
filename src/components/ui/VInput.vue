@@ -1,21 +1,21 @@
 <template>
-  <component
-    :is="'input'"
+  <input
     :class="['VInput', classes]"
-    :v-model="model"
+    :value="modelValue"
     :type="type"
     :placeholder="placeholder"
     v-bind="$attrs"
-  ></component>
+    @input="$emit('update:modelValue', $event.target.value)"
+  />
 </template>
 
 <script setup>
   import { computed } from 'vue';
 
   const prop = defineProps({
-    model: {
+    modelValue: {
       type: String,
-      default: 'input',
+      default: '',
     },
     placeholder: {
       type: String,
@@ -41,6 +41,8 @@
       validator: (value) => ['medium'].includes(value),
     },
   });
+
+  defineEmits(['input', 'update:modelValue']);
 
   const classes = computed(() => {
     console.log(prop.error);
