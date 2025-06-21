@@ -10,7 +10,7 @@
           :error="!!errors.name"
           type="text"
           placeholder="Наименование организации"
-          @input="errors.name = ''"
+          @update="errors.name = ''"
         />
 
         <VInput
@@ -19,7 +19,7 @@
           color="grey"
           :error="!!errors.inn"
           placeholder="ИНН"
-          @input="errors.inn = ''"
+          @update="errors.inn = ''"
         />
 
         <VInput
@@ -28,7 +28,7 @@
           color="grey"
           :error="!!errors.email"
           placeholder="Электронная почта"
-          @input="errors.email = ''"
+          @update="errors.email = ''"
         />
 
         <div class="password-input-wrapper">
@@ -38,7 +38,7 @@
             :error="!!errors.password"
             color="grey"
             placeholder="Пароль"
-            @input="errors.password = ''"
+            @update="errors.password = ''"
           />
           <!--          <button-->
           <!--            type="button"-->
@@ -60,7 +60,7 @@
           type="text"
           color="grey"
           placeholder="Введите ваш ключ"
-          @input="errors.license_key = ''"
+          @update="errors.license_key = ''"
         />
       </div>
 
@@ -206,6 +206,7 @@
       inn: strValidate(form.value.inn, 'inn', true),
       email: strValidate(form.value.email, 'email', true),
       password: strValidate(form.value.password, 'password', true),
+      license_key: strValidate(form.value.license_key, '', true),
     };
 
     errors.value = {
