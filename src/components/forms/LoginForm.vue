@@ -3,7 +3,7 @@
     <div class="login-form__component">
       <h1 class="header-login__text">Вход в личный кабинет</h1>
 
-      <div class="login-form">
+      <div class="login__form">
         <VInput
           v-model="form.name"
           color="grey"
@@ -31,7 +31,6 @@
         <div class="password-input-wrapper">
           <VInput
             v-model="form.password"
-            :class="{ 'input-error': errors.password }"
             :type="showPassword ? 'text' : 'password'"
             :errors="form.password"
             color="grey"
@@ -89,7 +88,7 @@
             class="checkmark"
           />
         </div>
-        <p class="footer-base-user-agreements">
+        <p class="login__footer-user-agreements">
           Нажимая “Войти”, вы соглашаетесь с
 
           <a href="#">Условиями использования сервиса</a>
@@ -100,10 +99,10 @@
     </div>
     <div
       v-if="showCookieBlock"
-      class="cookie_block"
+      class="login__cookie"
       :style="{ top: `${scrollY + 20}px` }"
     >
-      <p>
+      <p class="login__cookie-text">
         Мы используем файлы cookies для улучшения работы сайта и большего удобства его
         использования. Более подробную информацию об использовании файлов cookies можно найти здесь
         <a
@@ -117,11 +116,11 @@
         файлов cookies сайтом https://liccontrol.ru/ и согласны с нашими правилами обработки
         персональных данных. Вы можете отключить файлы cookies в настройках Вашего браузера.
       </p>
-      <div class="cookie_">
-        <div class="cookie_t">
+      <div class="login__cookie_options">
+        <div class="login__cookie-accept">
           <a @click="acceptCookies">Принято</a>
         </div>
-        <div class="cookie_f">
+        <div class="login__cookie-reject">
           <a @click="rejectCookies">Отклонить</a>
         </div>
       </div>
@@ -257,7 +256,7 @@
 </script>
 
 <style scoped lang="scss">
-  .login-form {
+  .login__form {
     display: flex;
     width: 70.6%;
     margin: 0 auto;
@@ -306,7 +305,7 @@
     }
   }
 
-  .footer-base-user-agreements {
+  .login__footer-user-agreements {
     margin: 0;
 
     a {
@@ -408,7 +407,7 @@
   //  font-family: 'Montserrat', sans-serif;
   //  font-style: normal;
   // }
-  .cookie_block {
+  .login__cookie {
     position: fixed;
     top: 73%;
     left: 3%;
@@ -434,7 +433,7 @@
       }
     }
 
-    .cookie_t {
+    .login__cookie-accept {
       display: inline-block;
       width: 120px;
       height: 47px;
@@ -450,7 +449,7 @@
       }
     }
 
-    .cookie_f {
+    .login__cookie-reject {
       margin-top: 20px;
       margin-left: 10px;
 

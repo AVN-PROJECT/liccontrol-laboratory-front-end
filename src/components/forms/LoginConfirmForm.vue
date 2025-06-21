@@ -46,7 +46,7 @@
     </button>
 
     <div class="login__footer">
-      <p class="footer-base-user-agreements">
+      <p class="login__footer-user-agreements">
         Не получили код?
         <br />
         <br />
@@ -155,7 +155,7 @@
     font-size: 1.9vw;
   }
 
-  .login-form {
+  .login__form {
     display: flex;
     width: 70.6%;
     margin: 0 auto;
@@ -190,7 +190,7 @@
     color: $color-blue;
   }
 
-  .footer-base-user-agreements {
+  .login__footer-user-agreements {
     margin-top: 6.4%;
 
     a {
