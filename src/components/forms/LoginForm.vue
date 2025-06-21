@@ -7,10 +7,10 @@
         <VInput
           v-model="form.name"
           color="grey"
-          :error="!!errors.license_key"
+          :error="!!errors.name"
           type="text"
           placeholder="Наименование организации"
-          @input="errors.name = ' '"
+          @input="errors.name = ''"
         />
 
         <VInput
@@ -19,7 +19,7 @@
           color="grey"
           :error="!!errors.inn"
           placeholder="ИНН"
-          @input="errors.inn = ' '"
+          @input="errors.inn = ''"
         />
 
         <VInput
@@ -28,7 +28,7 @@
           color="grey"
           :error="!!errors.email"
           placeholder="Электронная почта"
-          @input="errors.email = ' '"
+          @input="errors.email = ''"
         />
 
         <div class="password-input-wrapper">
@@ -38,7 +38,7 @@
             :error="!!errors.password"
             color="grey"
             placeholder="Пароль"
-            @input="errors.password = ' '"
+            @input="errors.password = ''"
           />
           <!--          <button-->
           <!--            type="button"-->
@@ -60,7 +60,7 @@
           type="text"
           color="grey"
           placeholder="Введите ваш ключ"
-          @input="errors.license_key = ' '"
+          @input="errors.license_key = ''"
         />
       </div>
 
@@ -105,7 +105,7 @@
     <div
       v-if="showCookieBlock"
       class="login__cookie"
-      :style="{ top: `${scrollY + 20}px` }"
+      :style="{ bottom: `${scrollY + 20}px` }"
     >
       <p class="login__cookie-text">
         Мы используем файлы cookies для улучшения работы сайта и большего удобства его
@@ -134,20 +134,28 @@
 </template>
 
 <script setup>
+  // vue
   import { ref, onMounted } from 'vue';
+
+  // vuex
   import { storeToRefs } from 'pinia';
-  import apiClient from '@/composables/apiClient.js';
-  import { useLockBodyScroll } from '@/composables/useBlockScrollBody.js';
-  import { strValidate } from '@/helpers/validation/validate.js';
-
-  import VInput from '@/components/ui/VInput.vue';
-
-  const { disableBodyScroll } = useLockBodyScroll();
-
   import { useUiUxStore } from '@/stores/uiuxStore.js';
   import { useUserStore } from '@/stores/userStore.js';
 
-  const toastList = ref([]);
+  // composables
+  import apiClient from '@/composables/apiClient.js';
+
+  // utils
+  const { disableBodyScroll } = useLockBodyScroll();
+  import { strValidate } from '@/helpers/validation/validate.js';
+  import { useLockBodyScroll } from '@/composables/useBlockScrollBody.js';
+
+  // componetns
+  import VInput from '@/components/ui/VInput.vue';
+
+  // constants
+  const { setCurrentForm } = useUiUxStore();
+  const { loginName, loginEmail } = storeToRefs(useUserStore());
 
   defineProps({
     message: String,
@@ -155,6 +163,33 @@
       type: String,
       default: 'info',
     },
+  });
+
+  const form = ref({
+    name: '',
+    inn: '',
+    email: '',
+    password: '',
+    license_key: '',
+  });
+  const errors = ref({
+    name: '',
+    inn: '',
+    email: '',
+    password: '',
+    license_key: '',
+  });
+  const scrollY = ref(0);
+  const toastList = ref([]);
+  const cookieAccepted = ref(false);
+  const showCookieBlock = ref(true);
+  const showPassword = ref(false);
+
+  onMounted(() => {
+    window.addEventListener('scroll', () => {
+      scrollY.value = window.scrollY;
+    });
+    disableBodyScroll();
   });
 
   const showToast = (message, type = 'info') => {
@@ -166,33 +201,27 @@
     }, 5000);
   };
 
-  const { setCurrentForm } = useUiUxStore();
-  const { loginName, loginEmail } = storeToRefs(useUserStore());
-
-  const form = ref({
-    name: '',
-    inn: '',
-    email: '',
-    password: '',
-    license_key: '',
-  });
-
-  const errors = ref({});
-
-  const validate = (form) => {
-    const errors = {
-      inn: strValidate(form.inn, 'inn', true),
-      email: strValidate(form.email, 'email', true),
-      password: strValidate(form.password, 'password', true),
+  const validate = () => {
+    const newErrors = {
+      inn: strValidate(form.value.inn, 'inn', true),
+      email: strValidate(form.value.email, 'email', true),
+      password: strValidate(form.value.password, 'password', true),
     };
 
-    errors.value = errors;
+    errors.value = {
+      ...errors.value,
+      ...newErrors,
+    };
+
+    console.log('errors:', errors.value);
   };
 
   const handlerLoginButton = async () => {
     validate(form);
 
-    if (Object.keys(errors).some((item) => item !== '')) {
+    console.log('errors', errors.value);
+
+    if (Object.keys(errors.value).some((item) => item !== '')) {
       return;
     }
 
@@ -243,9 +272,6 @@
     }
   };
 
-  const cookieAccepted = ref(false);
-  const showCookieBlock = ref(true);
-
   const acceptCookies = () => {
     showCookieBlock.value = false;
   };
@@ -253,11 +279,6 @@
   const rejectCookies = () => {
     showCookieBlock.value = false;
   };
-  const showPassword = ref(false);
-
-  onMounted(() => {
-    disableBodyScroll();
-  });
 </script>
 
 <style scoped lang="scss">
