@@ -1,18 +1,19 @@
 <template>
   <input
+    v-bind="$attrs"
+    ref="inputElement"
     :class="['VInput', classes]"
     :value="modelValue"
     :type="type"
     :placeholder="placeholder"
-    v-bind="$attrs"
     @input="handleInput"
-    @paste="$emit('paste', $event)"
-    @keydown="$emit('keydown', $event)"
+    @paste="handlePaste"
+    @keydown="handleKeydown"
   />
 </template>
 
 <script setup>
-  import { computed } from 'vue';
+  import { computed, ref } from 'vue';
 
   const prop = defineProps({
     modelValue: {
@@ -44,7 +45,13 @@
     },
   });
 
-  const emit = defineEmits(['update:modelValue', 'update', 'paste', 'keydown']);
+  const inputElement = ref(null);
+
+  const emit = defineEmits(['update:modelValue', 'update', 'paste', 'keydown', 'input']);
+
+  defineExpose({
+    focus: () => inputElement.value.focus(),
+  });
 
   const classes = computed(() => {
     console.log(prop.error);
@@ -58,7 +65,15 @@
 
   const handleInput = (event) => {
     emit('update:modelValue', event.target.value);
-    emit('update');
+    emit('input', event);
+  };
+
+  const handlePaste = (event) => {
+    emit('paste', event);
+  };
+
+  const handleKeydown = (event) => {
+    emit('keydown', event);
   };
 </script>
 

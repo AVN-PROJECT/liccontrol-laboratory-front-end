@@ -23,7 +23,7 @@
         class="two-fa-box"
         @input="handleInput(index)"
         @keydown="handlerBackspace($event, index)"
-        @paste="handlePaste"
+        @paste="handlePaste($event)"
       />
     </div>
 
