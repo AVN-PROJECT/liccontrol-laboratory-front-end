@@ -113,6 +113,7 @@
     .header__menu-section {
       width: 25%;
       flex-direction: column;
+      padding: 1vw;
     }
 
     .header__menu-logo {
