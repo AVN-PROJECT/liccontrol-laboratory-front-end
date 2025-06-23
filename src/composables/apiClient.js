@@ -40,11 +40,7 @@ axiosClient.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        const refreshToken = Cookies.getItem('refreshToken');
-
-        const response = await axiosClient.post('/user/auth/token', {
-          refresh_token: refreshToken,
-        });
+        const response = await axiosClient.post('/user/auth/token');
 
         const newAccessToken = response.data.accessToken;
 

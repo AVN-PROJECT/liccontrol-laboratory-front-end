@@ -36,16 +36,14 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   const userStore = useUserStore();
 
-  const refresh_token = Cookies.getItem('refreshToken');
   const access_token = Cookies.getItem('accessToken');
 
   if (to.matched.some((record) => record.meta.authentication)) {
-    if (!refresh_token && !access_token) {
-      return next('/login');
-    } else if (!access_token && refresh_token) {
-      await userStore.preLoginUserStatus();
+    if (access_token) {
       return next();
-    } else {
+    } else if (!access_token) {
+      await userStore.preLoginUserStatus();
+
       return next();
     }
   } else {
