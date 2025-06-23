@@ -31,8 +31,8 @@
     },
     color: {
       type: String,
-      default: 'white',
-      validator: (value) => ['grey', 'white'].includes(value),
+      default: 'grey-white',
+      validator: (value) => ['grey', 'grey-white', 'white'].includes(value),
     },
     error: {
       type: Boolean,
@@ -41,7 +41,7 @@
     size: {
       type: String,
       default: 'medium',
-      validator: (value) => ['medium'].includes(value),
+      validator: (value) => ['little', 'medium'].includes(value),
     },
   });
 
@@ -54,8 +54,6 @@
   });
 
   const classes = computed(() => {
-    console.log(prop.error);
-
     return {
       [`_${prop.color}`]: prop.color,
       [`_${prop.size}`]: prop.size,
@@ -96,10 +94,24 @@
       border: 1px solid $color-red;
     }
 
-    &._white {
+    &._grey-white {
       border-radius: 10px;
       border: 0;
       background-color: #d9d9d9;
+    }
+
+    &._little {
+      padding: 8px;
+      font-size: 16px;
+    }
+
+    &._white {
+      width: 100%;
+      border-radius: 5px;
+      border: none;
+      background: $color-light;
+      font-size: 16px;
+      box-shadow: inset 0 0 4px 1px rgb(0 0 0 / 25%);
     }
   }
 </style>

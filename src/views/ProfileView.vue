@@ -3,7 +3,7 @@
     <div class="profile__page-base-info">
       <div class="profile__page-base-card-company">
         <h1 class="profile__page-base-card-text">
-          <span>{{ formData.shortName }}</span>
+          <span>{{ userData[0].value }}</span>
         </h1>
       </div>
     </div>
@@ -11,47 +11,36 @@
       <div class="profile__page-card-company">
         <h2>Сведения об организации:</h2>
 
-        <div class="profile__page-card-row">
-          <span class="profile__page-card-row-label">Сокращённое наименование:</span>
-          <span class="profile__page-card-row-field">{{ formData.shortName }}</span>
+        <div
+          v-for="(fieldData, index) in userData"
+          :key="index"
+          class="profile__page-card-row"
+        >
+          <span class="profile__page-card-row-label">{{ fieldData.label }}</span>
+          <span
+            v-if="!isEditing"
+            class="profile__page-card-row-field"
+          >
+            {{ fieldData.value }}
+          </span>
+          <VInput
+            v-else
+            v-model.trim="fieldData.value"
+            type="text"
+            color="white"
+            size="little"
+          />
         </div>
 
-        <div class="profile__page-card-row">
-          <span class="profile__page-card-row-label">ИНН:</span>
-          <span class="profile__page-card-row-field">{{ formData.inn }}</span>
-        </div>
-
-        <div class="profile__page-card-row">
-          <span class="profile__page-card-row-label">Юридический адрес:</span>
-          <span class="profile__page-card-row-field">{{ formData.address }}</span>
-        </div>
-        <div class="profile__page-card-row">
-          <span class="profile__page-card-row-label">Имя руководителя организации:</span>
-          <span class="profile__page-card-row-field">{{ formData.firstName }}</span>
-        </div>
-        <div class="profile__page-card-row">
-          <span class="profile__page-card-row-label">Фамилия руководителя организации:</span>
-          <span class="profile__page-card-row-field">{{ formData.lastName }}</span>
-        </div>
-
-        <div class="profile__page-card-row">
-          <span class="profile__page-card-row-label">Отчество руководителя организации:</span>
-          <span class="profile__page-card-row-field">{{ formData.middleName }}</span>
-        </div>
-
-        <div class="profile__page-card-row">
-          <span class="profile__page-card-row-label">Номер телефона:</span>
-          <span class="profile__page-card-row-field">{{ formData.phone }}</span>
-        </div>
-
-        <div class="profile__page-card-row">
-          <span class="profile__page-card-row-label">Адрес электронной почты:</span>
-          <span class="profile__page-card-row-field">{{ formData.email }}</span>
-        </div>
-        <VButton class="edit-btn">Редактировать сведения об организации</VButton>
+        <VButton
+          class="profile__page-info-edit"
+          @click="isEditing ? handleSubmit() : (isEditing = true)"
+        >
+          {{ isEditing ? 'Сохранить' : 'Редактировать сведения об организации' }}
+        </VButton>
         <VButton
           type="button"
-          class="edit-btn test"
+          class=""
         >
           Сменить пароль
         </VButton>
@@ -68,35 +57,84 @@
 
   // components.
   import VButton from '@/components/ui/VButton.vue';
+  import VInput from '@/components/ui/VInput.vue';
 
-  const formData = ref({
-    shortName: '',
-    inn: '',
-    address: '',
-    lastName: '',
-    firstName: '',
-    middleName: '',
-    phone: '',
-    email: '',
-    profileImage: '',
-  });
+  const userData = ref([
+    { label: 'Наименование организации', value: '' },
+    { label: 'ИНН', value: '' },
+    { label: 'ОГРН', value: '' },
+    {
+      label: 'Юридический адрес',
+      value: '',
+    },
+    { label: 'Имя руководителя организации', value: '' },
+    { label: 'Фамилия руководителя организации', value: '' },
+    { label: 'Отчество руководителя организации', value: '' },
+    { label: 'Номер телефона', value: '' },
+    { label: 'Адрес электронной почты', value: '' },
+  ]);
+  const isEditing = ref(false);
 
   onMounted(async () => {
     const response = await apiClient.get('/user/profile/get_profile');
 
     const data = await response.data;
 
-    formData.value = {
-      shortName: data.name,
-      inn: data.inn,
-      address: data.legal_address ?? data.address ?? '',
-      lastName: data.fio_of_leader?.split(' ')[0] ?? '',
-      firstName: data.fio_of_leader?.split(' ')[1] ?? '',
-      middleName: data.fio_of_leader?.split(' ')[2] ?? '',
-      phone: data.phone_number ?? data.phone ?? '',
-      email: data.email,
-    };
+    userData.value = [
+      { label: 'Наименование организации', value: data.name || '' },
+      { label: 'ИНН', value: data.inn || '' },
+      { label: 'ОГРН', value: data.ogrn || '' },
+      { label: 'Юридический адрес', value: data.legal_address || data.address || '' },
+      { label: 'Фамилия руководителя организации', value: data.fio_of_leader?.split(' ')[0] || '' },
+      { label: 'Имя руководителя организации', value: data.fio_of_leader?.split(' ')[1] || '' },
+      {
+        label: 'Отчество руководителя организации',
+        value: data.fio_of_leader?.split(' ')[2] || '',
+      },
+      { label: 'Номер телефона', value: data.phone_number || data.phone || '' },
+      { label: 'Адрес электронной почты', value: data.email || '' },
+    ];
   });
+
+  const handleSubmit = async () => {
+    try {
+      console.log('Привет!!');
+
+      const originalFields = {
+        name: userData.value.find((item) => item.label === 'Наименование организации')?.value || '',
+        ogrn: userData.value.find((item) => item.label === 'ОГРН')?.value || '',
+        legal_address:
+          userData.value.find((item) => item.label === 'Юридический адрес')?.value || '',
+        leader_last_name:
+          userData.value.find((item) => item.label === 'Фамилия руководителя организации')?.value ||
+          '',
+        leader_first_name:
+          userData.value.find((item) => item.label === 'Имя руководителя организации')?.value || '',
+        leader_middle_name:
+          userData.value.find((item) => item.label === 'Отчество руководителя организации')
+            ?.value || '',
+        phone: userData.value.find((item) => item.label === 'Номер телефона')?.value || '',
+        email: userData.value.find((item) => item.label === 'Адрес электронной почты')?.value || '',
+      };
+
+      const { name, ...updatableFields } = originalFields;
+
+      await apiClient.patch('/user/profile/edit_profile', {
+        ogrn: updatableFields.ogrn,
+        name: name,
+        email: updatableFields.email,
+        fio: `${updatableFields.leader_first_name} ${updatableFields.leader_last_name} ${updatableFields.leader_middle_name}`,
+        legal_address: updatableFields.address,
+        number_phone: updatableFields.phone,
+      });
+
+      isEditing.value = false;
+    } catch (error) {
+      console.error('Ошибка при сохранении:', error);
+
+      // const message = error?.response?.data?.detail || 'Не удалось сохранить изменения';
+    }
+  };
 </script>
 
 <style scoped lang="scss">
@@ -139,6 +177,14 @@
 
       .profile__page-card-company {
         width: 80%;
+
+        .profile__page-info-edit {
+          border: 0;
+          background: none;
+          font-size: 24px;
+          color: rgb(25 118 210 / 80%);
+          cursor: pointer;
+        }
 
         .profile__page-card-row {
           display: flex;
