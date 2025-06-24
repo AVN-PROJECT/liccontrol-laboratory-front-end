@@ -3,7 +3,7 @@
     <div class="profile__page-base-info">
       <div class="profile__page-base-card-company">
         <h1 class="profile__page-base-card-text">
-          <span>{{ userData[0].value }}</span>
+          <span>{{ userData.name.value }}</span>
         </h1>
       </div>
     </div>
@@ -12,8 +12,8 @@
         <h2>Сведения об организации:</h2>
 
         <div
-          v-for="(fieldData, index) in userData"
-          :key="index"
+          v-for="(fieldData, id) in userData"
+          :key="id"
           class="profile__page-card-row"
         >
           <span class="profile__page-card-row-label">{{ fieldData.label }}</span>
@@ -50,7 +50,8 @@
 </template>
 
 <script setup>
-  import { ref, onMounted } from 'vue';
+  // vue.
+  import { ref, onMounted, onBeforeMount, onBeforeUnmount } from 'vue';
 
   // composables.
   import apiClient from '@/composables/apiClient.js';
@@ -59,20 +60,39 @@
   import VButton from '@/components/ui/VButton.vue';
   import VInput from '@/components/ui/VInput.vue';
 
-  const userData = ref([
-    { label: 'Наименование организации', value: '' },
-    { label: 'ИНН', value: '' },
-    { label: 'ОГРН', value: '' },
-    {
+  const userData = ref({
+    name: { label: 'Наименование организации', value: '' },
+    inn: { label: 'ИНН', value: '' },
+    ogrn: {
+      label: 'ОГРН',
+      value: '',
+    },
+    legalAddress: {
       label: 'Юридический адрес',
       value: '',
     },
-    { label: 'Имя руководителя организации', value: '' },
-    { label: 'Фамилия руководителя организации', value: '' },
-    { label: 'Отчество руководителя организации', value: '' },
-    { label: 'Номер телефона', value: '' },
-    { label: 'Адрес электронной почты', value: '' },
-  ]);
+    firstName: {
+      label: 'Имя руководителя организации',
+      value: '',
+    },
+    lastName: {
+      label: 'Фамилия руководителя организации',
+      value: '',
+    },
+    middleName: {
+      label: 'Отчество руководителя организации',
+      value: '',
+    },
+    numberPhone: {
+      label: 'Номер телефона',
+      value: '',
+    },
+    email: {
+      label: 'Адрес электронной почты',
+      value: '',
+    },
+  });
+
   const isEditing = ref(false);
 
   onMounted(async () => {
@@ -80,52 +100,40 @@
 
     const data = await response.data;
 
-    userData.value = [
-      { label: 'Наименование организации', value: data.name || '' },
-      { label: 'ИНН', value: data.inn || '' },
-      { label: 'ОГРН', value: data.ogrn || '' },
-      { label: 'Юридический адрес', value: data.legal_address || data.address || '' },
-      { label: 'Фамилия руководителя организации', value: data.fio_of_leader?.split(' ')[0] || '' },
-      { label: 'Имя руководителя организации', value: data.fio_of_leader?.split(' ')[1] || '' },
-      {
-        label: 'Отчество руководителя организации',
-        value: data.fio_of_leader?.split(' ')[2] || '',
-      },
-      { label: 'Номер телефона', value: data.phone_number || data.phone || '' },
-      { label: 'Адрес электронной почты', value: data.email || '' },
-    ];
+    userData.value.name.value = data.name || '';
+    userData.value.numberPhone.value = data.phone || '';
+    userData.value.inn.value = data.inn || '';
+    userData.value.ogrn.value = data.ogrn || '';
+    userData.value.legalAddress.value = data.legal_address || '';
+    userData.value.email.value = data.email || '';
+    [
+      userData.value.firstName.value,
+      userData.value.lastName.value,
+      userData.value.middleName.value,
+    ] = data.fio?.split(' ') || ['', '', ''];
+  });
+
+  onBeforeMount(() => {
+    window.addEventListener('keydown', handlerEnter);
+  });
+
+  onBeforeUnmount(() => {
+    window.removeEventListener('keydown', handlerEnter);
   });
 
   const handleSubmit = async () => {
     try {
-      console.log('Привет!!');
-
-      const originalFields = {
-        name: userData.value.find((item) => item.label === 'Наименование организации')?.value || '',
-        ogrn: userData.value.find((item) => item.label === 'ОГРН')?.value || '',
-        legal_address:
-          userData.value.find((item) => item.label === 'Юридический адрес')?.value || '',
-        leader_last_name:
-          userData.value.find((item) => item.label === 'Фамилия руководителя организации')?.value ||
-          '',
-        leader_first_name:
-          userData.value.find((item) => item.label === 'Имя руководителя организации')?.value || '',
-        leader_middle_name:
-          userData.value.find((item) => item.label === 'Отчество руководителя организации')
-            ?.value || '',
-        phone: userData.value.find((item) => item.label === 'Номер телефона')?.value || '',
-        email: userData.value.find((item) => item.label === 'Адрес электронной почты')?.value || '',
-      };
+      const originalFields = userData.value;
 
       const { name, ...updatableFields } = originalFields;
 
       await apiClient.patch('/user/profile/edit_profile', {
-        ogrn: updatableFields.ogrn,
-        name: name,
-        email: updatableFields.email,
-        fio: `${updatableFields.leader_first_name} ${updatableFields.leader_last_name} ${updatableFields.leader_middle_name}`,
-        legal_address: updatableFields.address,
-        number_phone: updatableFields.phone,
+        ogrn: updatableFields.ogrn.value,
+        name: name.value,
+        email: updatableFields.email.value,
+        fio: `${updatableFields.firstName.value} ${updatableFields.lastName.value} ${updatableFields.middleName.value}`,
+        legal_address: updatableFields.legalAddress.value,
+        number_phone: updatableFields.numberPhone.value,
       });
 
       isEditing.value = false;
@@ -135,6 +143,14 @@
       // const message = error?.response?.data?.detail || 'Не удалось сохранить изменения';
     }
   };
+
+  const handlerEnter = async (event) => {
+    if (event.key === 'Enter' && isEditing) {
+      await handleSubmit();
+
+      isEditing.value = false;
+    }
+  };
 </script>
 
 <style scoped lang="scss">
@@ -142,10 +158,9 @@
     display: flex;
     padding: 2vh;
     font-family: $font-family-base;
-    flex-direction: row;
 
     .profile__page-base-info {
-      width: 40%;
+      width: 35%;
 
       .profile__page-base-card-company {
         width: 43%;
@@ -168,7 +183,7 @@
     }
 
     .profile__page-info {
-      width: 60%;
+      width: 65%;
       margin-top: 50px;
       padding: 24px 16px;
       border-radius: 5px;
@@ -176,8 +191,6 @@
       box-shadow: 0 0 5px rgb(0 0 0 / 25%);
 
       .profile__page-card-company {
-        width: 80%;
-
         .profile__page-info-edit {
           border: 0;
           background: none;

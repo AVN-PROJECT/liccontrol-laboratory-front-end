@@ -218,9 +218,9 @@
   const handlerLoginButton = async () => {
     validate(form);
 
-    // if (Object.keys(errors.value).some((item) => item !== '')) {
-    //   return;
-    // }
+    if (Object.values(errors.value).some((item) => item !== '')) {
+      return;
+    }
 
     try {
       const response = await apiClient.post('/user/auth/login', {
@@ -336,12 +336,6 @@
       color: $color-dark;
       cursor: pointer;
     }
-
-    // .request_code {
-    //  border-bottom: 0 solid $color-dark;
-    //  color: $color-blue;
-    //  cursor: pointer;
-    // }
   }
 
   .login__form-button-login {
@@ -413,23 +407,6 @@
     }
   }
 
-  // .border-green {
-  //  border: 2px solid #48a600;
-  // }
-  //
-  // .border-red {
-  //  border: 2px solid $color-red;
-  // }
-  //
-  // .error-text {
-  //  color: $color-red;
-  //  font-size: 0.9vw;
-  //  margin-top: 6%;
-  //  margin-bottom: 0;
-  //
-  //  font-family: 'Montserrat', sans-serif;
-  //  font-style: normal;
-  // }
   .login__cookie {
     position: fixed;
     top: 73%;

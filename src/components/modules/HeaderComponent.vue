@@ -84,7 +84,6 @@
     padding: 1vw;
     background: linear-gradient(45deg, rgb(143 200 155 / 30%) 0%, #f5f5f5 100%);
     font-family: $font-family-base;
-    flex-direction: row;
 
     .header__menu-main {
       display: flex;
@@ -93,7 +92,6 @@
       padding: 3.5vh;
       border-right: 6px solid #8fc89b;
       border-left: 6px solid #8fc89b;
-      flex-direction: row;
 
       .header__menu-profile {
         display: flex;
@@ -106,7 +104,6 @@
         display: flex;
         border: 0;
         background: inherit;
-        flex-direction: row;
       }
     }
 

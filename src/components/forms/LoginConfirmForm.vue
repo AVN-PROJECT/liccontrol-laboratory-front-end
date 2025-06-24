@@ -137,8 +137,6 @@
           }
 
           Cookies.setItem('accessToken', response.data.accessToken, cookieOptions);
-          // Cookies.setItem('userEmail', loginEmail.value, cookieOptions);
-          // Cookies.setItem('userName', loginName.value, cookieOptions);
 
           await router.push('/profile');
         }
@@ -152,38 +150,11 @@
 </script>
 
 <style scoped lang="scss">
-  .header-login-text {
-    margin: 0;
-    padding-bottom: 6%;
-    font-size: 1.9vw;
-  }
-
-  .login__form {
-    display: flex;
-    width: 70.6%;
-    margin: 0 auto;
-    flex-direction: column;
-
-    .input-error {
-      border: 2px solid $color-red;
-    }
-  }
-
-  .login-form-errors {
-    font-size: 0.85vw;
-    color: $color-red;
-
-    p {
-      margin: 0;
-      padding-bottom: 10px;
-    }
-  }
-
-  .support {
-    margin: 0;
-    font-size: 0.85vw;
-    color: $color-blue;
-  }
+  // .support {
+  //  margin: 0;
+  //  font-size: 0.85vw;
+  //  color: $color-blue;
+  // }
 
   .login__footer-user-agreements {
     margin-top: 6.4%;
@@ -235,14 +206,6 @@
     font-style: normal;
     color: #000;
     box-shadow: inset 0 0 4px 2px rgb(0 0 0 / 25%);
-  }
-
-  .border-green {
-    border: 2px solid #48a600;
-  }
-
-  .border-red {
-    border: 2px solid $color-red;
   }
 
   .error-text {
