@@ -203,7 +203,7 @@
           display: flex;
           align-items: center;
           margin-bottom: 25px;
-          border-bottom: 1px solid #1976d2;
+          border-bottom: 1px solid $color-blue-light;
 
           .profile__page-card-row-label {
             width: 40%;
