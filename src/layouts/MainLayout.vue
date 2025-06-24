@@ -1,8 +1,7 @@
 <template>
   <div class="main__layout-base">
-    <aside>
-      <HeaderComponent />
-    </aside>
+    <HeaderComponent />
+
     <main class="main__layout-content">
       <router-view />
     </main>
