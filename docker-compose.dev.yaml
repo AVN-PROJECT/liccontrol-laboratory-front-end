@@ -3,6 +3,8 @@ services:
     build: .
     container_name: my-laboratory-web-front
     command: ["make", "run"]
+    ports:
+      - "5173:5173"
     networks:
       - license_control
 
