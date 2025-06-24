@@ -1,16 +1,19 @@
 <template>
   <input
+    v-bind="$attrs"
+    ref="inputElement"
     :class="['VInput', classes]"
     :value="modelValue"
     :type="type"
     :placeholder="placeholder"
-    v-bind="$attrs"
     @input="handleInput"
+    @paste="handlePaste"
+    @keydown="handleKeydown"
   />
 </template>
 
 <script setup>
-  import { computed } from 'vue';
+  import { computed, ref } from 'vue';
 
   const prop = defineProps({
     modelValue: {
@@ -28,8 +31,8 @@
     },
     color: {
       type: String,
-      default: 'grey',
-      validator: (value) => ['grey'].includes(value),
+      default: 'grey-white',
+      validator: (value) => ['grey', 'grey-white', 'white'].includes(value),
     },
     error: {
       type: Boolean,
@@ -38,15 +41,19 @@
     size: {
       type: String,
       default: 'medium',
-      validator: (value) => ['medium'].includes(value),
+      validator: (value) => ['little', 'medium'].includes(value),
     },
   });
 
-  const emit = defineEmits(['update:modelValue', 'update']);
+  const inputElement = ref(null);
+
+  const emit = defineEmits(['update:modelValue', 'update', 'paste', 'keydown', 'input']);
+
+  defineExpose({
+    focus: () => inputElement.value.focus(),
+  });
 
   const classes = computed(() => {
-    console.log(prop.error);
-
     return {
       [`_${prop.color}`]: prop.color,
       [`_${prop.size}`]: prop.size,
@@ -56,7 +63,15 @@
 
   const handleInput = (event) => {
     emit('update:modelValue', event.target.value);
-    emit('update');
+    emit('input', event);
+  };
+
+  const handlePaste = (event) => {
+    emit('paste', event);
+  };
+
+  const handleKeydown = (event) => {
+    emit('keydown', event);
   };
 </script>
 
@@ -77,6 +92,26 @@
 
     &._error {
       border: 1px solid $color-red;
+    }
+
+    &._grey-white {
+      border-radius: 10px;
+      border: 0;
+      background-color: #d9d9d9;
+    }
+
+    &._little {
+      padding: 8px;
+      font-size: 16px;
+    }
+
+    &._white {
+      width: 100%;
+      border-radius: 5px;
+      border: none;
+      background: $color-light;
+      font-size: 16px;
+      box-shadow: inset 0 0 4px 1px rgb(0 0 0 / 25%);
     }
   }
 </style>

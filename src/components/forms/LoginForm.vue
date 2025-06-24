@@ -134,26 +134,26 @@
 </template>
 
 <script setup>
-  // vue
+  // vue.
   import { ref, onMounted } from 'vue';
 
-  // vuex
+  // vuex.
   import { storeToRefs } from 'pinia';
   import { useUiUxStore } from '@/stores/uiuxStore.js';
   import { useUserStore } from '@/stores/userStore.js';
 
-  // composables
+  // composables.
   import apiClient from '@/composables/apiClient.js';
 
-  // utils
+  // utils.
   const { disableBodyScroll } = useLockBodyScroll();
   import { strValidate } from '@/helpers/validation/validate.js';
   import { useLockBodyScroll } from '@/composables/useBlockScrollBody.js';
 
-  // componetns
+  // components.
   import VInput from '@/components/ui/VInput.vue';
 
-  // constants
+  // constants.
   const { setCurrentForm } = useUiUxStore();
   const { loginName, loginEmail } = storeToRefs(useUserStore());
 
@@ -213,26 +213,22 @@
       ...errors.value,
       ...newErrors,
     };
-
-    console.log('errors:', errors.value);
   };
 
   const handlerLoginButton = async () => {
     validate(form);
 
-    console.log('errors', errors.value);
-
-    if (Object.keys(errors.value).some((item) => item !== '')) {
+    if (Object.values(errors.value).some((item) => item !== '')) {
       return;
     }
 
     try {
       const response = await apiClient.post('/user/auth/login', {
-        name: form.value.name?.trim() || '',
-        inn: form.value.inn?.trim() || '',
-        email: form.value.email?.trim() || '',
-        password: form.value.password?.trim() || '',
-        license_key: form.value.license_key?.trim() || '',
+        name: form.value.name,
+        inn: form.value.inn,
+        email: form.value.email,
+        password: form.value.password,
+        license_key: form.value.license_key,
       });
 
       if (response.status === 200) {
@@ -340,12 +336,6 @@
       color: $color-dark;
       cursor: pointer;
     }
-
-    // .request_code {
-    //  border-bottom: 0 solid $color-dark;
-    //  color: $color-blue;
-    //  cursor: pointer;
-    // }
   }
 
   .login__form-button-login {
@@ -417,23 +407,6 @@
     }
   }
 
-  // .border-green {
-  //  border: 2px solid #48a600;
-  // }
-  //
-  // .border-red {
-  //  border: 2px solid $color-red;
-  // }
-  //
-  // .error-text {
-  //  color: $color-red;
-  //  font-size: 0.9vw;
-  //  margin-top: 6%;
-  //  margin-bottom: 0;
-  //
-  //  font-family: 'Montserrat', sans-serif;
-  //  font-style: normal;
-  // }
   .login__cookie {
     position: fixed;
     top: 73%;

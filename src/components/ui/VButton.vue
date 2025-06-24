@@ -20,6 +20,8 @@
   defineEmits(['click']);
 </script>
 
-<style scoped>
-  /* styles go here */
+<style scoped lang="scss">
+  .VButton {
+    font-family: $font-family-base;
+  }
 </style>

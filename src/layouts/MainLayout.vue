@@ -1,12 +1,17 @@
 <template>
   <div class="main__layout-base">
+    <aside>
+      <HeaderComponent />
+    </aside>
     <main class="main__layout-content">
       <router-view />
     </main>
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+  import HeaderComponent from '@/components/modules/HeaderComponent.vue';
+</script>
 
 <style scoped>
   /* styles go here */

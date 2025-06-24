@@ -13,7 +13,7 @@
     </p>
 
     <div class="login__form-two-fa">
-      <input
+      <VInput
         v-for="(digit, index) in twoFAInput"
         :key="index"
         ref="inputRefs"
@@ -21,13 +21,9 @@
         type="text"
         maxlength="1"
         class="two-fa-box"
-        :class="{
-          'border-green': isCodeCorrect === true,
-          'border-red': isCodeCorrect === false,
-        }"
         @input="handleInput(index)"
         @keydown="handlerBackspace($event, index)"
-        @paste="handlePaste"
+        @paste="handlePaste($event)"
       />
     </div>
 
@@ -63,16 +59,34 @@
 </template>
 
 <script setup>
+  // vue.
   import { ref } from 'vue';
 
+  // vuex.
   import { storeToRefs } from 'pinia';
-
   import { useRouter } from 'vue-router';
 
-  import Cookies from 'js-cookies/src/cookies.js';
-
+  // composables.
   import apiClient from '@/composables/apiClient.js';
+
+  // utils.
+  import Cookies from 'js-cookies/src/cookies.js';
   import { useUserStore } from '@/stores/userStore.js';
+
+  // components.
+  import VInput from '@/components/ui/VInput.vue';
+
+  // constants.
+  const twoFAInput = ref(['', '', '', '']);
+  const inputRefs = ref([]);
+  const isCodeCorrect = ref(null);
+  const errors = ref({
+    server: '',
+  });
+
+  const { loginEmail, loginName } = storeToRefs(useUserStore());
+
+  const router = useRouter();
 
   const handlePaste = (event) => {
     event.preventDefault();
@@ -88,17 +102,6 @@
     const nextIndex = digits.length < 4 ? digits.length : 3;
     inputRefs.value[nextIndex]?.focus();
   };
-
-  const twoFAInput = ref(['', '', '', '']);
-  const inputRefs = ref([]);
-  const isCodeCorrect = ref(null);
-  const errors = ref({
-    server: '',
-  });
-
-  const { loginEmail, loginName } = storeToRefs(useUserStore());
-
-  const router = useRouter();
 
   const handleInput = (index) => {
     if (twoFAInput.value[index].length === 1 && index < twoFAInput.value.length - 1) {
@@ -134,8 +137,6 @@
           }
 
           Cookies.setItem('accessToken', response.data.accessToken, cookieOptions);
-          Cookies.setItem('userEmail', loginEmail.value, cookieOptions);
-          Cookies.setItem('userName', loginName.value, cookieOptions);
 
           await router.push('/profile');
         }
@@ -149,46 +150,11 @@
 </script>
 
 <style scoped lang="scss">
-  .header-login-text {
-    margin: 0;
-    padding-bottom: 6%;
-    font-size: 1.9vw;
-  }
-
-  .login__form {
-    display: flex;
-    width: 70.6%;
-    margin: 0 auto;
-    flex-direction: column;
-
-    input {
-      margin-bottom: 5%;
-      padding: 1.9% 3.3%;
-      border-radius: 10px;
-      border: 0;
-      background-color: #d9d9d9;
-    }
-
-    .input-error {
-      border: 2px solid $color-red;
-    }
-  }
-
-  .login-form-errors {
-    font-size: 0.85vw;
-    color: $color-red;
-
-    p {
-      margin: 0;
-      padding-bottom: 10px;
-    }
-  }
-
-  .support {
-    margin: 0;
-    font-size: 0.85vw;
-    color: $color-blue;
-  }
+  // .support {
+  //  margin: 0;
+  //  font-size: 0.85vw;
+  //  color: $color-blue;
+  // }
 
   .login__footer-user-agreements {
     margin-top: 6.4%;
@@ -240,14 +206,6 @@
     font-style: normal;
     color: #000;
     box-shadow: inset 0 0 4px 2px rgb(0 0 0 / 25%);
-  }
-
-  .border-green {
-    border: 2px solid #48a600;
-  }
-
-  .border-red {
-    border: 2px solid $color-red;
   }
 
   .error-text {
