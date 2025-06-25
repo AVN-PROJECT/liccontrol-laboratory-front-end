@@ -1,7 +1,8 @@
 services:
   laboratory-web-front:
+    image: ghcr.io/avn-project/liccontrol-laboratory-front-end:latest
     container_name: laboratory-web-front
-    command: ["make", "run_production"]
+    command: [ "make", "run_production" ]
     networks:
       - license_control
 
