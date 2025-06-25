@@ -186,6 +186,7 @@
         fio: person.fio,
         certificate_number: person.certificate_number,
         certificate_date: person.certificate_date,
+        number_phone: person.number_phone,
         certificate_valid_date: person.certificate_valid_date,
         equipments: person.equipments,
       }));
@@ -232,6 +233,7 @@
         certificate_number: person.certificate_number,
         certificate_date: person.certificate_date,
         certificate_valid_date: person.certificate_valid_date,
+        number_phone: person.number_phone,
         equipments: person.equipments,
       };
 
