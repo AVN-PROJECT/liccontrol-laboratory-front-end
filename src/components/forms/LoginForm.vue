@@ -287,7 +287,7 @@
 
     p {
       margin: 0;
-      color: $color-blue2;
+      color: $color-blue-light;
       cursor: pointer;
     }
 
