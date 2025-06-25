@@ -9,7 +9,6 @@ permissions:
   contents: read
   packages: write
 
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -53,20 +52,20 @@ jobs:
           script: |
             echo "Starting deployment..."
             cd projects/License_control
-            
+
             echo "Logging into GitHub Container Registry..."
             echo "${{ secrets.GITHUB_TOKEN }}" | sudo docker login ghcr.io -u ${{ secrets.GIT_USERNAME }} --password-stdin
-            
+
             echo "Stopping and removing old containers..."
             sudo docker compose stop laboratory-web-front
             sudo docker compose rm -f laboratory-web-front
-            
+
             echo "Pulling latest Docker images..."
             sudo docker compose pull laboratory-web-front
-            
+
             echo "Building fresh containers with updated configuration..."
             sudo docker compose up -d --build --no-deps laboratory-web-front
-            
+
             echo "Current running containers:"
             sudo docker ps
             echo "Deployment completed successfully!"
