@@ -31,7 +31,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: ghcr.io/avn-project/liccontrol-laboratory-back-end:latest
+          tags: ghcr.io/avn-project/liccontrol-laboratory-front-end:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
           provenance: false
