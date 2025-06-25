@@ -18,6 +18,11 @@ const router = createRouter({
           meta: { authentication: true },
           component: () => import('@/views/ProfileView.vue'),
         },
+        {
+          path: '/person',
+          meta: { authentication: true },
+          component: () => import('@/views/PersonView.vue'),
+        },
       ],
     },
     {
