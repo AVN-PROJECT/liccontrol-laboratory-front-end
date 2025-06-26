@@ -7,11 +7,12 @@
             <tr>
               <th class="equipment__page-table-header-id">№</th>
               <th class="equipment__page-table-header-name">Наименование оборудования</th>
-              <th class="equipment__page-table-header-number-serial">Тип СИ</th>
-              <th class="equipment__page-table-header-address">Дата начала поверки</th>
-              <th class="equipment__page-table-header-agreement-number">Дата окончания поверки</th>
-              <th class="equipment__page-table-header-verification-number">Номер свидетельства</th>
-              <th class="equipment__page-table-header-suitability">Пригодность</th>
+              <th class="equipment__page-table-header-number-serial">Серийный номер</th>
+              <th class="equipment__page-table-header-address">Адрес эксплуатации</th>
+              <th class="equipment__page-table-header-agreement-number">Номер договора</th>
+              <th class="equipment__page-table-header-verification-number">
+                Ответственный сотрудник
+              </th>
               <th class="equipment__page-table-header-action"></th>
             </tr>
           </thead>
@@ -194,7 +195,7 @@
 
     if (response.status === 200 && Array.isArray(response.data)) {
       equipments.value = response.data.map((item) => ({
-        uuid: item.uuid,
+        id: item.uuid,
         name: item.name,
         number_serial: item.number_serial,
         verification_number: item.verification_number,
@@ -238,9 +239,7 @@
   // };
 
   const cancelEdit = () => {
-    const index = equipments.value.findIndex(
-      (equipment) => equipment.uuid === originalItem.value.id
-    );
+    const index = equipments.value.findIndex((i) => i.id === originalItem.value.id);
     if (index !== -1) {
       equipments.value[index] = { ...originalItem.value };
     }

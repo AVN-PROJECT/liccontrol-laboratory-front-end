@@ -28,6 +28,11 @@ const router = createRouter({
           meta: { authentication: true },
           component: () => import('@/views/EquipmentMetrologyView.vue'),
         },
+        {
+          path: '/equipment/personal/equipments',
+          meta: { authentication: true },
+          component: () => import('@/views/EquipmentPersonalView.vue'),
+        },
       ],
     },
     {
