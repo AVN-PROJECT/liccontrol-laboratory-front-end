@@ -138,7 +138,7 @@
 
           Cookies.setItem('accessToken', response.data.accessToken, cookieOptions);
 
-          await router.push('/profile');
+          await router.push('/user/profile');
         }
       } catch {
         isCodeCorrect.value = false;

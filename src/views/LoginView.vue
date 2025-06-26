@@ -1,10 +1,10 @@
 <template>
-  <LoginLayout>
+  <AuthLayout>
     <component
       :is="componentForm"
       :key="formKey"
     />
-  </LoginLayout>
+  </AuthLayout>
 </template>
 
 <script setup>
@@ -12,18 +12,20 @@
   import { storeToRefs } from 'pinia';
   import { useUiUxStore } from '@/stores/uiuxStore.js';
 
-  import LoginLayout from '@/layouts/LoginLayout.vue';
+  import AuthLayout from '@/layouts/AuthLayout.vue';
   import LoginForm from '@/components/forms/LoginForm.vue';
   import LoginConfirmForm from '@/components/forms/LoginConfirmForm.vue';
 
   const { currentForm } = storeToRefs(useUiUxStore());
-
+  console.log('Привет!');
   const componentsMap = {
     LoginForm,
     LoginConfirmForm,
   };
 
   const componentForm = computed(() => {
+    console.log('Привет!');
+
     return componentsMap[currentForm.value] ?? LoginForm;
   });
 

@@ -6,6 +6,7 @@ export const useUiUxStore = defineStore('uiux', () => {
   const currentForm = ref('LoginForm');
 
   const setCurrentForm = (name) => {
+    console.log('приет!');
     currentForm.value = name;
   };
 
