@@ -6,39 +6,45 @@ import { useUserStore } from '@/stores/userStore.js';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-
   routes: [
     {
       path: '/',
-      component: () => import('@/layouts/MainLayout.vue'),
-      meta: { authentication: true },
+      redirect: '/user/profile',
       children: [
         {
-          path: '/profile',
+          path: 'user',
+          component: () => import('@/layouts/MainLayout.vue'),
           meta: { authentication: true },
-          component: () => import('@/views/ProfileView.vue'),
+          children: [
+            {
+              path: 'profile',
+              component: () => import('@/views/ProfileView.vue'),
+            },
+            {
+              path: 'person',
+              component: () => import('@/views/PersonView.vue'),
+            },
+            {
+              path: 'equipment/metrology/equipments',
+              component: () => import('@/views/EquipmentMetrologyView.vue'),
+            },
+            {
+              path: 'equipment/personal/equipments',
+              component: () => import('@/views/EquipmentPersonalView.vue'),
+            },
+          ],
         },
+
         {
-          path: '/person',
-          meta: { authentication: true },
-          component: () => import('@/views/PersonView.vue'),
-        },
-        {
-          path: '/equipment/metrology/equipments',
-          meta: { authentication: true },
-          component: () => import('@/views/EquipmentMetrologyView.vue'),
-        },
-        {
-          path: '/equipment/personal/equipments',
-          meta: { authentication: true },
-          component: () => import('@/views/EquipmentPersonalView.vue'),
+          path: 'auth',
+          children: [
+            {
+              path: 'login',
+              component: () => import('@/views/LoginView.vue'),
+            },
+          ],
         },
       ],
-    },
-    {
-      path: '/login',
-      name: 'Login',
-      component: () => import('@/views/LoginView.vue'),
     },
     {
       path: '/:catchAll(.*)',
@@ -57,9 +63,11 @@ router.beforeEach(async (to, from, next) => {
     if (access_token) {
       return next();
     } else if (!access_token) {
-      await userStore.preLoginUserStatus();
+      if (await userStore.getAccessToken()) {
+        return next();
+      }
 
-      return next();
+      return next('/auth/login');
     }
   } else {
     return next();

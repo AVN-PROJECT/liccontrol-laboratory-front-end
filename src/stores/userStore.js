@@ -15,7 +15,7 @@ export const useUserStore = defineStore('user', () => {
     loginName.value = value;
   };
 
-  const preLoginUserStatus = async () => {
+  const getAccessToken = async () => {
     try {
       const response = await apiClient.post('/user/auth/token');
 
@@ -41,6 +41,6 @@ export const useUserStore = defineStore('user', () => {
     loginName,
     setLoginEmail,
     setLoginName,
-    preLoginUserStatus,
+    getAccessToken,
   };
 });
