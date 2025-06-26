@@ -21,7 +21,7 @@ axiosClient.interceptors.request.use((config) => {
       Cookies.removeItem('accessToken');
       Cookies.removeItem('refreshToken');
 
-      window.location.href = '/login';
+      window.location.href = '/auth/login';
       throw new axios.Cancel('Нет access-токена');
     }
   } else {
@@ -36,24 +36,35 @@ axiosClient.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
+    if (originalRequest.url === '/user/auth/token' && error.response?.status === 401) {
+      Cookies.removeItem('accessToken');
+      await axiosClient.post('/user/auth/logout');
+      window.location.href = '/auth/login';
+      return Promise.reject(error);
+    }
+
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
 
       try {
-        const response = await axiosClient.post('/user/auth/token');
+        const refreshRequest = {
+          ...originalRequest,
+          _isRetryRequest: true,
+          url: '/user/auth/token',
+          method: 'post',
+        };
 
+        const response = await axiosClient(refreshRequest);
         const newAccessToken = response.data.accessToken;
 
         Cookies.setItem('accessToken', newAccessToken);
-
         originalRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
+
         return axiosClient(originalRequest);
       } catch (refreshError) {
         Cookies.removeItem('accessToken');
-        Cookies.removeItem('refreshToken');
-
-        window.location.href = '/login';
-
+        await axiosClient.post('/user/auth/logout');
+        window.location.href = '/auth/login';
         return Promise.reject(refreshError);
       }
     }
