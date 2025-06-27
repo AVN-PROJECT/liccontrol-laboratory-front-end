@@ -17,15 +17,12 @@
   import LoginConfirmForm from '@/components/forms/LoginConfirmForm.vue';
 
   const { currentForm } = storeToRefs(useUiUxStore());
-  console.log('Привет!');
   const componentsMap = {
     LoginForm,
     LoginConfirmForm,
   };
 
   const componentForm = computed(() => {
-    console.log('Привет!');
-
     return componentsMap[currentForm.value] ?? LoginForm;
   });
 
