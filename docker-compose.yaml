@@ -8,5 +8,6 @@ services:
 
 networks:
   license_control:
-    driver: bridge
     name: license_control
+    driver: bridge
+    external: true
