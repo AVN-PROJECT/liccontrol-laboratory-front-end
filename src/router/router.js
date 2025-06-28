@@ -18,18 +18,22 @@ const router = createRouter({
           children: [
             {
               path: 'profile',
+              meta: { name: 'Профиль' },
               component: () => import('@/views/ProfileView.vue'),
             },
             {
               path: 'person',
+              meta: { name: 'Персонал' },
               component: () => import('@/views/PersonView.vue'),
             },
             {
               path: 'equipment/metrology/equipments',
+              meta: { name: 'Оборудование' },
               component: () => import('@/views/EquipmentMetrologyView.vue'),
             },
             {
               path: 'equipment/personal/equipments',
+              meta: { name: 'Прочее оборудование' },
               component: () => import('@/views/EquipmentPersonalView.vue'),
             },
           ],
