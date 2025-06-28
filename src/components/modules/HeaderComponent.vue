@@ -17,46 +17,43 @@
 
       <div class="header__menu-main">
         <div class="header__menu-profile">
-          <div class="header__menu-profile-link">
-            <a href="/profile">
-              <img
-                src="@/assets/icons/sections/profile.svg"
-                alt="profile.svg"
-              />
-            </a>
-          </div>
+          <router-link
+            class="header__menu-profile-link"
+            :to="{ name: 'profile' }"
+          >
+            <img
+              src="@/assets/icons/sections/links/building-profile.svg"
+              alt="profile.svg"
+            />
 
-          <h2>Профиль</h2>
+            <h2>Профиль</h2>
+          </router-link>
         </div>
 
         <div class="header__menu-view">
-          <div class="header__menu-open">
-            <VButton
-              class="header__menu-button"
-              @click="menuOpen = !menuOpen"
-            >
-              <img
-                src="@/assets/icons/sections/menu.svg"
-                alt="menu.svg"
-              />
+          <DropdownComponent>
+            <template #button-trigger>
+              <VButton class="header__menu-button">
+                <img
+                  src="@/assets/icons/sections/buttons/arrow-menu.svg"
+                  alt="menu.svg"
+                  class="header__menu-button-open-icon"
+                />
 
-              <p>Открыть меню</p>
-            </VButton>
-          </div>
+                <p>Открыть меню</p>
+              </VButton>
+            </template>
 
-          <div
-            v-if="menuOpen"
-            class="header__menu-menu"
-          >
-            <p>Тут будет меню...</p>
-          </div>
+            <template #content>
+              <HeaderMenuComponent />
+            </template>
+          </DropdownComponent>
         </div>
       </div>
-
       <div class="header__menu-section">
         <img
           class="header__menu-notifications"
-          src="@/assets/icons/sections/notifications.svg"
+          src="@/assets/icons/sections/links/bell-notification.svg"
           alt="notification.svg"
         />
         <h1 class="header__menu-section-name">{{ route.meta.name }}</h1>
@@ -66,18 +63,15 @@
 </template>
 
 <script setup>
-  // vue.
-  import { ref } from 'vue';
-
   // vuex.
   import { useRoute } from 'vue-router';
 
   // components.
   import VButton from '@/components/ui/VButton.vue';
+  import DropdownComponent from '@/components/modules/DropdownComponent.vue';
+  import HeaderMenuComponent from '@/components/modules/HeaderMenuComponent.vue';
 
   // constants.
-  const menuOpen = ref(false);
-
   const route = useRoute();
 </script>
 
@@ -101,14 +95,30 @@
       .header__menu-profile {
         display: flex;
         align-items: center;
-        justify-content: center;
-        flex-direction: column;
-      }
 
-      .header__menu-button {
-        display: flex;
-        border: 0;
-        background: inherit;
+        .header__menu-profile-link {
+          display: flex;
+          align-items: center;
+          flex-direction: column;
+          text-decoration: none;
+          color: $color-black;
+        }
+
+        .header__menu-profile-link:hover {
+          font-family: $font-family-base;
+          font-weight: 500;
+        }
+      }
+    }
+
+    .header__menu-button {
+      display: flex;
+      border: 0;
+      background: inherit;
+      cursor: pointer;
+
+      .header__menu-button-open-icon {
+        margin: 1.2rem;
       }
     }
 
