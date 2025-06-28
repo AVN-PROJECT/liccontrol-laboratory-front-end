@@ -55,20 +55,20 @@ jobs:
 
             echo "Logging into GitHub Container Registry..."
             echo "${{ secrets.GITHUB_TOKEN }}" | sudo docker login ghcr.io -u ${{ secrets.GIT_USERNAME }} --password-stdin
-            
+
             echo "Stopping and removing old containers..."
             sudo docker compose down --remove-orphans
-            
+
             echo "Pulling latest Docker images..."
             sudo docker compose pull
-            
+
             echo "Building fresh containers with updated configuration..."
             sudo docker compose up -d --build
-            
+
             echo "Cleaning up old images and unused resources..."
             sudo docker image prune -af
             sudo docker system prune -f
-            
+
             echo "Current running containers:"
             sudo docker ps
             echo "Deployment completed successfully!"
