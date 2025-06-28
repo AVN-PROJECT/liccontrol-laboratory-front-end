@@ -59,7 +59,7 @@
           src="@/assets/icons/sections/notifications.svg"
           alt="notification.svg"
         />
-        <h1 class="header__menu-section-name">Профиль</h1>
+        <h1 class="header__menu-section-name">{{ route.meta.name }}</h1>
       </div>
     </div>
   </header>
@@ -69,11 +69,16 @@
   // vue.
   import { ref } from 'vue';
 
+  // vuex.
+  import { useRoute } from 'vue-router';
+
   // components.
   import VButton from '@/components/ui/VButton.vue';
 
   // constants.
   const menuOpen = ref(false);
+
+  const route = useRoute();
 </script>
 
 <style scoped lang="scss">
