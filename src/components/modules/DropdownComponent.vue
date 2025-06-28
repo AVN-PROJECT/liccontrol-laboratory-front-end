@@ -16,9 +16,23 @@
 </template>
 
 <script setup>
-  import { ref } from 'vue';
+  import { ref, onBeforeMount, onBeforeUnmount } from 'vue';
 
   const isOpen = ref(false);
+
+  onBeforeMount(() => {
+    window.addEventListener('keydown', handlerEscape);
+  });
+
+  onBeforeUnmount(() => {
+    window.removeEventListener('keydown', handlerEscape);
+  });
+
+  const handlerEscape = (event) => {
+    if (event.key === 'Escape' && isOpen) {
+      isOpen.value = false;
+    }
+  };
 </script>
 
 <style scoped lang="scss">
