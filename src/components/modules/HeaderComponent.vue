@@ -51,12 +51,17 @@
         </div>
       </div>
       <div class="header__menu-section">
-        <img
-          class="header__menu-notifications"
-          src="@/assets/icons/sections/links/bell-notification.svg"
-          alt="notification.svg"
-        />
-        <h1 class="header__menu-section-name">{{ route.meta.name }}</h1>
+        <div class="header__menu-section-notifications">
+          <img
+            class="header__menu-notification-icon"
+            src="@/assets/icons/sections/links/bell-notification.svg"
+            alt="notification.svg"
+          />
+        </div>
+
+        <div class="header__menu-section-name">
+          <h1 class="header__menu-section-title">{{ route.meta.name }}</h1>
+        </div>
       </div>
     </div>
   </header>
@@ -126,6 +131,29 @@
       width: 25%;
       flex-direction: column;
       padding: 1vw;
+
+      .header__menu-section-notifications {
+        display: flex;
+        justify-content: flex-end;
+
+        .header__menu-notification-icon {
+          position: relative;
+          margin-bottom: 1rem;
+        }
+      }
+
+      .header__menu-section-name {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1rem;
+
+        .header__menu-section-title {
+          position: absolute;
+          text-align: center;
+          font-size: 3.5rem;
+        }
+      }
     }
 
     .header__menu-logo {
