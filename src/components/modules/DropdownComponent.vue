@@ -1,18 +1,23 @@
 <template>
   <div
-    class="header__menu-buton-open"
-    @click="isOpen = !isOpen"
+    v-click-outside="handlerMouseDown"
+    class="dropdown-menu"
   >
-    <slot name="button-trigger" />
-  </div>
-  <transition name="fade">
     <div
-      v-if="isOpen"
-      class="dropdown-menu"
+      class="buton-open"
+      @click="isOpen = !isOpen"
     >
-      <slot name="content" />
+      <slot name="button-trigger" />
     </div>
-  </transition>
+    <transition name="fade">
+      <div
+        v-if="isOpen"
+        class="dropdown-menu-content"
+      >
+        <slot name="content" />
+      </div>
+    </transition>
+  </div>
 </template>
 
 <script setup>
@@ -33,6 +38,10 @@
       isOpen.value = false;
     }
   };
+
+  function handlerMouseDown() {
+    isOpen.value = false;
+  }
 </script>
 
 <style scoped lang="scss">

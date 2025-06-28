@@ -163,7 +163,7 @@
   import { onMounted, ref } from 'vue';
 
   // composables
-  import apiClient from '@/composables/apiClient.js';
+  import apiClient from '@/composables/api/apiClient.js';
 
   // components.
   import VInput from '@/components/ui/VInput.vue';
