@@ -249,7 +249,7 @@
         data: { uuid: uuid },
       });
 
-      await getPersons();
+      window.location.reload();
     } catch (error) {
       console.error('Ошибка удаления:', error);
 

@@ -5,7 +5,7 @@
         <span class="person__page-form-label">Укажите ФИО сотрудника</span>
         <VInput
           id="person__page-form-field-name"
-          v-model="newPerson.name"
+          v-model="newPerson.fio"
           class="person__page-form-field"
           placeholder="Фамилия Имя Отчество"
           color="white"
@@ -107,6 +107,8 @@
       await apiClient.post('/user/person/add_person', data);
 
       resetForm(newPerson);
+
+      window.location.reload();
     } catch (error) {
       console.error('Ошибка добавления:', error);
     }
