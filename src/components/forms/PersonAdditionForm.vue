@@ -7,7 +7,7 @@
           id="person__page-form-field-name"
           v-model="newPerson.name"
           class="person__page-form-field"
-          placeholder="Имя Фамилия Отчество"
+          placeholder="Фамилия Имя Отчество"
           color="white"
           size="little"
         />
