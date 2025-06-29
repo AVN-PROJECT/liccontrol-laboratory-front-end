@@ -18,19 +18,37 @@ const router = createRouter({
           children: [
             {
               path: 'profile',
+              name: 'profile',
+              meta: { name: 'Профиль' },
               component: () => import('@/views/ProfileView.vue'),
             },
             {
               path: 'person',
+              name: 'person',
+              meta: { name: 'Персонал' },
               component: () => import('@/views/PersonView.vue'),
             },
             {
               path: 'equipment/metrology/equipments',
+              name: 'equipment-metrology',
+              meta: { name: 'Оборудование' },
               component: () => import('@/views/EquipmentMetrologyView.vue'),
             },
             {
               path: 'equipment/personal/equipments',
+              name: 'equipment-personal',
+              meta: { name: 'Прочее оборудование' },
               component: () => import('@/views/EquipmentPersonalView.vue'),
+            },
+            {
+              path: 'instruction',
+              name: 'instruction',
+              meta: { name: 'Инструкция' },
+            },
+            {
+              path: 'agreement',
+              name: 'agreement',
+              meta: { name: 'Договора' },
             },
           ],
         },
@@ -40,6 +58,7 @@ const router = createRouter({
           children: [
             {
               path: 'login',
+              name: 'login',
               component: () => import('@/views/LoginView.vue'),
             },
           ],

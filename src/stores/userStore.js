@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-import apiClient from '@/composables/apiClient';
+import apiClient from '@/composables/api/apiClient.js';
 import Cookies from 'js-cookies/src/cookies.js';
 
 export const useUserStore = defineStore('user', () => {

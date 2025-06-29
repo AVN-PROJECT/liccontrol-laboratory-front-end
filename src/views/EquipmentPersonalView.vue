@@ -28,7 +28,7 @@
                 </div>
                 <img
                   v-if="editingId === (item.uuid ?? index)"
-                  src="@/assets/icons/sections/basket-delete.svg"
+                  src="@/assets/icons/sections/buttons/basket-delete.svg"
                   class="equipment__page-icon-delete"
                   alt="delete.svg"
                   @click="deleteItem(item.uuid)"
@@ -95,7 +95,7 @@
                   color="white"
                 />
               </td>
-              <td class="equipment__-table-cell-verification-number">
+              <td class="equipment__page-table-cell-verification-number">
                 <p
                   v-if="!editingId"
                   class="equipment__page-table-value"
@@ -129,7 +129,7 @@
                 <div class="last-cell">
                   <img
                     v-if="editingId === (item.uuid ?? index)"
-                    src="@/assets/icons/sections/cross-cancel.svg"
+                    src="@/assets/icons/sections/buttons/cross-cancel.svg"
                     class="equipment__page-icon-cancel"
                     alt="cancel.svg"
                     @click="cancelEdit"
@@ -137,7 +137,7 @@
                   <img
                     v-if="editingId === (item.uuid ?? index)"
                     class="equipment__page-icon-save"
-                    src="@/assets/icons/sections/tick-save.svg"
+                    src="@/assets/icons/sections/buttons/tick-save.svg"
                     alt="save.svg"
                     @click="saveEdit(item)"
                   />
@@ -145,7 +145,7 @@
                   <img
                     v-if="editingId !== (item.uuid ?? index)"
                     class="equipment__page-icon-edit"
-                    src="@/assets/icons/sections/pencil-edit.svg"
+                    src="@/assets/icons/sections/buttons/pencil-edit.svg"
                     alt="edit.svg"
                     @click="toggleEdit(item, index)"
                   />
@@ -164,7 +164,7 @@
   import { onMounted, ref } from 'vue';
 
   // composables
-  import apiClient from '@/composables/apiClient.js';
+  import apiClient from '@/composables/api/apiClient.js';
 
   // components.
   import VInput from '@/components/ui/VInput.vue';

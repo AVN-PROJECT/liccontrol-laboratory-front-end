@@ -67,7 +67,7 @@
   import { useRouter } from 'vue-router';
 
   // composables.
-  import apiClient from '@/composables/apiClient.js';
+  import apiClient from '@/composables/api/apiClient.js';
 
   // utils.
   import Cookies from 'js-cookies/src/cookies.js';

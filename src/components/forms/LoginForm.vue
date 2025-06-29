@@ -143,12 +143,12 @@
   import { useUserStore } from '@/stores/userStore.js';
 
   // composables.
-  import apiClient from '@/composables/apiClient.js';
+  import apiClient from '@/composables/api/apiClient.js';
 
   // utils.
   const { disableBodyScroll } = useLockBodyScroll();
   import { strValidate } from '@/helpers/validation/validate.js';
-  import { useLockBodyScroll } from '@/composables/useBlockScrollBody.js';
+  import { useLockBodyScroll } from '@/composables/scroll/useBlockScrollBody.js';
 
   // components.
   import VInput from '@/components/ui/VInput.vue';
