@@ -220,10 +220,10 @@
     }
   };
 
-  const deleteItem = async (item) => {
+  const deleteItem = async (uuid) => {
     try {
       await apiClient.delete('/user/person/delete_person', {
-        data: { uuid: item.uuid },
+        data: { uuid: uuid },
       });
 
       await getPersons();
