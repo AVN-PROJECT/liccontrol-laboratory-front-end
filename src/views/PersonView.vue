@@ -155,6 +155,30 @@
         </table>
       </div>
     </div>
+
+    <div class="person__page-menu">
+      <div class="person__page-menu-download">
+        <div class="person__page-menu-download-import">
+          <img
+            src=""
+            alt="import.svg"
+          />
+        </div>
+
+        <div class="person__page-menu-download-export">
+          <img
+            src=""
+            alt="export.svg"
+          />
+        </div>
+      </div>
+
+      <div class="person__page-menu-form">
+        <p>Добавить нового сотрудника вручную можно в форме ниже:</p>
+
+        <PersonAdditionForm />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -167,6 +191,7 @@
 
   // components.
   import VInput from '@/components/ui/VInput.vue';
+  import PersonAdditionForm from '@/components/forms/PersonAdditionForm.vue';
 
   const persons = ref([]);
   const editingId = ref(null);
@@ -409,6 +434,12 @@
           background-color: #0d47a1;
         }
       }
+    }
+
+    .person__page-menu {
+      display: flex;
+      width: 25%;
+      flex-direction: column;
     }
   }
 </style>
