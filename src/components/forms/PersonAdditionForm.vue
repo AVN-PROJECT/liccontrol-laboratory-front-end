@@ -5,6 +5,7 @@
         <span class="person__page-form-label">Укажите ФИО сотрудника</span>
         <VInput
           id="person__page-form-field-name"
+          v-model="newPerson.name"
           class="person__page-form-field"
           placeholder="Имя Фамилия Отчество"
           color="white"
@@ -16,6 +17,7 @@
         <span class="person__page-form-label">Номер телефона</span>
         <VInput
           id="person__page-form-field-phone-number"
+          v-model="newPerson.number_phone"
           class="person__page-form-field"
           color="white"
           size="little"
@@ -27,6 +29,7 @@
         <span class="person__page-form-label">Номер аттестата</span>
         <VInput
           id="person__page-form-field-certificate-number"
+          v-model="newPerson.certificate_number"
           class="person__page-form-field"
           color="white"
           size="little"
@@ -37,6 +40,7 @@
         <span class="person__page-form-label">Дата аттестата</span>
         <VInput
           id="person__page-form-field-certificate-date"
+          v-model="newPerson.certificate_date"
           class="person__page-form-field"
           color="white"
           size="little"
@@ -48,6 +52,7 @@
         <span class="person__page-form-label">Срока аттестации до</span>
         <VInput
           id="person__page-form-field-certificate-valid-date"
+          v-model="newPerson.certificate_valid_date"
           class="person__page-form-field"
           color="white"
           size="little"
@@ -57,7 +62,10 @@
     </div>
 
     <div class="person__page-menu-form-button">
-      <VButton class="person__page-menu-form-button-addition">
+      <VButton
+        class="person__page-menu-form-button-addition"
+        @click="addEquipment"
+      >
         <p>Добавить сотрудника</p>
         <img
           class="person__page-menu-form-button-icon"
@@ -70,8 +78,39 @@
 </template>
 
 <script setup>
+  // vue.
+  import { ref } from 'vue';
+
+  // composables.
+  import apiClient from '@/composables/api/apiClient.js';
+
+  // helpers.
+  import resetForm from '@/helpers/forms/resetForm.js';
+
+  // components.
   import VInput from '@/components/ui/VInput.vue';
   import VButton from '@/components/ui/VButton.vue';
+
+  // constants.
+  const newPerson = ref({
+    certificate_date: '',
+    certificate_number: '',
+    certificate_valid_date: '',
+    fio: '',
+    number_phone: '',
+  });
+
+  const addEquipment = async () => {
+    const data = newPerson.value;
+
+    try {
+      await apiClient.post('/user/person/add_person', data);
+
+      resetForm(newPerson);
+    } catch (error) {
+      console.error('Ошибка добавления:', error);
+    }
+  };
 </script>
 
 <style scoped lang="scss">
@@ -92,7 +131,7 @@
       }
 
       .person__page-form-label {
-        font-size: 1.1rem;
+        font-size: 1rem;
       }
     }
 
