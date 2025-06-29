@@ -54,7 +54,7 @@
   import { ref, onMounted, onBeforeMount, onBeforeUnmount } from 'vue';
 
   // composables.
-  import apiClient from '@/composables/apiClient.js';
+  import apiClient from '@/composables/api/apiClient.js';
 
   // components.
   import VButton from '@/components/ui/VButton.vue';
