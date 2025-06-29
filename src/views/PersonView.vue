@@ -25,13 +25,17 @@
                 <div class="person__page-table-cell-id-wrapper">
                   <p class="person__page-table-value">{{ index + 1 }}</p>
                 </div>
-                <img
-                  v-if="editingId === (item.uuid ?? index)"
-                  src="@/assets/icons/sections/buttons/basket-delete.svg"
-                  class="person__page-icon-delete"
-                  alt="delete.svg"
+                <VButton
+                  class="person__page-button-delete"
                   @click="deleteItem(item.uuid)"
-                />
+                >
+                  <img
+                    v-if="editingId === (item.uuid ?? index)"
+                    src="@/assets/icons/sections/buttons/basket-delete.svg"
+                    class="person__page-icon-delete"
+                    alt="delete.svg"
+                  />
+                </VButton>
               </td>
 
               <td class="person__page-table-cell-fio">
@@ -47,6 +51,7 @@
                   type="text"
                   :value="item.fio"
                   color="white"
+                  class="person__page-table-field"
                 />
               </td>
               <td class="person__page-table-cell-phone">
@@ -62,6 +67,7 @@
                   :value="item.number_phone"
                   type="text"
                   color="white"
+                  class="person__page-table-field"
                 />
               </td>
               <td class="person__page-table-cell-certificate-number">
@@ -77,6 +83,7 @@
                   type="text"
                   :value="item.certificate_number"
                   color="white"
+                  class="person__page-table-field"
                 />
               </td>
               <td class="person__page-table-cell-certificate-date">
@@ -92,6 +99,7 @@
                   type="text"
                   :value="item.certificate_date"
                   color="white"
+                  class="person__page-table-field"
                 />
               </td>
               <td class="person__page-table-cell-certificate-valid-date">
@@ -107,6 +115,7 @@
                   type="text"
                   :value="item.certificate_valid_date"
                   color="white"
+                  class="person__page-table-field"
                 />
               </td>
               <td class="person__page-table-cell-equipments">
@@ -121,33 +130,46 @@
                   v-model="item.equipments"
                   type="text"
                   color="white"
+                  class="person__page-table-field"
                 />
               </td>
 
               <td class="actions-cell">
                 <div class="last-cell">
-                  <img
-                    v-if="editingId === (item.uuid ?? index)"
-                    src="@/assets/icons/sections/buttons/cross-cancel.svg"
-                    class="person__page-icon-cancel"
-                    alt="cancel.svg"
+                  <VButton
+                    class="person__page-button-cancel"
                     @click="cancelEdit"
-                  />
-                  <img
-                    v-if="editingId === (item.uuid ?? index)"
-                    class="person__page-icon-save"
-                    src="@/assets/icons/sections/buttons/tick-save.svg"
-                    alt="save.svg"
+                  >
+                    <img
+                      v-if="editingId === (item.uuid ?? index)"
+                      src="@/assets/icons/sections/buttons/cross-cancel.svg"
+                      class="person__page-icon-cancel"
+                      alt="cancel.svg"
+                    />
+                  </VButton>
+                  <VButton
+                    class="person__page-button-save"
                     @click="saveEdit(item)"
-                  />
+                  >
+                    <img
+                      v-if="editingId === (item.uuid ?? index)"
+                      class="person__page-icon-save"
+                      src="@/assets/icons/sections/buttons/tick-save.svg"
+                      alt="save.svg"
+                    />
+                  </VButton>
 
-                  <img
-                    v-if="editingId !== (item.uuid ?? index)"
-                    class="person__page-icon-edit"
-                    src="@/assets/icons/sections/buttons/pencil-edit.svg"
-                    alt="edit.svg"
+                  <VButton
+                    class="person__page-button-edit"
                     @click="toggleEdit(item, index)"
-                  />
+                  >
+                    <img
+                      v-if="editingId !== (item.uuid ?? index)"
+                      class="person__page-icon-edit"
+                      src="@/assets/icons/sections/buttons/pencil-edit.svg"
+                      alt="edit.svg"
+                    />
+                  </VButton>
                 </div>
               </td>
             </tr>
@@ -191,6 +213,7 @@
 
   // components.
   import VInput from '@/components/ui/VInput.vue';
+  import VButton from '@/components/ui/VButton.vue';
   import PersonAdditionForm from '@/components/forms/PersonAdditionForm.vue';
 
   const persons = ref([]);
@@ -367,22 +390,18 @@
           flex-direction: column;
         }
 
-        .person__page-icon-edit,
-        .person__page-icon-cancel,
-        .person__page-icon-delete,
-        .person__page-icon-save {
+        .person__page-button-edit,
+        .person__page-button-cancel,
+        .person__page-button-delete,
+        .person__page-button-save {
           width: 25px;
+          border: 0;
+          background: inherit;
           cursor: pointer;
         }
 
-        .person__page-icon-save {
+        .person__page-button-save {
           margin-top: 20px;
-        }
-
-        input[readonly] {
-          background-color: #f4f4f4;
-          color: #888;
-          cursor: not-allowed;
         }
       }
 
@@ -391,10 +410,10 @@
         overflow-y: auto;
         max-height: calc(100vh - 270px);
         scrollbar-width: thin;
-        scrollbar-color: #1565c0 transparent;
+        scrollbar-color: $color-blue-light transparent;
 
         tr {
-          background-color: #fff;
+          background-color: $color-light;
 
           td:first-child {
             border-top-left-radius: 5px;
@@ -404,13 +423,6 @@
 
         td {
           padding: 15px 8px;
-
-          button {
-            border: none;
-            background: none;
-            font-size: 1.2rem;
-            cursor: pointer;
-          }
 
           thead th {
             position: sticky;
@@ -427,11 +439,11 @@
 
         .person__page-table-body::-webkit-scrollbar-thumb {
           border-radius: 4px;
-          background-color: #1565c0;
+          background-color: $color-blue-light;
         }
 
         .person__page-table-body::-webkit-scrollbar-thumb:hover {
-          background-color: #0d47a1;
+          background-color: $color-blue-dark;
         }
       }
     }
