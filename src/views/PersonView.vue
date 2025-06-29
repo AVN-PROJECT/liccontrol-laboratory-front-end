@@ -222,7 +222,7 @@
 
   const deleteItem = async (item) => {
     try {
-      await apiClient.delete('/user/person/delete_delete', {
+      await apiClient.delete('/user/person/delete_person', {
         data: { uuid: item.uuid },
       });
 
