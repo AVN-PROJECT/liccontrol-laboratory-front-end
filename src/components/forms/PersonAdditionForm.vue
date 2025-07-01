@@ -118,7 +118,7 @@
 <style scoped lang="scss">
   .person__page-menu-addition-form {
     display: flex;
-    width: 85%;
+    width: 100%;
     padding: 1.3rem;
     border-radius: 0.5rem;
     background-color: $color-light;
