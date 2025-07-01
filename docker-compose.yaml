@@ -3,6 +3,8 @@ services:
     image: ghcr.io/avn-project/liccontrol-laboratory-front-end:latest
     container_name: laboratory-web-front
     command: [ "make", "run_production" ]
+    env_file:
+      - ".env"
     networks:
       - license_control
 
