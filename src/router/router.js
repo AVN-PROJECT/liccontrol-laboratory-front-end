@@ -76,12 +76,12 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   const userStore = useUserStore();
 
-  const access_token = Cookies.getItem('accessToken');
+  const accessToken = Cookies.getItem('accessToken');
 
   if (to.matched.some((record) => record.meta.authentication)) {
-    if (access_token) {
+    if (accessToken) {
       return next();
-    } else if (!access_token) {
+    } else if (!accessToken) {
       if (await userStore.getAccessToken()) {
         return next();
       }
