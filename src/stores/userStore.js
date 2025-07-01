@@ -30,6 +30,8 @@ export const useUserStore = defineStore('user', () => {
         }
 
         Cookies.setItem('accessToken', response.data.accessToken, cookieOptions);
+
+        return response.data.accessToken;
       }
     } catch (error) {
       console.log(error);

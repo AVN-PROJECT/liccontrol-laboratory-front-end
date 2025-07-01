@@ -27,7 +27,7 @@
     type: {
       type: String,
       default: 'text',
-      validator: (value) => ['text', 'password', 'email'].includes(value),
+      validator: (value) => ['text', 'password', 'email', 'date', 'tel'].includes(value),
     },
     color: {
       type: String,

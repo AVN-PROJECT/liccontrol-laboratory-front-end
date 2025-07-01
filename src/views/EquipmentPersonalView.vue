@@ -125,7 +125,7 @@
                 />
               </td>
 
-              <td class="actions-cell">
+              <td class="person__page-table-cell-actions">
                 <div class="last-cell">
                   <img
                     v-if="editingId === (item.uuid ?? index)"
@@ -364,7 +364,7 @@
           font-weight: 600;
         }
 
-        .actions-cell {
+        .person__page-table-cell-actions {
           border-top-right-radius: 5px;
           border-bottom-right-radius: 5px;
           gap: 8px;
