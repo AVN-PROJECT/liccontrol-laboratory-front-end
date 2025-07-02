@@ -2,7 +2,7 @@ import axios from 'axios';
 import Cookies from 'js-cookies/src/cookies.js';
 
 const axiosClient = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+  baseURL: 'https://laboratory.liccontrol.ru/api/v1/laboratory',
   withCredentials: true,
   headers: {
     Accept: 'application/json',
