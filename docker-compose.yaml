@@ -5,7 +5,7 @@ services:
     command: [ "make", "run_production" ]
     restart: unless-stopped
     volumes:
-      - laboratory_frontend_dist:./laboratory/dist
+      - laboratory_frontend_dist:/liccontrol-laboratory-front-end/laboratory/dist
     env_file:
       - ".env"
     networks:
