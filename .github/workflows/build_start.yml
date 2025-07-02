@@ -58,7 +58,7 @@ jobs:
 
             echo "Stopping and removing old containers..."
             sudo docker compose down -v
-            
+
             echo "Pulling latest Docker images..."
             sudo docker compose pull
 
