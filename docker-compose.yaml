@@ -3,10 +3,15 @@ services:
     image: ghcr.io/avn-project/liccontrol-laboratory-front-end:latest
     container_name: laboratory-web-front
     command: [ "make", "run_production" ]
+    volumes:
+      - laboratory_frontend_dist:/liccontrol-laboratory-front-end/dist
     env_file:
       - ".env"
     networks:
       - license_control
+
+volumes:
+  laboratory_frontend_dist:
 
 networks:
   license_control:
