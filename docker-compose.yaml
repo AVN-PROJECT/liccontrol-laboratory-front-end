@@ -3,8 +3,9 @@ services:
     image: ghcr.io/avn-project/liccontrol-laboratory-front-end:latest
     container_name: laboratory-web-front
     command: [ "make", "run_production" ]
+    restart: unless-stopped
     volumes:
-      - laboratory_frontend_dist:/laboratory/dist
+      - laboratory_frontend_dist:./laboratory/dist
     env_file:
       - ".env"
     networks:
