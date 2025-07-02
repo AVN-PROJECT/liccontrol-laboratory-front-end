@@ -57,8 +57,8 @@ jobs:
             echo "${{ secrets.GITHUB_TOKEN }}" | sudo docker login ghcr.io -u ${{ secrets.GIT_USERNAME }} --password-stdin
 
             echo "Stopping and removing old containers..."
-            sudo docker compose down --remove-orphans
-
+            sudo docker compose down -v
+            
             echo "Pulling latest Docker images..."
             sudo docker compose pull
 
