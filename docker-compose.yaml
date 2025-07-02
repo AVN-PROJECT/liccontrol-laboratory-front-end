@@ -4,7 +4,7 @@ services:
     container_name: laboratory-web-front
     command: [ "make", "run_production" ]
     volumes:
-      - laboratory_frontend_dist:/liccontrol-laboratory-front-end/dist
+      - laboratory_frontend_dist:/laboratory/dist
     env_file:
       - ".env"
     networks:
