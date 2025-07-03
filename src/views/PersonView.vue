@@ -24,18 +24,18 @@
             <td class="person__page-table-cell-id">
               <div class="person__page-table-cell-id-wrapper">
                 <p class="person__page-table-value">{{ index + 1 }}</p>
+                <VButton
+                  v-if="editingId === (item.uuid ?? index)"
+                  class="person__page-button-delete"
+                  @click="deleteItem(item.uuid)"
+                >
+                  <img
+                    src="@/assets/icons/sections/buttons/basket-delete.svg"
+                    class="person__page-icon-delete"
+                    alt="delete.svg"
+                  />
+                </VButton>
               </div>
-              <VButton
-                v-if="editingId === (item.uuid ?? index)"
-                class="person__page-button-delete"
-                @click="deleteItem(item.uuid)"
-              >
-                <img
-                  src="@/assets/icons/sections/buttons/basket-delete.svg"
-                  class="person__page-icon-delete"
-                  alt="delete.svg"
-                />
-              </VButton>
             </td>
 
             <td class="person__page-table-cell-fio">
@@ -123,7 +123,7 @@
                 v-if="!editingId"
                 class="person__page-table-value"
               >
-                {{}}
+                {{ item.equipments || '-' }}
               </p>
               <VInput
                 v-else
@@ -135,37 +135,36 @@
             </td>
 
             <td class="person__page-table-cell-actions">
-              <div class="last-cell">
+              <div class="action-buttons">
+                <template v-if="editingId === (item.uuid ?? index)">
+                  <VButton
+                    class="person__page-button-cancel"
+                    @click="cancelEdit"
+                  >
+                    <img
+                      src="@/assets/icons/sections/buttons/cross-cancel.svg"
+                      class="person__page-icon-action"
+                      alt="cancel.svg"
+                    />
+                  </VButton>
+                  <VButton
+                    class="person__page-button-save"
+                    @click="saveEdit(item)"
+                  >
+                    <img
+                      class="person__page-icon-action"
+                      src="@/assets/icons/sections/buttons/tick-save.svg"
+                      alt="save.svg"
+                    />
+                  </VButton>
+                </template>
                 <VButton
-                  class="person__page-button-cancel"
-                  @click="cancelEdit"
-                >
-                  <img
-                    v-if="editingId === (item.uuid ?? index)"
-                    src="@/assets/icons/sections/buttons/cross-cancel.svg"
-                    class="person__page-icon-cancel"
-                    alt="cancel.svg"
-                  />
-                </VButton>
-                <VButton
-                  class="person__page-button-save"
-                  @click="saveEdit(item)"
-                >
-                  <img
-                    v-if="editingId === (item.uuid ?? index)"
-                    class="person__page-icon-save"
-                    src="@/assets/icons/sections/buttons/tick-save.svg"
-                    alt="save.svg"
-                  />
-                </VButton>
-
-                <VButton
+                  v-else
                   class="person__page-button-edit"
                   @click="toggleEdit(item, index)"
                 >
                   <img
-                    v-if="editingId !== (item.uuid ?? index)"
-                    class="person__page-icon-edit"
+                    class="person__page-icon-action"
                     src="@/assets/icons/sections/buttons/pencil-edit.svg"
                     alt="edit.svg"
                   />
@@ -307,7 +306,7 @@
     .person__page-table-wrapper {
       overflow-y: auto;
       width: 80%;
-      height: calc(100vh - 170px);
+      max-height: calc(100vh - 170px);
       margin-right: 2.5%;
 
       .person__page-table {
@@ -316,6 +315,11 @@
         border-collapse: separate;
 
         .person__page-table-header {
+          position: sticky;
+          top: 0;
+          z-index: 1;
+          background-color: white;
+
           .person__page-table-header-columns {
             .person__page-table-header-id {
               width: 5%;
@@ -350,6 +354,8 @@
             }
 
             th {
+              padding: 12px 8px;
+              text-align: left;
               font-size: 16px;
             }
           }
@@ -359,13 +365,25 @@
           .person__page-table-columns {
             width: 100%;
             background-color: inherit;
-            text-align: center;
             font-size: 16px;
             box-shadow: 0 4px 6px rgb(0 0 0 / 10%);
             transition: all 0.3s ease;
 
+            td {
+              padding: 12px 8px;
+              background-color: $color-light;
+              vertical-align: middle;
+              text-align: left;
+            }
+
             .person__page-table-cell-id {
               width: 5%;
+
+              .person__page-table-cell-id-wrapper {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+              }
             }
 
             .person__page-table-cell-fio {
@@ -394,54 +412,45 @@
 
             .person__page-table-cell-actions {
               width: 10%;
-              padding-right: 0.2rem;
-              cursor: pointer;
-            }
 
-            td {
-              background-color: $color-light;
+              .action-buttons {
+                display: flex;
+                gap: 8px;
+                justify-content: flex-end;
+              }
             }
 
             td:first-child {
-              height: 1.5rem;
               border-bottom-left-radius: 10px;
               border-top-left-radius: 10px;
             }
 
             td:last-child {
-              height: 1.5rem;
               border-bottom-right-radius: 10px;
               border-top-right-radius: 10px;
+            }
+
+            .person__page-table-value {
+              margin: 0;
+              padding: 8px 0;
+            }
+
+            .person__page-table-field {
+              width: 100%;
+              margin: -4px 0;
             }
 
             .person__page-button-edit,
             .person__page-button-cancel,
             .person__page-button-delete,
             .person__page-button-save {
-              width: 25px;
-              border: 0;
-              background: inherit;
-              cursor: pointer;
-
-              img {
-                margin: 0.5rem;
-              }
-            }
-
-            .person__page-button-delete,
-            .person__page-button-save {
-              margin-top: 20px;
-            }
-
-            .person__page-button-edit {
               display: flex;
               align-items: center;
               justify-content: center;
               width: 24px;
               height: 24px;
-              margin: 0;
               padding: 0;
-              border: 0;
+              border: none;
               background: transparent;
               cursor: pointer;
 
@@ -449,12 +458,12 @@
                 transform: scale(1.1);
                 transition: transform 0.2s ease;
               }
+            }
 
-              .person__page-icon-edit {
-                width: 100%;
-                height: 100%;
-                object-fit: contain;
-              }
+            .person__page-icon-action {
+              width: 100%;
+              height: 100%;
+              object-fit: contain;
             }
 
             &:hover {
@@ -462,19 +471,6 @@
               box-shadow: 0 6px 12px rgb(0 0 0 / 15%);
             }
           }
-        }
-
-        .person__page-table-body::-webkit-scrollbar {
-          width: 4px;
-        }
-
-        .person__page-table-body::-webkit-scrollbar-thumb {
-          border-radius: 4px;
-          background-color: $color-blue-light;
-        }
-
-        .person__page-table-body::-webkit-scrollbar-thumb:hover {
-          background-color: $color-blue-dark;
         }
       }
     }
