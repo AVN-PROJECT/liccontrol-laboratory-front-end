@@ -7,7 +7,7 @@
             <tr>
               <th class="equipment__page-table-header-id">№</th>
               <th class="equipment__page-table-header-name">Наименование оборудования</th>
-              <th class="equipment__page-table-header-number-serial">Серийный номер</th>
+              <th class="equipment__page-table-header-type">Серийный номер</th>
               <th class="equipment__page-table-header-address">Адрес эксплуатации</th>
               <th class="equipment__page-table-header-agreement-number">Номер договора</th>
               <th class="equipment__page-table-header-verification-number">
@@ -318,7 +318,7 @@
           width: 38%;
         }
 
-        .equipment__page-table-header-number-serial {
+        .equipment__page-table-header-type {
           width: 20%;
         }
 

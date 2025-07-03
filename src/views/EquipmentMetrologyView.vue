@@ -1,159 +1,168 @@
 <template>
   <div class="equipment__page-personal-main">
     <div class="equipment__page-personal-table-wrapper">
-      <div class="equipment__page-personal-table-header">
-        <table class="equipment__page-personal-table-columns">
-          <thead>
-            <tr>
-              <th class="equipment__page-table-header-id">№</th>
-              <th class="equipment__page-table-header-name">Наименование оборудования</th>
-              <th class="equipment__page-table-header-number-serial">Тип СИ</th>
-              <th class="equipment__page-table-header-address">Дата начала поверки</th>
-              <th class="equipment__page-table-header-agreement-number">Дата окончания поверки</th>
-              <th class="equipment__page-table-header-verification-number">Номер свидетельства</th>
-              <th class="equipment__page-table-header-suitability">Пригодность</th>
-              <th class="equipment__page-table-header-action"></th>
-            </tr>
-          </thead>
-          <tbody class="equipment__page-personal-table-body">
-            <tr
-              v-for="(item, index) in equipments"
-              :key="item.uuid ?? index"
-              :class="[{ editing: editingId === (item.uuid ?? index) }, item.status]"
-            >
-              <td class="equipment__page-table-cell-id">
-                <div class="equipment__page-table-cell-id-wrapper">
-                  <p class="equipment__page-table-value">{{ index + 1 }}</p>
-                </div>
+      <table class="equipment__page-personal-table">
+        <thead class="equipment__page-table-header">
+          <tr class="equipment__page-table-header-columns">
+            <th class="equipment__page-table-header-id">№</th>
+            <th class="equipment__page-table-header-name">Наименование оборудования</th>
+            <th class="equipment__page-table-header-type">Тип СИ</th>
+            <th class="equipment__page-table-header-verification-date">Дата начала поверки</th>
+            <th class="equipment__page-table-header-verification-valid">Дата окончания поверки</th>
+            <th class="equipment__page-table-header-verification-number">Номер свидетельства</th>
+            <th class="equipment__page-table-header-suitability">Пригодность</th>
+            <th class="equipment__page-table-header-action"></th>
+          </tr>
+        </thead>
+        <tbody class="equipment__page-personal-table-body">
+          <tr
+            v-for="(item, index) in equipments"
+            :key="item.uuid ?? index"
+            :class="[{ editing: editingId === (item.uuid ?? index) }, item.status]"
+            class="equipment__page-table-columns"
+          >
+            <td class="equipment__page-table-cell-id">
+              <div class="equipment__page-table-cell-id-wrapper">
+                <p class="equipment__page-table-value">{{ index + 1 }}</p>
+              </div>
+              <VButton class="equipment__page-button-delete">
                 <img
                   v-if="editingId === (item.uuid ?? index)"
                   src="@/assets/icons/sections/buttons/basket-delete.svg"
-                  class="equipment__page-icon-delete"
+                  class="equipment__page-icon-action"
                   alt="delete.svg"
                   @click="deleteItem(item.uuid)"
                 />
-              </td>
+              </VButton>
+            </td>
 
-              <td class="equipment__page-table-cell-name">
-                <p
-                  v-if="!editingId"
-                  class="equipment__page-table-value"
-                >
-                  {{ item.name }}
-                </p>
-                <VInput
-                  v-else
-                  v-model="item.name"
-                  type="text"
-                  :value="item.name"
-                  color="white"
+            <td class="equipment__page-table-cell-name">
+              <p
+                v-if="!editingId"
+                class="equipment__page-table-value"
+              >
+                {{ item.name }}
+              </p>
+              <VInput
+                v-else
+                v-model="item.name"
+                type="text"
+                :value="item.name"
+                color="white"
+                class="equipment__page-table-field"
+              />
+            </td>
+            <td class="equipment__page-table-cell-type">
+              <p
+                v-if="!editingId"
+                class="equipment__page-table-value"
+              >
+                {{ item.type }}
+              </p>
+              <VInput
+                v-else
+                v-model="item.type"
+                :value="item.type"
+                type="text"
+                color="white"
+                class="equipment__page-table-field"
+              />
+            </td>
+            <td class="equipment__page-table-cell-verification-date">
+              <p
+                v-if="!editingId"
+                class="equipment__page-table-value"
+              >
+                {{ item.verification_date }}
+              </p>
+              <VInput
+                v-else
+                v-model="item.verification_date"
+                type="text"
+                :value="item.verification_date"
+                color="white"
+                class="equipment__page-table-field"
+              />
+            </td>
+            <td class="equipment__page-table-cell-verification-valid">
+              <p
+                v-if="!editingId"
+                class="equipment__page-table-value"
+              >
+                {{ item.verification_valid }}
+              </p>
+              <VInput
+                v-else
+                v-model="item.verification_valid"
+                type="text"
+                :value="item.verification_valid"
+                color="white"
+                class="equipment__page-table-field"
+              />
+            </td>
+            <td class="equipment__page-table-cell-verification-number">
+              <p
+                v-if="!editingId"
+                class="equipment__page-table-value"
+              >
+                {{ item.verification_number }}
+              </p>
+              <VInput
+                v-else
+                v-model="item.verification_number"
+                type="text"
+                :value="item.verification_number"
+                color="white"
+                class="equipment__page-table-field"
+              />
+            </td>
+            <td class="equipment__page-table-cell-suitability">
+              <p
+                v-if="!editingId"
+                class="equipment__page-table-value"
+              >
+                <img
+                  :src="item.suitability ? tickIcon : crossIcon"
+                  alt="suitability.svg"
                 />
-              </td>
-              <td class="equipment__page-table-cell-type">
-                <p
-                  v-if="!editingId"
-                  class="equipment__page-table-value"
-                >
-                  {{ item.type }}
-                </p>
-                <VInput
-                  v-else
-                  v-model="item.type"
-                  :value="item.type"
-                  type="text"
-                  color="white"
-                />
-              </td>
-              <td class="equipment__page-table-cell-verification-date">
-                <p
-                  v-if="!editingId"
-                  class="equipment__page-table-value"
-                >
-                  {{ item.verification_date }}
-                </p>
-                <VInput
-                  v-else
-                  v-model="item.verification_date"
-                  type="text"
-                  :value="item.verification_date"
-                  color="white"
-                />
-              </td>
-              <td class="equipment__page-table-cell-verification-valid">
-                <p
-                  v-if="!editingId"
-                  class="equipment__page-table-value"
-                >
-                  {{ item.verification_valid }}
-                </p>
-                <VInput
-                  v-else
-                  v-model="item.verification_valid"
-                  type="text"
-                  :value="item.verification_valid"
-                  color="white"
-                />
-              </td>
-              <td class="equipment__page-table-cell-verification-number">
-                <p
-                  v-if="!editingId"
-                  class="equipment__page-table-value"
-                >
-                  {{ item.verification_number }}
-                </p>
-                <VInput
-                  v-else
-                  v-model="item.verification_number"
-                  type="text"
-                  :value="item.verification_number"
-                  color="white"
-                />
-              </td>
-              <td class="equipment__page-table-cell-suitability">
-                <p
-                  v-if="!editingId"
-                  class="equipment__page-table-value"
-                >
-                  {{}}
-                </p>
-                <VInput
-                  v-else
-                  v-model="item.suitability"
-                  type="text"
-                  color="white"
-                />
-              </td>
+              </p>
+            </td>
 
-              <td class="person__page-table-cell-actions">
-                <div class="last-cell">
-                  <img
-                    v-if="editingId === (item.uuid ?? index)"
-                    src="@/assets/icons/sections/buttons/cross-cancel.svg"
-                    class="equipment__page-icon-cancel"
-                    alt="cancel.svg"
-                    @click="cancelEdit"
-                  />
-                  <img
-                    v-if="editingId === (item.uuid ?? index)"
-                    class="equipment__page-icon-save"
-                    src="@/assets/icons/sections/buttons/tick-save.svg"
-                    alt="save.svg"
-                    @click="saveEdit(item)"
-                  />
+            <td class="person__page-table-cell-actions">
+              <div class="action-buttons">
+                <div
+                  v-if="editingId === (item.uuid ?? index)"
+                  class="person__page-table-action-buttons"
+                >
+                  <VButton class="equipment__page-button-cancel">
+                    <img
+                      v-if="editingId === (item.uuid ?? index)"
+                      src="@/assets/icons/sections/buttons/cross-cancel.svg"
+                      class="equipment__page-icon-action"
+                      alt="cancel.svg"
+                      @click="cancelEdit"
+                    />
+                  </VButton>
 
-                  <img
-                    v-if="editingId !== (item.uuid ?? index)"
-                    class="equipment__page-icon-edit"
-                    src="@/assets/icons/sections/buttons/pencil-edit.svg"
-                    alt="edit.svg"
-                    @click="toggleEdit(item, index)"
-                  />
+                  <VButton class="equipment__page-button-save">
+                    <img
+                      v-if="editingId === (item.uuid ?? index)"
+                      class="equipment__page-icon-action"
+                      src="@/assets/icons/sections/buttons/tick-save.svg"
+                      alt="save.svg"
+                      @click="saveEdit(item)"
+                    />
+                  </VButton>
+
+                  <VButton class="equipment__page-button-edit">
+                    <p>{{ 'Скрыть' ? editingId : 'Подробнее...' }}</p>
+                  </VButton>
                 </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </template>
@@ -167,16 +176,19 @@
 
   // components.
   import VInput from '@/components/ui/VInput.vue';
+  import VButton from '@/components/ui/VButton.vue';
+  import tickIcon from '@/assets/icons/sections/buttons/tick-save.svg';
+  import crossIcon from '@/assets/icons/sections/buttons/cross-cancel.svg';
 
   const editingId = ref(null);
   const originalItem = ref(null);
 
   const equipments = ref([]);
 
-  const toggleEdit = (item) => {
-    originalItem.value = { ...item };
-    editingId.value = item.id;
-  };
+  // const toggleEdit = (item) => {
+  //   originalItem.value = { ...item };
+  //   editingId.value = item.id;
+  // };
 
   const getEquipments = async () => {
     const response = await apiClient.get('/user/equipment/metrology/equipments');
@@ -198,6 +210,10 @@
         name: item.name,
         number_serial: item.number_serial,
         verification_number: item.verification_number,
+        type: item.type,
+        link: item.link,
+        suitability: item.suitability,
+        verification_valid: formatDate(item.verification_valid),
         verification_date: formatDate(item.verification_date),
 
         status: item.valid_date,
@@ -300,143 +316,186 @@
 
     .equipment__page-personal-table-wrapper {
       overflow-y: auto;
-      width: 75%;
-      height: calc(100vh - 170px);
+      width: 80%;
+      max-height: calc(100vh - 170px);
       margin-right: 2.5%;
 
-      .equipment__page-personal-table-header {
+      .equipment__page-personal-table {
         width: 100%;
-        border-spacing: 0 25px;
-        text-align: center;
-        font-size: 16px;
+        border-spacing: 0 10px;
         border-collapse: separate;
 
-        .equipment__page-table-header-id {
-          width: 2%;
-        }
-
-        .equipment__page-table-header-name {
-          width: 38%;
-        }
-
-        .equipment__page-table-header-number-serial {
-          width: 20%;
-        }
-
-        .equipment__page-table-header-address {
-          width: 20%;
-        }
-
-        .equipment__page-table-header-agreement-number {
-          width: 20%;
-        }
-
-        .equipment__page-table-header-verification-number {
-          width: 20%;
-        }
-
-        .equipment__page-table-header-suitability {
-          width: 25%;
-        }
-
-        .equipment__page-table-header-action {
-          width: 20%;
-        }
-      }
-
-      .equipment__page-personal-table-columns {
-        width: 100%;
-        border-spacing: 0 25px;
-        text-align: center;
-        font-size: 16px;
-        border-collapse: separate;
-
-        td {
-          padding-right: 12px;
-          vertical-align: top;
-        }
-
-        thead th {
+        .equipment__page-table-header {
           position: sticky;
           top: 0;
-          z-index: 10;
-          padding: 10px;
-          text-align: center;
-          font-weight: 600;
-        }
+          z-index: 1;
+          background-color: white;
 
-        .person__page-table-cell-actions {
-          border-top-right-radius: 5px;
-          border-bottom-right-radius: 5px;
-          gap: 8px;
-          float: right;
-          cursor: pointer;
-        }
+          .equipment__page-table-header-columns {
+            .equipment__page-table-header-id {
+              width: 5%;
+            }
 
-        .last-cell {
-          display: flex;
-          flex-direction: column;
-        }
+            .equipment__page-table-header-name {
+              width: 20%;
+            }
 
-        .equipment__page-icon-edit,
-        .equipment__page-icon-cancel,
-        .equipment__page-icon-delete,
-        .equipment__page-icon-save {
-          width: 25px;
-          cursor: pointer;
-        }
+            .equipment__page-table-header-type {
+              align-items: center;
+              width: 5%;
+            }
 
-        .equipment__page-icon-save {
-          margin-top: 20px;
-        }
-      }
+            .equipment__page-table-header-verification-date {
+              width: 10%;
+              text-align: center;
+            }
 
-      .equipment__page-personal-table-body {
-        box-sizing: content-box;
-        overflow-y: auto;
-        max-height: calc(100vh - 270px);
-        scrollbar-width: thin;
-        scrollbar-color: #1565c0 transparent;
+            .equipment__page-table-header-verification-valid {
+              width: 10%;
+              text-align: center;
+            }
 
-        tr {
-          background-color: #fff;
+            .equipment__page-table-header-verification-number {
+              width: 15%;
+              text-align: center;
+            }
 
-          td:first-child {
-            border-top-left-radius: 5px;
-            border-bottom-left-radius: 5px;
+            .equipment__page-table-header-suitability {
+              width: 10%;
+              text-align: center;
+            }
+
+            .equipment__page-table-header-action {
+              width: 10%;
+            }
+
+            th {
+              padding: 12px 8px;
+              text-align: left;
+              font-size: 16px;
+            }
           }
         }
 
-        td {
-          padding: 15px 8px;
+        .equipment__page-personal-table-body {
+          .equipment__page-table-columns {
+            width: 100%;
+            background-color: inherit;
+            font-size: 16px;
+            box-shadow: 0 4px 6px rgb(0 0 0 / 10%);
+            transition: all 0.3s ease;
 
-          button {
-            border: none;
-            background: none;
-            font-size: 1.2rem;
-            cursor: pointer;
+            td {
+              padding: 12px 8px;
+              background-color: $color-light;
+              vertical-align: middle;
+              text-align: left;
+            }
+
+            .equipment__page-table-cell-id {
+              width: 5%;
+
+              .equipment__page-table-cell-id-wrapper {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+              }
+            }
+
+            .equipment__page-table-cell-name {
+              width: 20%;
+            }
+
+            .equipment__page-table-cell-type {
+              align-items: center;
+              width: 5%;
+            }
+
+            .equipment__page-table-cell-verification-date {
+              width: 10%;
+              text-align: center;
+            }
+
+            .equipment__page-table-cell-verification-valid {
+              width: 10%;
+              text-align: center;
+            }
+
+            .equipment__page-table-cell-verification-number {
+              width: 15%;
+            }
+
+            .equipment__page-table-cell-suitability {
+              width: 10%;
+              text-align: center;
+            }
+
+            .person__page-table-cell-actions {
+              width: 10%;
+
+              .action-buttons {
+                display: flex;
+                gap: 8px;
+                justify-content: flex-end;
+
+                .person__page-table-action-buttons {
+                  display: flex;
+                }
+              }
+            }
+
+            td:first-child {
+              border-bottom-left-radius: 10px;
+              border-top-left-radius: 10px;
+            }
+
+            td:last-child {
+              border-bottom-right-radius: 10px;
+              border-top-right-radius: 10px;
+            }
+
+            .equipment__page-table-value {
+              margin: 0;
+              padding: 8px 0;
+            }
+
+            .equipment__page-table-field {
+              width: 100%;
+              margin: -4px 0;
+            }
+
+            .equipment__page-button-edit,
+            .equipment__page-button-cancel,
+            .equipment__page-button-delete,
+            .equipment__page-button-save {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              width: 24px;
+              height: 24px;
+              margin: 0.2rem;
+              padding: 0;
+              border: none;
+              background: transparent;
+              cursor: pointer;
+
+              &:hover {
+                transform: scale(1.1);
+                transition: transform 0.2s ease;
+              }
+            }
+
+            .equipment__page-icon-action {
+              width: 100%;
+              height: 100%;
+              object-fit: contain;
+            }
+
+            &:hover {
+              transform: translateY(-2px);
+              box-shadow: 0 6px 12px rgb(0 0 0 / 15%);
+            }
           }
-
-          thead th {
-            position: sticky;
-            top: 0;
-            z-index: 10;
-            text-align: center;
-            font-weight: 600;
-          }
-        }
-
-        .equipment__page-personal-table-body::-webkit-scrollbar {
-          width: 4px;
-        }
-
-        .equipment__page-personal-table-body::-webkit-scrollbar-thumb {
-          border-radius: 4px;
-          background-color: #1565c0;
-        }
-
-        .equipment__page-personal-table-body::-webkit-scrollbar-thumb:hover {
-          background-color: #0d47a1;
         }
       }
     }
