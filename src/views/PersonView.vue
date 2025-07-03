@@ -245,7 +245,7 @@
         data: { uuid: uuid },
       });
 
-      window.location.reload();
+      await getPersons();
     } catch (error) {
       console.error('Ошибка удаления:', error);
 
