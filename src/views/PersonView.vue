@@ -178,18 +178,16 @@
 
     <div class="person__page-menu">
       <div class="person__page-menu-download">
-        <div class="person__page-menu-download-import">
-          <img
-            src=""
-            alt="import.svg"
-          />
-        </div>
-
         <div class="person__page-menu-download-export">
-          <img
-            src=""
-            alt="export.svg"
-          />
+          <VButton
+            class="person__page-menu-export-button"
+            @click="handlerExport"
+          >
+            <img
+              src="@/assets/icons/sections/buttons/excel-export.svg"
+              alt="export.svg"
+            />
+          </VButton>
         </div>
       </div>
 
@@ -291,6 +289,21 @@
     } finally {
       editingId.value = null;
       originalItem.value = null;
+    }
+  };
+
+  const handlerExport = async () => {
+    try {
+      const response = await apiClient.get('/user/person/export_persons', { responseType: 'blob' });
+
+      const link = document.createElement('a');
+
+      link.href = URL.createObjectURL(new Blob([response.data]));
+      link.download = 'employees.xlsx';
+
+      link.click();
+    } catch (error) {
+      console.error('Ошибка экспорта сотрудников:', error);
     }
   };
 </script>
@@ -479,6 +492,18 @@
       display: flex;
       width: 20%;
       flex-direction: column;
+
+      .person__page-menu-download {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .person__page-menu-export-button {
+          border: 0;
+          background-color: inherit;
+          cursor: pointer;
+        }
+      }
     }
   }
 </style>
