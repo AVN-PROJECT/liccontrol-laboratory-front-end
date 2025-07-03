@@ -1,4 +1,8 @@
 <template>
+  <p class="person__page-menu-form-description">
+    Добавить нового сотрудника вручную можно в форме ниже:
+  </p>
+
   <div class="person__page-menu-addition-form">
     <div class="person__page-menu-form-fields">
       <label for="person__page-form-field-name">
@@ -64,7 +68,7 @@
     <div class="person__page-menu-form-button">
       <VButton
         class="person__page-menu-form-button-addition"
-        @click="addEquipment"
+        @click="addPerson"
       >
         <p>Добавить сотрудника</p>
         <img
@@ -79,10 +83,7 @@
 
 <script setup>
   // vue.
-  import { ref } from 'vue';
-
-  // composables.
-  import apiClient from '@/composables/api/apiClient.js';
+  import { ref, defineEmits } from 'vue';
 
   // helpers.
   import resetForm from '@/helpers/forms/resetForm.js';
@@ -92,6 +93,8 @@
   import VButton from '@/components/ui/VButton.vue';
 
   // constants.
+  const emit = defineEmits(['person-addition']);
+
   const newPerson = ref({
     certificate_date: '',
     certificate_number: '',
@@ -100,18 +103,10 @@
     number_phone: '',
   });
 
-  const addEquipment = async () => {
-    const data = newPerson.value;
+  const addPerson = async () => {
+    emit('person-addition', newPerson.value);
 
-    try {
-      await apiClient.post('/user/person/add_person', data);
-
-      resetForm(newPerson);
-
-      window.location.reload();
-    } catch (error) {
-      console.error('Ошибка добавления:', error);
-    }
+    resetForm(newPerson.value);
   };
 </script>
 

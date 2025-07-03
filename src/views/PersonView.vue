@@ -136,7 +136,10 @@
 
             <td class="person__page-table-cell-actions">
               <div class="action-buttons">
-                <template v-if="editingId === (item.uuid ?? index)">
+                <div
+                  v-if="editingId === (item.uuid ?? index)"
+                  class="person__page-table-action-buttons"
+                >
                   <VButton
                     class="person__page-button-cancel"
                     @click="cancelEdit"
@@ -157,7 +160,7 @@
                       alt="save.svg"
                     />
                   </VButton>
-                </template>
+                </div>
                 <VButton
                   v-else
                   class="person__page-button-edit"
@@ -192,9 +195,7 @@
       </div>
 
       <div class="person__page-menu-form">
-        <p>Добавить нового сотрудника вручную можно в форме ниже:</p>
-
-        <PersonAdditionForm />
+        <PersonAdditionForm @person-addition="addPerson" />
       </div>
     </div>
   </div>
@@ -236,6 +237,16 @@
       }));
     } catch (err) {
       console.error('Ошибка загрузки сотрудников:', err);
+    }
+  };
+
+  const addPerson = async (newPerson) => {
+    try {
+      await apiClient.post('/user/person/add_person', newPerson);
+
+      await getPersons();
+    } catch (error) {
+      console.error('Ошибка добавления:', error);
     }
   };
 
@@ -430,6 +441,10 @@
                 display: flex;
                 gap: 8px;
                 justify-content: flex-end;
+
+                .person__page-table-action-buttons {
+                  display: flex;
+                }
               }
             }
 
@@ -462,6 +477,7 @@
               justify-content: center;
               width: 24px;
               height: 24px;
+              margin: 0.2rem;
               padding: 0;
               border: none;
               background: transparent;
