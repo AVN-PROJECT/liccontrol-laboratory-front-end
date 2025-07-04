@@ -38,12 +38,13 @@
                   </VButton>
                 </div>
 
-                <div class="table__cell bode-cell-name">
+                <div class="table__cell body-cell-name">
                   <a
                     v-if="!editingId"
+                    class="cell__name--link"
                     :href="item.link"
                   >
-                    <p>{{ item.name }}</p>
+                    <p class="cell__name--text">{{ item.name }}</p>
                   </a>
                   <VInput
                     v-else
@@ -150,11 +151,11 @@
               </div>
             </template>
 
-            <template #accordion-body>
-              <div
-                v-if="openedRows.includes(item.uuid ?? index)"
-                class="table__row--details"
-              >
+            <template
+              v-if="openedRows.includes(item.uuid ?? index)"
+              #accordion-body
+            >
+              <div class="table__row--details">
                 <div class="row__details-content">
                   <p>Серийный номер: {{ item.number_serial }}</p>
                 </div>
@@ -167,24 +168,65 @@
 
     <div class="equipment__page-menu">
       <div class="menu__download">
-        <div>
-          <img />
+        <div class="download__buttons">
+          <VButton class="button__import">
+            <img
+              class="button__import--icon"
+              src="@/assets/icons/sections/buttons/excel-import.svg"
+              alt="excel-import.svg"
+            />
+          </VButton>
+          <VButton class="button__export">
+            <img
+              class="button__export--icon"
+              src="@/assets/icons/sections/buttons/excel-export.svg"
+              alt="excel-export.svg"
+            />
+          </VButton>
         </div>
-        <img />
+
+        <p class="download__text">
+          При импорте оборудование добавляется в
+          <b>
+            Прочее оборудование
+            <b />
+          </b>
+        </p>
       </div>
       <div class="menu__status">
-        <p>До истечения свидетельства</p>
-        <ul>
-          <li>более 3-х месяцев</li>
-          <li>менее 3-х месяцев</li>
-          <li>менее 1-ого месяца</li>
+        <h3 class="menu__status--text">До истечения свидетельства</h3>
+        <ul class="menu__status--list">
+          <li class="list__item">
+            <img
+              class="list__item--icon"
+              src="@/assets/icons/sections/legends/circle-green.svg"
+              alt="circle-green.svg"
+            />
+            более 3-х месяцев
+          </li>
+          <li class="list__item">
+            <img
+              class="list__item--icon"
+              src="@/assets/icons/sections/legends/circle-orange.svg"
+              alt="circle-orange.svg"
+            />
+            менее 3-х месяцев
+          </li>
+          <li class="list__item">
+            <img
+              class="list__item--icon"
+              src="@/assets/icons/sections/legends/circle-red.svg"
+              alt="circle-red.svg"
+            />
+            менее 1-ого месяца
+          </li>
         </ul>
       </div>
       <div class="menu__addition">
-        <h2>Добавить оборудование</h2>
-        <div>
-          <VButton>Вручную</VButton>
-          <VButton>Из Аршины</VButton>
+        <h2 class="menu__addition--header">Добавить оборудование</h2>
+        <div class="menu__addition--buttons">
+          <VButton class="addition__button">Вручную</VButton>
+          <VButton class="addition__button">Из Аршины</VButton>
         </div>
       </div>
     </div>
@@ -379,6 +421,13 @@
       }
     }
 
+    .body-cell-name {
+      .cell__name--link {
+        text-decoration: none;
+        color: $color-dark;
+      }
+    }
+
     .body-cell-suitability {
       justify-content: center;
     }
@@ -449,5 +498,70 @@
 
   .editing-row {
     background-color: rgba($color-light, 0.98);
+  }
+
+  .equipment__page-menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 25%;
+    flex-direction: column;
+
+    .menu__download {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 90%;
+      flex-direction: column;
+
+      .download__buttons {
+        .button__import,
+        .button__export {
+          border: none;
+          background-color: inherit;
+          cursor: pointer;
+        }
+      }
+
+      .download__text {
+        text-align: center;
+      }
+    }
+
+    .menu__status {
+      .menu__status--list {
+        display: flex;
+        justify-content: left;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        flex-direction: column;
+
+        .list__item {
+          display: flex;
+          align-items: center;
+
+          .list__item--icon {
+            margin: 0.5rem;
+          }
+        }
+      }
+    }
+
+    .menu__addition {
+      .menu__addition--buttons {
+        .addition__button {
+          width: 40%;
+          height: 3.2rem;
+          margin: 0.8rem;
+          border-radius: 20px;
+          border: none;
+          background-color: rgb(56 142 60 / 70%);
+          color: $color-light;
+          cursor: pointer;
+          box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
+        }
+      }
+    }
   }
 </style>
