@@ -130,7 +130,20 @@
                       class="table__button--details"
                       @click="toggleDetails(item.uuid ?? index)"
                     >
-                      {{ openedRows.includes(item.uuid ?? index) ? 'Скрыть' : 'Подробнее...' }}
+                      <div class="button__details-wrapper">
+                        <p class="button__wrapper--text">
+                          {{ openedRows.includes(item.uuid ?? index) ? 'Скрыть' : 'Подробнее...' }}
+                        </p>
+                        <img
+                          class="button__wrapper--icon"
+                          :src="
+                            openedRows.includes(item.uuid ?? index)
+                              ? triangleUpIcon
+                              : triangleDownIcon
+                          "
+                          alt="triangle.svg"
+                        />
+                      </div>
                     </VButton>
                   </div>
                 </div>
@@ -190,6 +203,8 @@
   import VButton from '@/components/ui/VButton.vue';
   import tickIcon from '@/assets/icons/sections/buttons/tick-save.svg';
   import crossIcon from '@/assets/icons/sections/buttons/cross-cancel.svg';
+  import triangleUpIcon from '@/assets/icons/sections/legends/triangle-up.svg';
+  import triangleDownIcon from '@/assets/icons/sections/legends/triangle-down.svg';
   import AccordionComponent from '@/components/modules/AccordionComponent.vue';
 
   const editingId = ref(null);
@@ -384,6 +399,22 @@
     border-radius: 0 0 10px 10px;
     background-color: rgba($color-light, 0.98);
     grid-column: 1 / -1;
+  }
+
+  .table__button--details {
+    border: none;
+    background-color: inherit;
+    font-weight: bold;
+    color: $color-blue-light;
+
+    .button__details-wrapper {
+      display: flex;
+      align-items: center;
+
+      .button__wrapper--icon {
+        margin: 0.4rem;
+      }
+    }
   }
 
   .table__button-delete,
