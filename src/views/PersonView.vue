@@ -3,7 +3,7 @@
     <div class="person__page-table-wrapper">
       <table class="person__page-table">
         <thead class="person__page-table-header">
-          <tr class="person__page-table-header-columns">
+          <tr class="equipment__page-table-header-columns">
             <th class="person__page-table-header-id">№</th>
             <th class="person__page-table-header-fio">ФИО</th>
             <th class="person__page-table-header-phone">Номер телефона</th>
@@ -19,7 +19,7 @@
             v-for="(item, index) in persons"
             :key="item.uuid ?? index"
             :class="[{ editing: editingId === (item.uuid ?? index) }, item.status]"
-            class="person__page-table-columns"
+            class="equipment__page-table-columns"
           >
             <td class="person__page-table-cell-id">
               <div class="person__page-table-cell-id-wrapper">
@@ -344,7 +344,7 @@
           z-index: 1;
           background-color: white;
 
-          .person__page-table-header-columns {
+          .equipment__page-table-header-columns {
             .person__page-table-header-id {
               width: 5%;
             }
@@ -386,7 +386,7 @@
         }
 
         .person__page-table-body {
-          .person__page-table-columns {
+          .equipment__page-table-columns {
             width: 100%;
             background-color: inherit;
             font-size: 16px;

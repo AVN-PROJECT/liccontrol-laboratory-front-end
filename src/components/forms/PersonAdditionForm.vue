@@ -83,7 +83,7 @@
 
 <script setup>
   // vue.
-  import { ref, defineEmits } from 'vue';
+  import { ref } from 'vue';
 
   // helpers.
   import resetForm from '@/helpers/forms/resetForm.js';
