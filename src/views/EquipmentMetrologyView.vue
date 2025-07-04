@@ -1,157 +1,179 @@
 <template>
-  <div class="equipment-grid">
-    <div class="grid-header">
-      <div class="grid-cell header-id">№</div>
-      <div class="grid-cell header-name">Наименование оборудования</div>
-      <div class="grid-cell header-type">Тип СИ</div>
-      <div class="grid-cell header-date">Дата начала поверки</div>
-      <div class="grid-cell header-valid">Дата окончания поверки</div>
-      <div class="grid-cell header-number">Номер свидетельства</div>
-      <div class="grid-cell header-suitability">Пригодность</div>
-      <div class="grid-cell header-actions"></div>
-    </div>
+  <div class="equipment__page-main">
+    <div class="equipment-page__table table">
+      <div class="table__header">
+        <div class="table__cell header-cell-id">№</div>
+        <div class="table__cell header-cell-name">Наименование оборудования</div>
+        <div class="table__cell header-cell-type">Тип СИ</div>
+        <div class="table__cell header-cell-date">Дата начала поверки</div>
+        <div class="table__cell header-cell-valid">Дата окончания поверки</div>
+        <div class="table__cell header-cell-number">Номер свидетельства</div>
+        <div class="table__cell header-cell-suitability">Пригодность</div>
+        <div class="table__cell header-cell-actions"></div>
+      </div>
 
-    <div class="grid-body">
-      <template
-        v-for="(item, index) in equipments"
-        :key="item.uuid ?? index"
-      >
-        <AccordionComponent>
-          <template #accordion-header>
-            <div
-              class="grid-row"
-              :class="{ 'editing-row': editingId === (item.uuid ?? index), [item.status]: true }"
-            >
-              <div class="grid-cell cell-id">
-                <div class="id-wrapper">
-                  <p>{{ index + 1 }}</p>
-                </div>
-                <VButton class="btn-delete">
-                  <img
-                    v-if="editingId === (item.uuid ?? index)"
-                    src="@/assets/icons/sections/buttons/basket-delete.svg"
-                    class="icon-action"
-                    alt="delete.svg"
-                    @click="deleteItem(item.uuid)"
-                  />
-                </VButton>
-              </div>
-
-              <div class="grid-cell cell-name">
-                <p v-if="!editingId">{{ item.name }}</p>
-                <VInput
-                  v-else
-                  v-model="item.name"
-                  type="text"
-                  :value="item.name"
-                  color="white"
-                  class="input-field"
-                />
-              </div>
-              <div class="grid-cell cell-name">
-                <p v-if="!editingId">{{ item.type }}</p>
-                <VInput
-                  v-else
-                  v-model="item.type"
-                  type="text"
-                  :value="item.type"
-                  color="white"
-                  class="input-field"
-                />
-              </div>
-              <div class="grid-cell cell-name">
-                <p v-if="!editingId">{{ item.verification_date }}</p>
-                <VInput
-                  v-else
-                  v-model="item.verification_date"
-                  type="text"
-                  :value="item.verification_date"
-                  color="white"
-                  class="input-field"
-                />
-              </div>
-              <div class="grid-cell cell-name">
-                <p v-if="!editingId">{{ item.verification_valid }}</p>
-                <VInput
-                  v-else
-                  v-model="item.verification_valid"
-                  type="text"
-                  :value="item.verification_valid"
-                  color="white"
-                  class="input-field"
-                />
-              </div>
-              <div class="grid-cell cell-name">
-                <p v-if="!editingId">{{ item.verification_number }}</p>
-                <VInput
-                  v-else
-                  v-model="item.verification_number"
-                  type="text"
-                  :value="item.verification_number"
-                  color="white"
-                  class="input-field"
-                />
-              </div>
-
-              <div class="grid-cell cell-suitability">
-                <img :src="item.suitability ? tickIcon : crossIcon" />
-              </div>
-
-              <div class="grid-cell cell-actions">
-                <div class="action-buttons">
-                  <div
-                    v-if="editingId === (item.uuid ?? index)"
-                    class="edit-buttons"
-                  >
-                    <VButton class="btn-cancel">
-                      <img
-                        src="@/assets/icons/sections/buttons/cross-cancel.svg"
-                        class="icon-action"
-                        alt="cancel.svg"
-                        @click="cancelEdit"
-                      />
-                    </VButton>
-                    <VButton class="btn-save">
-                      <img
-                        class="icon-action"
-                        src="@/assets/icons/sections/buttons/tick-save.svg"
-                        alt="save.svg"
-                        @click="saveEdit(item)"
-                      />
-                    </VButton>
+      <div class="table__body">
+        <template
+          v-for="(item, index) in equipments"
+          :key="item.uuid ?? index"
+        >
+          <AccordionComponent>
+            <template #accordion-header>
+              <div
+                class="table__row"
+                :class="{ 'editing-row': editingId === (item.uuid ?? index), [item.status]: true }"
+              >
+                <div class="table__cell body-cell-id">
+                  <div class="body-cell-id-wrapper">
+                    <p>{{ index + 1 }}</p>
                   </div>
-                  <VButton
-                    class="btn-details"
-                    @click="toggleDetails(item.uuid ?? index)"
-                  >
-                    {{ openedRows.includes(item.uuid ?? index) ? 'Скрыть' : 'Подробнее...' }}
+                  <VButton class="table__button-delete">
+                    <img
+                      v-if="editingId === (item.uuid ?? index)"
+                      src="@/assets/icons/sections/buttons/basket-delete.svg"
+                      class="icon-action"
+                      alt="delete.svg"
+                      @click="deleteItem(item.uuid)"
+                    />
                   </VButton>
                 </div>
-              </div>
-            </div>
-          </template>
 
-          <template #accordion-body>
-            <div
-              v-if="openedRows.includes(item.uuid ?? index)"
-              class="details-row"
-            >
-              <div class="details-content">
-                <p>Серийный номер: {{ item.number_serial }}</p>
-                <p>
-                  Ссылка:
+                <div class="table__cell bode-cell-name">
                   <a
+                    v-if="!editingId"
                     :href="item.link"
-                    target="_blank"
                   >
-                    {{ item.link }}
+                    <p>{{ item.name }}</p>
                   </a>
-                </p>
+                  <VInput
+                    v-else
+                    v-model="item.name"
+                    type="text"
+                    :value="item.name"
+                    color="white"
+                    class="input-field"
+                  />
+                </div>
+                <div class="table__cell body-cell-type">
+                  <p v-if="!editingId">{{ item.type }}</p>
+                  <VInput
+                    v-else
+                    v-model="item.type"
+                    type="text"
+                    :value="item.type"
+                    color="white"
+                    class="input-field"
+                  />
+                </div>
+                <div class="table__cell body-cell-verification-date">
+                  <p v-if="!editingId">{{ item.verification_date }}</p>
+                  <VInput
+                    v-else
+                    v-model="item.verification_date"
+                    type="text"
+                    :value="item.verification_date"
+                    color="white"
+                    class="input-field"
+                  />
+                </div>
+                <div class="table__cell body-cell-verification-valid">
+                  <p v-if="!editingId">{{ item.verification_valid }}</p>
+                  <VInput
+                    v-else
+                    v-model="item.verification_valid"
+                    type="text"
+                    :value="item.verification_valid"
+                    color="white"
+                    class="input-field"
+                  />
+                </div>
+                <div class="table__cell body-cell-verification-number">
+                  <p v-if="!editingId">{{ item.verification_number }}</p>
+                  <VInput
+                    v-else
+                    v-model="item.verification_number"
+                    type="text"
+                    :value="item.verification_number"
+                    color="white"
+                    class="input-field"
+                  />
+                </div>
+
+                <div class="table__cell body-cell-suitability">
+                  <img :src="item.suitability ? tickIcon : crossIcon" />
+                </div>
+
+                <div class="table__cell body-cell-actions">
+                  <div class="action-buttons">
+                    <div
+                      v-if="editingId === (item.uuid ?? index)"
+                      class="table__button-edit"
+                    >
+                      <VButton class="table__button-cancel">
+                        <img
+                          src="@/assets/icons/sections/buttons/cross-cancel.svg"
+                          class="icon-action"
+                          alt="cancel.svg"
+                          @click="cancelEdit"
+                        />
+                      </VButton>
+                      <VButton class="table__button-save">
+                        <img
+                          class="icon-action"
+                          src="@/assets/icons/sections/buttons/tick-save.svg"
+                          alt="save.svg"
+                          @click="saveEdit(item)"
+                        />
+                      </VButton>
+                    </div>
+                    <VButton
+                      class="table__button--details"
+                      @click="toggleDetails(item.uuid ?? index)"
+                    >
+                      {{ openedRows.includes(item.uuid ?? index) ? 'Скрыть' : 'Подробнее...' }}
+                    </VButton>
+                  </div>
+                </div>
               </div>
-            </div>
-          </template>
-        </AccordionComponent>
-      </template>
+            </template>
+
+            <template #accordion-body>
+              <div
+                v-if="openedRows.includes(item.uuid ?? index)"
+                class="table__row--details"
+              >
+                <div class="row__details-content">
+                  <p>Серийный номер: {{ item.number_serial }}</p>
+                </div>
+              </div>
+            </template>
+          </AccordionComponent>
+        </template>
+      </div>
+    </div>
+
+    <div class="equipment__page-menu">
+      <div class="menu__download">
+        <div>
+          <img />
+        </div>
+        <img />
+      </div>
+      <div class="menu__status">
+        <p>До истечения свидетельства</p>
+        <ul>
+          <li>более 3-х месяцев</li>
+          <li>менее 3-х месяцев</li>
+          <li>менее 1-ого месяца</li>
+        </ul>
+      </div>
+      <div class="menu__addition">
+        <h2>Добавить оборудование</h2>
+        <div>
+          <VButton>Вручную</VButton>
+          <VButton>Из Аршины</VButton>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -277,57 +299,55 @@
 </script>
 
 <style scoped lang="scss">
-  .equipment-grid {
+  .equipment__page-main {
     display: flex;
-    flex-direction: column;
     width: 100%;
     padding: 20px 40px;
     gap: 10px;
     font-family: $font-family-base;
   }
 
-  .grid-header {
+  .equipment-page__table {
+    width: 75%;
+  }
+
+  .table__header {
     position: sticky;
     top: 0;
     z-index: 2;
     display: grid;
+    width: 100%;
     padding: 12px 8px;
     background-color: white;
-    grid-template-columns: 5% 20% 5% 10% 10% 15% 10% 10%;
+    grid-template-columns: 5% 25% 10% 10% 15% 15% 10% 10%;
     box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
 
-    .grid-cell {
+    .table__cell {
       text-align: center;
       font-size: 18px;
       font-weight: bold;
     }
   }
 
-  .grid-body {
+  .table__body {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    width: 100%;
   }
 
-  .grid-row {
+  .table__row {
     display: grid;
     padding: 12px 8px;
     border-radius: 10px;
-    background-color: $color-light;
-    transition: all 0.3s ease;
-    grid-template-columns: 5% 20% 5% 10% 10% 15% 10% 10%;
-    box-shadow: 0 4px 6px rgb(0 0 0 / 10%);
+    grid-template-columns: 5% 25% 10% 10% 15% 15% 10% 10%;
 
-    &:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 12px rgb(0 0 0 / 15%);
-    }
-
-    .grid-cell {
+    .table__cell {
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 8px 4px;
+      text-align: center;
       font-size: 16px;
 
       p {
@@ -335,20 +355,20 @@
       }
     }
 
-    .cell-id {
+    .body-cell-id {
       gap: 8px;
 
-      .id-wrapper {
+      .body-cell-id-wrapper {
         display: flex;
         align-items: center;
       }
     }
 
-    .cell-suitability {
+    .body-cell-suitability {
       justify-content: center;
     }
 
-    .cell-actions {
+    .body-cell-actions {
       justify-content: flex-end;
 
       .action-buttons {
@@ -358,18 +378,17 @@
     }
   }
 
-  .details-row {
+  .table__row--details {
     margin-top: -10px;
     padding: 16px;
     border-radius: 0 0 10px 10px;
-    border-top: 1px solid #e0e0e0;
     background-color: rgba($color-light, 0.98);
     grid-column: 1 / -1;
   }
 
-  .btn-delete,
-  .btn-cancel,
-  .btn-save {
+  .table__button-delete,
+  .table__button-cancel,
+  .table__button-save {
     display: flex;
     align-items: center;
     justify-content: center;

@@ -14,5 +14,14 @@
 </script>
 
 <style scoped lang="scss">
-  /* styles go here */
+  .accordion {
+    background-color: $color-light;
+    box-shadow: 0 4px 6px rgb(0 0 0 / 10%);
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgb(0 0 0 / 15%);
+    }
+  }
 </style>
