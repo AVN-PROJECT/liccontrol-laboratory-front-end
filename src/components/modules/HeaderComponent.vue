@@ -48,8 +48,29 @@
               <HeaderMenuComponent />
             </template>
           </DropdownComponent>
+
+          <div class="header__menu-view-info">
+            <template v-if="openWarning">
+              <WarningComponent @close-model="openWarning = !openWarning" />
+            </template>
+            <template v-else>
+              <div class="warning-placeholder"></div>
+            </template>
+
+            <template v-if="filter">
+              <div class="header__menu-view-filter">
+                <img
+                  class="view__filter--icon"
+                  src="@/assets/icons/sections/buttons/funnel-filter.svg"
+                  alt="funnel-filter.svg"
+                />
+                <p class="view__filter--text">Фильтр</p>
+              </div>
+            </template>
+          </div>
         </div>
       </div>
+
       <div class="header__menu-section">
         <div class="header__menu-section-notifications">
           <img
@@ -68,6 +89,8 @@
 </template>
 
 <script setup>
+  import { ref, watch } from 'vue';
+
   // vuex.
   import { useRoute } from 'vue-router';
 
@@ -75,9 +98,22 @@
   import VButton from '@/components/ui/VButton.vue';
   import DropdownComponent from '@/components/modules/DropdownComponent.vue';
   import HeaderMenuComponent from '@/components/modules/HeaderMenuComponent.vue';
+  import WarningComponent from '@/components/modules/WarningComponent.vue';
 
   // constants.
   const route = useRoute();
+
+  const openWarning = ref(false);
+  const filter = ref(false);
+
+  watch(
+    () => route.path,
+    (path) => {
+      openWarning.value = path.includes('/metrology');
+      filter.value = path.includes('/equipment') || path.includes('/agreement');
+    },
+    { immediate: true }
+  );
 </script>
 
 <style scoped lang="scss">
@@ -93,7 +129,7 @@
       display: flex;
       justify-content: flex-start;
       width: 55%;
-      padding: 3.5vh;
+      padding: 3vh;
       border-right: 6px solid #8fc89b;
       border-left: 6px solid #8fc89b;
 
@@ -116,14 +152,52 @@
       }
     }
 
-    .header__menu-button {
+    .header__menu-view {
       display: flex;
-      border: 0;
-      background: inherit;
-      cursor: pointer;
 
-      .header__menu-button-open-icon {
-        margin: 1.2rem;
+      .header__menu-button {
+        display: flex;
+        border: 0;
+        background: inherit;
+        cursor: pointer;
+
+        .header__menu-button-open-icon {
+          margin: 1.2rem;
+        }
+      }
+
+      .header__menu-view-info {
+        display: flex;
+        align-items: flex-end;
+        justify-content: right;
+        width: 74%;
+        max-width: 74%;
+        flex-direction: column;
+
+        .warning-placeholder {
+          display: flex;
+          width: 76%;
+          height: 90px;
+          max-height: 90px;
+          padding: 0.4rem;
+          background-color: inherit;
+        }
+
+        .header__menu-view-filter {
+          display: flex;
+          align-items: center;
+          width: 25%;
+          margin-left: auto;
+          padding: 8px;
+
+          .view__filter--text {
+            margin: 0;
+          }
+
+          .view__filter--icon {
+            margin: 0.4rem;
+          }
+        }
       }
     }
 
