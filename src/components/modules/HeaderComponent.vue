@@ -51,7 +51,7 @@
 
           <div class="header__menu-view-info">
             <template v-if="openWarning">
-              <WarningComponent @close-model="openWarning = !openWarning" />
+              <WarningComponent @close-modal="openWarning = !openWarning" />
             </template>
             <template v-else>
               <div class="warning-placeholder"></div>

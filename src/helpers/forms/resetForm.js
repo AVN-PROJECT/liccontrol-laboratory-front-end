@@ -1,6 +1,6 @@
 const resetForm = (object) => {
-  Object.keys(object.value).forEach((key) => {
-    object.value[key] = '';
+  Object.keys(object).forEach((key) => {
+    object[key] = '';
   });
 };
 

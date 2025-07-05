@@ -176,7 +176,10 @@
               alt="excel-import.svg"
             />
           </VButton>
-          <VButton class="button__export">
+          <VButton
+            class="button__export"
+            @click="exportEquipment"
+          >
             <img
               class="button__export--icon"
               src="@/assets/icons/sections/buttons/excel-export.svg"
@@ -227,19 +230,34 @@
         <div class="menu__addition--buttons">
           <VButton
             class="addition__button"
-            @click="openAddition = !openAddition"
+            @click="
+              additionForm = forms.addition;
+              openAddition = !openAddition;
+            "
           >
             Вручную
           </VButton>
-          <VButton class="addition__button">Из Аршины</VButton>
+          <VButton
+            class="addition__button"
+            @click="
+              additionForm = forms.import;
+              openAddition = !openAddition;
+            "
+          >
+            Из Аршины
+          </VButton>
         </div>
       </div>
 
       <template v-if="openAddition">
-        <EquipmentMetrologyAdditionForm
-          v-click-outside="handlerMouseDown"
-          @equipment-addition="addEquipment"
-        />
+        <div class="equipment__page-modal-form">
+          <component
+            :is="additionForm"
+            @equipment-addition="addEquipment"
+            @close-modal="openAddition = false"
+            @equipment-import="importEquipment"
+          />
+        </div>
       </template>
     </div>
   </div>
@@ -252,6 +270,9 @@
   // composables
   import apiClient from '@/composables/api/apiClient.js';
 
+  // helpers.
+  import formatDate from '@/helpers/format/format.js';
+
   // components.
   import VInput from '@/components/ui/VInput.vue';
   import VButton from '@/components/ui/VButton.vue';
@@ -261,18 +282,26 @@
   import triangleDownIcon from '@/assets/icons/sections/legends/triangle-down.svg';
   import AccordionComponent from '@/components/modules/AccordionComponent.vue';
   import EquipmentMetrologyAdditionForm from '@/components/forms/EquipmentMetrologyAdditionForm.vue';
+  import EquipmentMetrologyImportForm from '@/components/forms/EquipmentMetrologyImportForm.vue';
 
   // constants.
+  const forms = {
+    addition: EquipmentMetrologyAdditionForm,
+    import: EquipmentMetrologyImportForm,
+  };
+
   const editingId = ref(null);
   const originalItem = ref(null);
   const openAddition = ref(false);
+  const additionForm = ref(forms.addition);
+
   const equipments = ref([]);
 
   const openedRows = ref([]);
 
-  function handlerMouseDown() {
-    openAddition.value = false;
-  }
+  // function handlerMouseDown() {
+  //   openAddition.value = false;
+  // }
 
   const toggleDetails = (id) => {
     const index = openedRows.value.indexOf(id);
@@ -287,26 +316,23 @@
   const addEquipment = async (newEquipment) => {
     try {
       await apiClient.post('/user/equipment/metrology/add_equipment', newEquipment);
-
-      await getEquipments();
     } catch (error) {
       console.error('Ошибка добавления оборудования:', error);
     }
   };
 
+  const importEquipment = async (newEquipmentImport) => {
+    try {
+      await apiClient.post('/user/equipment/metrology/import_equipment', newEquipmentImport);
+
+      await getEquipments();
+    } catch (error) {
+      console.error('Ошибка импорта оборудования:', error);
+    }
+  };
+
   const getEquipments = async () => {
     const response = await apiClient.get('/user/equipment/metrology/equipments');
-
-    const formatDate = (str) => {
-      if (!str) {
-        return '';
-      }
-      if (str.includes('.')) {
-        const [d, m, y] = str.split('.');
-        return `${y}-${m}-${d}`;
-      }
-      return str;
-    };
 
     if (response.status === 200 && Array.isArray(response.data)) {
       equipments.value = response.data.map((item) => ({
@@ -373,6 +399,17 @@
     }
   };
 
+  const exportEquipment = async () => {
+    const response = await apiClient.get('/user/equipment/metrology/export_equipments');
+
+    const link = document.createElement('a');
+
+    link.href = URL.createObjectURL(new Blob([response.data]));
+    link.download = 'equipment.xlsx';
+
+    link.click();
+  };
+
   onMounted(async () => {
     await getEquipments();
   });
@@ -380,11 +417,12 @@
 
 <style scoped lang="scss">
   .equipment__page-main {
+    position: relative;
     display: flex;
     width: 100%;
     padding: 20px 40px;
-    gap: 10px;
     font-family: $font-family-base;
+    gap: 10px;
   }
 
   .equipment-page__table {
@@ -585,6 +623,17 @@
           box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
         }
       }
+    }
+
+    .equipment__page-modal-form {
+      position: absolute;
+      right: 3rem;
+      bottom: 0.5rem;
+      z-index: 10;
+      display: flex;
+      justify-content: flex-end;
+      width: 35%;
+      max-height: 415px;
     }
   }
 </style>
