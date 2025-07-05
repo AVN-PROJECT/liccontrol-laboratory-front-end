@@ -227,17 +227,29 @@
         <div class="menu__addition--buttons">
           <VButton
             class="addition__button"
-            @click="openAddition = !openAddition"
+            @click="
+              additionForm = forms.addition;
+              openAddition = !openAddition;
+            "
           >
             Вручную
           </VButton>
-          <VButton class="addition__button">Из Аршины</VButton>
+          <VButton
+            class="addition__button"
+            @click="
+              additionForm = forms.import;
+              openAddition = !openAddition;
+            "
+          >
+            Из Аршины
+          </VButton>
         </div>
       </div>
 
       <template v-if="openAddition">
         <div class="equipment__page-modal-form">
-          <EquipmentMetrologyAdditionForm
+          <component
+            :is="additionForm"
             @equipment-addition="addEquipment"
             @close-modal="openAddition = false"
           />
@@ -266,11 +278,19 @@
   import triangleDownIcon from '@/assets/icons/sections/legends/triangle-down.svg';
   import AccordionComponent from '@/components/modules/AccordionComponent.vue';
   import EquipmentMetrologyAdditionForm from '@/components/forms/EquipmentMetrologyAdditionForm.vue';
+  import EquipmentMetrologyImportForm from '@/components/forms/EquipmentMetrologyImportForm.vue';
 
   // constants.
+  const forms = {
+    addition: EquipmentMetrologyAdditionForm,
+    import: EquipmentMetrologyImportForm,
+  };
+
   const editingId = ref(null);
   const originalItem = ref(null);
   const openAddition = ref(false);
+  const additionForm = ref(forms.addition);
+
   const equipments = ref([]);
 
   const openedRows = ref([]);
