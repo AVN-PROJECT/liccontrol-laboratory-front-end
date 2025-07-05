@@ -316,8 +316,6 @@
   const addEquipment = async (newEquipment) => {
     try {
       await apiClient.post('/user/equipment/metrology/add_equipment', newEquipment);
-
-      await getEquipments();
     } catch (error) {
       console.error('Ошибка добавления оборудования:', error);
     }

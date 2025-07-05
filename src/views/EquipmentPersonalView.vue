@@ -38,12 +38,7 @@
                 </div>
 
                 <div class="table__cell body-cell-name">
-                  <p
-                    v-if="!editingId"
-                    class="cell__name--text"
-                  >
-                    {{ item.name }}
-                  </p>
+                  <p v-if="!editingId">{{ item.name }}</p>
 
                   <VInput
                     v-else
@@ -97,10 +92,6 @@
                     color="white"
                     class="input-field"
                   />
-                </div>
-
-                <div class="table__cell body-cell-suitability">
-                  <img :src="item.suitability ? tickIcon : crossIcon" />
                 </div>
 
                 <div class="table__cell body-cell-actions">
@@ -182,7 +173,9 @@
           </VButton>
         </div>
       </div>
-      <div class="menu__addition"></div>
+      <div class="menu__addition">
+        <EquipmentPersonalForm />
+      </div>
     </div>
   </div>
 </template>
@@ -200,6 +193,7 @@
   import triangleUpIcon from '@/assets/icons/sections/legends/triangle-up.svg';
   import triangleDownIcon from '@/assets/icons/sections/legends/triangle-down.svg';
   import AccordionComponent from '@/components/modules/AccordionComponent.vue';
+  import EquipmentPersonalForm from '@/components/forms/EquipmentPersonalForm.vue';
 
   // constants.
   const editingId = ref(null);
@@ -361,17 +355,6 @@
       }
     }
 
-    .body-cell-name {
-      .cell__name--link {
-        text-decoration: none;
-        color: $color-dark;
-      }
-    }
-
-    .body-cell-suitability {
-      justify-content: center;
-    }
-
     .body-cell-actions {
       justify-content: flex-end;
 
@@ -462,6 +445,14 @@
           cursor: pointer;
         }
       }
+    }
+
+    .menu__addition {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 3rem;
+      flex-direction: column;
     }
   }
 </style>
