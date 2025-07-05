@@ -24,7 +24,6 @@
           class="form__label--input"
           color="white"
           size="medium"
-          type="date"
         />
       </label>
 
@@ -47,7 +46,6 @@
           class="form__label--input"
           color="white"
           size="medium"
-          type="date"
         />
       </label>
     </div>
@@ -69,18 +67,31 @@
 </template>
 
 <script setup>
+  // vue.
+  import { ref } from 'vue';
+
+  // components.
   import VInput from '@/components/ui/VInput.vue';
   import VButton from '@/components/ui/VButton.vue';
 
+  // helpers.
+  import resetForm from '@/helpers/forms/resetForm.js';
+
   // constants.
-  const newEquipment = {
+  const emit = defineEmits(['equipment-addition']);
+
+  const newEquipment = ref({
     name: '',
     number_serial: '',
-    person_id: '',
+    person_id: null,
     verification_number: '',
-  };
+  });
 
-  const addEquipment = async () => {};
+  const addEquipment = async () => {
+    emit('equipment-addition', newEquipment.value);
+
+    resetForm(newEquipment.value);
+  };
 </script>
 
 <style scoped lang="scss">
@@ -124,7 +135,7 @@
         border: none;
         background-color: inherit;
         text-decoration: underline;
-        font-size: 1.2rem;
+        font-size: 1.3rem;
         font-weight: bold;
         color: $color-blue-light;
         cursor: pointer;

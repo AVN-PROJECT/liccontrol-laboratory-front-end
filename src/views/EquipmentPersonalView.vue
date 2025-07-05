@@ -174,7 +174,7 @@
         </div>
       </div>
       <div class="menu__addition">
-        <EquipmentPersonalForm />
+        <EquipmentPersonalForm @equipment-addition="addEquipment" />
       </div>
     </div>
   </div>
@@ -237,6 +237,16 @@
     }
     editingId.value = null;
     originalItem.value = null;
+  };
+
+  const addEquipment = async (newEquipment) => {
+    try {
+      await apiClient.post('/user/equipment/personal/add_equipment', newEquipment);
+
+      await getEquipments();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const saveEdit = async (item) => {
