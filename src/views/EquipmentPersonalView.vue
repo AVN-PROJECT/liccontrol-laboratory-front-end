@@ -1,160 +1,188 @@
 <template>
-  <div class="equipment__page-personal-main">
-    <div class="equipment__page-personal-table-wrapper">
-      <div class="equipment__page-personal-table-header">
-        <table class="equipment__page-personal-table-columns">
-          <thead>
-            <tr>
-              <th class="equipment__page-table-header-id">№</th>
-              <th class="equipment__page-table-header-name">Наименование оборудования</th>
-              <th class="equipment__page-table-header-type">Серийный номер</th>
-              <th class="equipment__page-table-header-address">Адрес эксплуатации</th>
-              <th class="equipment__page-table-header-agreement-number">Номер договора</th>
-              <th class="equipment__page-table-header-verification-number">
-                Ответственный сотрудник
-              </th>
-              <th class="equipment__page-table-header-action"></th>
-            </tr>
-          </thead>
-          <tbody class="equipment__page-personal-table-body">
-            <tr
-              v-for="(item, index) in equipments"
-              :key="item.uuid ?? index"
-              :class="[{ editing: editingId === (item.uuid ?? index) }, item.status]"
-            >
-              <td class="equipment__page-table-cell-id">
-                <div class="equipment__page-table-cell-id-wrapper">
-                  <p class="equipment__page-table-value">{{ index + 1 }}</p>
-                </div>
-                <img
-                  v-if="editingId === (item.uuid ?? index)"
-                  src="@/assets/icons/sections/buttons/basket-delete.svg"
-                  class="equipment__page-icon-delete"
-                  alt="delete.svg"
-                  @click="deleteItem(item.uuid)"
-                />
-              </td>
-
-              <td class="equipment__page-table-cell-name">
-                <p
-                  v-if="!editingId"
-                  class="equipment__page-table-value"
-                >
-                  {{ item.name }}
-                </p>
-                <VInput
-                  v-else
-                  v-model="item.name"
-                  type="text"
-                  :value="item.name"
-                  color="white"
-                />
-              </td>
-              <td class="equipment__page-table-cell-type">
-                <p
-                  v-if="!editingId"
-                  class="equipment__page-table-value"
-                >
-                  {{ item.type }}
-                </p>
-                <VInput
-                  v-else
-                  v-model="item.type"
-                  :value="item.type"
-                  type="text"
-                  color="white"
-                />
-              </td>
-              <td class="equipment__page-table-cell-verification-date">
-                <p
-                  v-if="!editingId"
-                  class="equipment__page-table-value"
-                >
-                  {{ item.verification_date }}
-                </p>
-                <VInput
-                  v-else
-                  v-model="item.verification_date"
-                  type="text"
-                  :value="item.verification_date"
-                  color="white"
-                />
-              </td>
-              <td class="equipment__page-table-cell-verification-valid">
-                <p
-                  v-if="!editingId"
-                  class="equipment__page-table-value"
-                >
-                  {{ item.verification_valid }}
-                </p>
-                <VInput
-                  v-else
-                  v-model="item.verification_valid"
-                  type="text"
-                  :value="item.verification_valid"
-                  color="white"
-                />
-              </td>
-              <td class="equipment__page-table-cell-verification-number">
-                <p
-                  v-if="!editingId"
-                  class="equipment__page-table-value"
-                >
-                  {{ item.verification_number }}
-                </p>
-                <VInput
-                  v-else
-                  v-model="item.verification_number"
-                  type="text"
-                  :value="item.verification_number"
-                  color="white"
-                />
-              </td>
-              <td class="equipment__page-table-cell-suitability">
-                <p
-                  v-if="!editingId"
-                  class="equipment__page-table-value"
-                >
-                  {{}}
-                </p>
-                <VInput
-                  v-else
-                  v-model="item.suitability"
-                  type="text"
-                  color="white"
-                />
-              </td>
-
-              <td class="person__page-table-cell-actions">
-                <div class="last-cell">
-                  <img
-                    v-if="editingId === (item.uuid ?? index)"
-                    src="@/assets/icons/sections/buttons/cross-cancel.svg"
-                    class="equipment__page-icon-cancel"
-                    alt="cancel.svg"
-                    @click="cancelEdit"
-                  />
-                  <img
-                    v-if="editingId === (item.uuid ?? index)"
-                    class="equipment__page-icon-save"
-                    src="@/assets/icons/sections/buttons/tick-save.svg"
-                    alt="save.svg"
-                    @click="saveEdit(item)"
-                  />
-
-                  <img
-                    v-if="editingId !== (item.uuid ?? index)"
-                    class="equipment__page-icon-edit"
-                    src="@/assets/icons/sections/buttons/pencil-edit.svg"
-                    alt="edit.svg"
-                    @click="toggleEdit(item, index)"
-                  />
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+  <div class="equipment__page-main">
+    <div class="equipment-page__table table">
+      <div class="table__header">
+        <div class="table__cell header-cell-id">№</div>
+        <div class="table__cell header-cell-type">Наименование оборудования</div>
+        <div class="table__cell header-cell-date">Серийный номер</div>
+        <div class="table__cell header-cell-valid">Адрес эксплуатации</div>
+        <div class="table__cell header-cell-number">Номер договора</div>
+        <div class="table__cell header-cell-suitability">Ответственный сотрудник</div>
+        <div class="table__cell header-cell-actions"></div>
       </div>
+
+      <div class="table__body">
+        <template
+          v-for="(item, index) in equipments"
+          :key="item.uuid ?? index"
+        >
+          <AccordionComponent>
+            <template #accordion-header>
+              <div
+                class="table__row"
+                :class="{ 'editing-row': editingId === (item.uuid ?? index), [item.status]: true }"
+              >
+                <div class="table__cell body-cell-id">
+                  <div class="body-cell-id-wrapper">
+                    <p>{{ index + 1 }}</p>
+                  </div>
+                  <VButton class="table__button-delete">
+                    <img
+                      v-if="editingId === (item.uuid ?? index)"
+                      src="@/assets/icons/sections/buttons/basket-delete.svg"
+                      class="icon-action"
+                      alt="delete.svg"
+                      @click="deleteItem(item.uuid)"
+                    />
+                  </VButton>
+                </div>
+
+                <div class="table__cell body-cell-name">
+                  <p
+                    v-if="!editingId"
+                    class="cell__name--text"
+                  >
+                    {{ item.name }}
+                  </p>
+
+                  <VInput
+                    v-else
+                    v-model="item.name"
+                    type="text"
+                    :value="item.name"
+                    color="white"
+                    class="input-field"
+                  />
+                </div>
+                <div class="table__cell body-cell-number-serial">
+                  <p v-if="!editingId">{{ item.number_serial }}</p>
+                  <VInput
+                    v-else
+                    v-model="item.number_serial"
+                    type="text"
+                    :value="item.number_serial"
+                    color="white"
+                    class="input-field"
+                  />
+                </div>
+                <div class="table__cell body-cell-address-operating">
+                  <p v-if="!editingId">{{ item.address_operating }}</p>
+                  <VInput
+                    v-else
+                    v-model="item.address_operating"
+                    type="text"
+                    :value="item.address_operating"
+                    color="white"
+                    class="input-field"
+                  />
+                </div>
+                <div class="table__cell body-cell-agreement-number">
+                  <p v-if="!editingId">{{ item.agreement_number }}</p>
+                  <VInput
+                    v-else
+                    v-model="item.agreement_number"
+                    type="text"
+                    :value="item.agreement_number"
+                    color="white"
+                    class="input-field"
+                  />
+                </div>
+                <div class="table__cell body-cell-person">
+                  <p v-if="!editingId">{{ item.person }}</p>
+                  <VInput
+                    v-else
+                    v-model="item.person"
+                    type="text"
+                    :value="item.person"
+                    color="white"
+                    class="input-field"
+                  />
+                </div>
+
+                <div class="table__cell body-cell-suitability">
+                  <img :src="item.suitability ? tickIcon : crossIcon" />
+                </div>
+
+                <div class="table__cell body-cell-actions">
+                  <div class="action-buttons">
+                    <div
+                      v-if="editingId === (item.uuid ?? index)"
+                      class="table__button-edit"
+                    >
+                      <VButton class="table__button-cancel">
+                        <img
+                          src="@/assets/icons/sections/buttons/cross-cancel.svg"
+                          class="icon-action"
+                          alt="cancel.svg"
+                          @click="cancelEdit"
+                        />
+                      </VButton>
+                      <VButton class="table__button-save">
+                        <img
+                          class="icon-action"
+                          src="@/assets/icons/sections/buttons/tick-save.svg"
+                          alt="save.svg"
+                          @click="saveEdit(item)"
+                        />
+                      </VButton>
+                    </div>
+                    <VButton
+                      class="table__button--details"
+                      @click="toggleDetails(item.uuid ?? index)"
+                    >
+                      <div class="button__details-wrapper">
+                        <img
+                          class="button__wrapper--icon"
+                          :src="
+                            openedRows.includes(item.uuid ?? index)
+                              ? triangleUpIcon
+                              : triangleDownIcon
+                          "
+                          alt="triangle.svg"
+                        />
+                      </div>
+                    </VButton>
+                  </div>
+                </div>
+              </div>
+            </template>
+
+            <template
+              v-if="openedRows.includes(item.uuid ?? index)"
+              #accordion-body
+            >
+              <div class="table__row--details">
+                <div class="row__details-content">Организация арендатор</div>
+              </div>
+            </template>
+          </AccordionComponent>
+        </template>
+      </div>
+    </div>
+
+    <div class="equipment__page-menu">
+      <div class="menu__download">
+        <div class="download__buttons">
+          <VButton class="button__import">
+            <img
+              class="button__import--icon"
+              src="@/assets/icons/sections/buttons/excel-import.svg"
+              alt="excel-import.svg"
+            />
+          </VButton>
+          <VButton
+            class="button__export"
+            @click="exportEquipment"
+          >
+            <img
+              class="button__export--icon"
+              src="@/assets/icons/sections/buttons/excel-export.svg"
+              alt="excel-export.svg"
+            />
+          </VButton>
+        </div>
+      </div>
+      <div class="menu__addition"></div>
     </div>
   </div>
 </template>
@@ -168,78 +196,48 @@
 
   // components.
   import VInput from '@/components/ui/VInput.vue';
+  import VButton from '@/components/ui/VButton.vue';
+  import triangleUpIcon from '@/assets/icons/sections/legends/triangle-up.svg';
+  import triangleDownIcon from '@/assets/icons/sections/legends/triangle-down.svg';
+  import AccordionComponent from '@/components/modules/AccordionComponent.vue';
 
+  // constants.
   const editingId = ref(null);
   const originalItem = ref(null);
-
   const equipments = ref([]);
+  const openedRows = ref([]);
 
-  const toggleEdit = (item) => {
-    originalItem.value = { ...item };
-    editingId.value = item.id;
+  const toggleDetails = (id) => {
+    const index = openedRows.value.indexOf(id);
+
+    if (index === -1) {
+      openedRows.value.push(id);
+    } else {
+      openedRows.value.splice(index, 1);
+    }
   };
 
   const getEquipments = async () => {
-    const response = await apiClient.get('/user/equipment/metrology/equipments');
-
-    const formatDate = (str) => {
-      if (!str) {
-        return '';
-      }
-      if (str.includes('.')) {
-        const [d, m, y] = str.split('.');
-        return `${y}-${m}-${d}`;
-      }
-      return str;
-    };
+    const response = await apiClient.get('/user/equipment/personal/equipments');
 
     if (response.status === 200 && Array.isArray(response.data)) {
       equipments.value = response.data.map((item) => ({
-        id: item.uuid,
+        uuid: item.uuid,
         name: item.name,
         number_serial: item.number_serial,
+        organization_owner: item.organization_owner,
+        address_operating: item.address_operating,
+        agreement_number: item.agreement_number,
+        person: item.person,
         verification_number: item.verification_number,
-        verification_date: formatDate(item.verification_date),
-
-        status: item.valid_date,
       }));
     }
   };
 
-  // const addEquipment = async () => {
-  //   const { name, serial, certificateNumber, certificateDate, validDate } = newItem.value;
-  //
-  //   if (!name || !serial || !certificateNumber || !certificateDate || !validDate) {
-  //     return;
-  //   }
-  //
-  //   const payload = {
-  //     name: name.trim(),
-  //     number_serial: serial.trim(),
-  //     verification_number: certificateNumber.trim(),
-  //     verification_date: certificateDate,
-  //     valid_date: newItem.value.validDate,
-  //   };
-  //
-  //   try {
-  //     await apiClient.post('/user/equipment/metrology/add_equipment', payload);
-  //
-  //     await getEquipments();
-  //
-  //     newItem.value = {
-  //       name: '',
-  //       serial: '',
-  //       certificateNumber: '',
-  //       certificateDate: '',
-  //       validDate: '',
-  //     };
-  //   } catch (error) {
-  //     console.error('Ошибка добавления оборудования:', error);
-  //   }
-  // };
-
   const cancelEdit = () => {
-    const index = equipments.value.findIndex((i) => i.id === originalItem.value.id);
+    const index = equipments.value.findIndex(
+      (equipment) => equipment.uuid === originalItem.value.id
+    );
     if (index !== -1) {
       equipments.value[index] = { ...originalItem.value };
     }
@@ -253,13 +251,9 @@
         uuid: item.id,
         name: item.name,
         number_serial: item.number_serial,
-        verification_number: item.verification_number,
-        verification_date: item.verification_date,
-
-        valid_date: item.validate,
       };
 
-      await apiClient.patch('/user/equipment/edit_equipment', payload);
+      await apiClient.patch('/user/equipment/personal/edit_equipment', payload);
 
       editingId.value = null;
       originalItem.value = null;
@@ -272,7 +266,7 @@
 
   const deleteItem = async (item) => {
     try {
-      await apiClient.delete('/user/equipment/delete_equipment', {
+      await apiClient.delete('/user/equipment/personal/delete_equipment', {
         params: {
           equipment_id: item.id,
         },
@@ -284,158 +278,188 @@
     }
   };
 
+  const exportEquipment = async () => {
+    const response = await apiClient.get('/user/equipment/personal/export_equipments');
+
+    const link = document.createElement('a');
+
+    link.href = URL.createObjectURL(new Blob([response.data]));
+    link.download = 'equipment.xlsx';
+
+    link.click();
+  };
+
   onMounted(async () => {
     await getEquipments();
   });
 </script>
 
 <style scoped lang="scss">
-  .equipment__page-personal-main {
+  .equipment__page-main {
+    position: relative;
     display: flex;
     width: 100%;
     padding: 20px 40px;
     font-family: $font-family-base;
-    gap: 20px;
+    gap: 10px;
+  }
 
-    .equipment__page-personal-table-wrapper {
-      overflow-y: auto;
-      width: 75%;
-      height: calc(100vh - 170px);
-      margin-right: 2.5%;
+  .equipment-page__table {
+    width: 75%;
+  }
 
-      .equipment__page-personal-table-header {
-        width: 100%;
-        border-spacing: 0 25px;
-        text-align: center;
-        font-size: 16px;
-        border-collapse: separate;
+  .table__header {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    display: grid;
+    width: 100%;
+    padding: 12px 8px;
+    background-color: white;
+    grid-template-columns: 5% 25% 10% 15% 15% 15% 10% 10%;
+    box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
 
-        .equipment__page-table-header-id {
-          width: 2%;
-        }
+    .table__cell {
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+    }
+  }
 
-        .equipment__page-table-header-name {
-          width: 38%;
-        }
+  .table__body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
 
-        .equipment__page-table-header-type {
-          width: 20%;
-        }
+  .table__row {
+    display: grid;
+    padding: 12px 8px;
+    border-radius: 10px;
+    grid-template-columns: 5% 25% 10% 15% 15% 15% 10% 10%;
 
-        .equipment__page-table-header-address {
-          width: 20%;
-        }
+    .table__cell {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 4px;
+      text-align: center;
+      font-size: 16px;
 
-        .equipment__page-table-header-agreement-number {
-          width: 20%;
-        }
-
-        .equipment__page-table-header-verification-number {
-          width: 20%;
-        }
-
-        .equipment__page-table-header-suitability {
-          width: 25%;
-        }
-
-        .equipment__page-table-header-action {
-          width: 20%;
-        }
+      p {
+        margin: 0;
       }
+    }
 
-      .equipment__page-personal-table-columns {
-        width: 100%;
-        border-spacing: 0 25px;
-        text-align: center;
-        font-size: 16px;
-        border-collapse: separate;
+    .body-cell-id {
+      gap: 8px;
 
-        td {
-          padding-right: 12px;
-          vertical-align: top;
-        }
-
-        thead th {
-          position: sticky;
-          top: 0;
-          z-index: 10;
-          padding: 10px;
-          text-align: center;
-          font-weight: 600;
-        }
-
-        .person__page-table-cell-actions {
-          border-top-right-radius: 5px;
-          border-bottom-right-radius: 5px;
-          gap: 8px;
-          float: right;
-          cursor: pointer;
-        }
-
-        .last-cell {
-          display: flex;
-          flex-direction: column;
-        }
-
-        .equipment__page-icon-edit,
-        .equipment__page-icon-cancel,
-        .equipment__page-icon-delete,
-        .equipment__page-icon-save {
-          width: 25px;
-          cursor: pointer;
-        }
-
-        .equipment__page-icon-save {
-          margin-top: 20px;
-        }
+      .body-cell-id-wrapper {
+        display: flex;
+        align-items: center;
       }
+    }
 
-      .equipment__page-personal-table-body {
-        box-sizing: content-box;
-        overflow-y: auto;
-        max-height: calc(100vh - 270px);
-        scrollbar-width: thin;
-        scrollbar-color: #1565c0 transparent;
+    .body-cell-name {
+      .cell__name--link {
+        text-decoration: none;
+        color: $color-dark;
+      }
+    }
 
-        tr {
-          background-color: #fff;
+    .body-cell-suitability {
+      justify-content: center;
+    }
 
-          td:first-child {
-            border-top-left-radius: 5px;
-            border-bottom-left-radius: 5px;
-          }
-        }
+    .body-cell-actions {
+      justify-content: flex-end;
 
-        td {
-          padding: 15px 8px;
+      .action-buttons {
+        display: flex;
+        gap: 8px;
+      }
+    }
+  }
 
-          button {
-            border: none;
-            background: none;
-            font-size: 1.2rem;
-            cursor: pointer;
-          }
+  .table__row--details {
+    margin-top: -10px;
+    padding: 16px;
+    border-radius: 0 0 10px 10px;
+    background-color: rgba($color-light, 0.98);
+    grid-column: 1 / -1;
+  }
 
-          thead th {
-            position: sticky;
-            top: 0;
-            z-index: 10;
-            text-align: center;
-            font-weight: 600;
-          }
-        }
+  .table__button--details {
+    border: none;
+    background-color: inherit;
+    font-weight: bold;
+    color: $color-blue-light;
 
-        .equipment__page-personal-table-body::-webkit-scrollbar {
-          width: 4px;
-        }
+    .button__details-wrapper {
+      display: flex;
+      align-items: center;
 
-        .equipment__page-personal-table-body::-webkit-scrollbar-thumb {
-          border-radius: 4px;
-          background-color: #1565c0;
-        }
+      .button__wrapper--icon {
+        margin: 0.4rem;
+      }
+    }
+  }
 
-        .equipment__page-personal-table-body::-webkit-scrollbar-thumb:hover {
-          background-color: #0d47a1;
+  .table__button-delete,
+  .table__button-cancel,
+  .table__button-save {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+
+    &:hover {
+      transform: scale(1.1);
+      transition: transform 0.2s ease;
+    }
+  }
+
+  .icon-action {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .input-field {
+    width: 100%;
+    margin: -4px 0;
+  }
+
+  .editing-row {
+    background-color: rgba($color-light, 0.98);
+  }
+
+  .equipment__page-menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 25%;
+    flex-direction: column;
+
+    .menu__download {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 90%;
+      flex-direction: column;
+
+      .download__buttons {
+        .button__import,
+        .button__export {
+          border: none;
+          background-color: inherit;
+          cursor: pointer;
         }
       }
     }
