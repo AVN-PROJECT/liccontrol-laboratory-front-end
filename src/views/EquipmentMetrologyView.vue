@@ -252,6 +252,7 @@
             :is="additionForm"
             @equipment-addition="addEquipment"
             @close-modal="openAddition = false"
+            @equipment-import="importEquipment"
           />
         </div>
       </template>
@@ -316,6 +317,16 @@
       await getEquipments();
     } catch (error) {
       console.error('Ошибка добавления оборудования:', error);
+    }
+  };
+
+  const importEquipment = async (newEquipmentImport) => {
+    try {
+      await apiClient.post('/user/equipment/metrology/import_equipment', newEquipmentImport);
+
+      await getEquipments();
+    } catch (error) {
+      console.error('Ошибка импорта оборудования:', error);
     }
   };
 
