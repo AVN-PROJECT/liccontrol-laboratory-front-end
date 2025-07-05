@@ -205,6 +205,9 @@
   // vue.
   import { ref, onMounted } from 'vue';
 
+  // helpers.
+  import formatDate from '@/helpers/format/format.js';
+
   // composables.
   import apiClient from '@/composables/api/apiClient.js';
 
@@ -230,9 +233,9 @@
         organization_id: person.organization_id,
         fio: person.fio,
         certificate_number: person.certificate_number,
-        certificate_date: person.certificate_date,
+        certificate_date: formatDate(person.certificate_date),
         number_phone: person.number_phone,
-        certificate_valid_date: person.certificate_valid_date,
+        certificate_valid_date: formatDate(person.certificate_valid_date),
         equipments: person.equipments,
       }));
     } catch (err) {

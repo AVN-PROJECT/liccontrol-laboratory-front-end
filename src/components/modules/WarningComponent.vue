@@ -3,7 +3,7 @@
     <div class="content__buttons">
       <VButton
         class="buttons__close"
-        @click="emit('close-model')"
+        @click="emit('close-modal')"
       >
         <img
           class="buttons__close--icon"
@@ -31,7 +31,7 @@
   import VButton from '@/components/ui/VButton.vue';
 
   // constants.
-  const emit = defineEmits(['close-model']);
+  const emit = defineEmits(['close-modal']);
 </script>
 
 <style scoped lang="scss">

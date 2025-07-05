@@ -236,10 +236,12 @@
       </div>
 
       <template v-if="openAddition">
-        <EquipmentMetrologyAdditionForm
-          v-click-outside="handlerMouseDown"
-          @equipment-addition="addEquipment"
-        />
+        <div class="equipment__page-modal-form">
+          <EquipmentMetrologyAdditionForm
+            @equipment-addition="addEquipment"
+            @close-modal="openAddition = false"
+          />
+        </div>
       </template>
     </div>
   </div>
@@ -251,6 +253,9 @@
 
   // composables
   import apiClient from '@/composables/api/apiClient.js';
+
+  // helpers.
+  import formatDate from '@/helpers/format/format.js';
 
   // components.
   import VInput from '@/components/ui/VInput.vue';
@@ -270,9 +275,9 @@
 
   const openedRows = ref([]);
 
-  function handlerMouseDown() {
-    openAddition.value = false;
-  }
+  // function handlerMouseDown() {
+  //   openAddition.value = false;
+  // }
 
   const toggleDetails = (id) => {
     const index = openedRows.value.indexOf(id);
@@ -296,17 +301,6 @@
 
   const getEquipments = async () => {
     const response = await apiClient.get('/user/equipment/metrology/equipments');
-
-    const formatDate = (str) => {
-      if (!str) {
-        return '';
-      }
-      if (str.includes('.')) {
-        const [d, m, y] = str.split('.');
-        return `${y}-${m}-${d}`;
-      }
-      return str;
-    };
 
     if (response.status === 200 && Array.isArray(response.data)) {
       equipments.value = response.data.map((item) => ({
@@ -380,11 +374,12 @@
 
 <style scoped lang="scss">
   .equipment__page-main {
+    position: relative;
     display: flex;
     width: 100%;
     padding: 20px 40px;
-    gap: 10px;
     font-family: $font-family-base;
+    gap: 10px;
   }
 
   .equipment-page__table {
@@ -585,6 +580,15 @@
           box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
         }
       }
+    }
+
+    .equipment__page-modal-form {
+      position: absolute;
+      top: 8rem;
+      right: 5rem;
+      z-index: 10;
+      width: 35%;
+      max-height: 415px;
     }
   }
 </style>
