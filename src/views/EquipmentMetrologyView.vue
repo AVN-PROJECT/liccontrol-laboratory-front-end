@@ -604,9 +604,11 @@
 
     .equipment__page-modal-form {
       position: absolute;
-      top: 8rem;
-      right: 5rem;
+      right: 3rem;
+      bottom: 0.5rem;
       z-index: 10;
+      display: flex;
+      justify-content: flex-end;
       width: 35%;
       max-height: 415px;
     }
