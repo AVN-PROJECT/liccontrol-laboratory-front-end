@@ -225,10 +225,22 @@
       <div class="menu__addition">
         <h2 class="menu__addition--header">Добавить оборудование</h2>
         <div class="menu__addition--buttons">
-          <VButton class="addition__button">Вручную</VButton>
+          <VButton
+            class="addition__button"
+            @click="openAddition = !openAddition"
+          >
+            Вручную
+          </VButton>
           <VButton class="addition__button">Из Аршины</VButton>
         </div>
       </div>
+
+      <template v-if="openAddition">
+        <EquipmentMetrologyAdditionForm
+          v-click-outside="handlerMouseDown"
+          @equipment-addition="addEquipment"
+        />
+      </template>
     </div>
   </div>
 </template>
@@ -248,13 +260,19 @@
   import triangleUpIcon from '@/assets/icons/sections/legends/triangle-up.svg';
   import triangleDownIcon from '@/assets/icons/sections/legends/triangle-down.svg';
   import AccordionComponent from '@/components/modules/AccordionComponent.vue';
+  import EquipmentMetrologyAdditionForm from '@/components/forms/EquipmentMetrologyAdditionForm.vue';
 
+  // constants.
   const editingId = ref(null);
   const originalItem = ref(null);
-
+  const openAddition = ref(false);
   const equipments = ref([]);
 
   const openedRows = ref([]);
+
+  function handlerMouseDown() {
+    openAddition.value = false;
+  }
 
   const toggleDetails = (id) => {
     const index = openedRows.value.indexOf(id);
@@ -266,10 +284,15 @@
     }
   };
 
-  // const toggleEdit = (item) => {
-  //   originalItem.value = { ...item };
-  //   editingId.value = item.id;
-  // };
+  const addEquipment = async (newEquipment) => {
+    try {
+      await apiClient.post('/user/equipment/metrology/add_equipment', newEquipment);
+
+      await getEquipments();
+    } catch (error) {
+      console.error('Ошибка добавления оборудования:', error);
+    }
+  };
 
   const getEquipments = async () => {
     const response = await apiClient.get('/user/equipment/metrology/equipments');
