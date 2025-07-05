@@ -184,7 +184,7 @@
         <div class="person__page-menu-download-export">
           <VButton
             class="person__page-menu-export-button"
-            @click="handlerExport"
+            @click="exportPerson"
           >
             <img
               src="@/assets/icons/sections/buttons/excel-export.svg"
@@ -306,7 +306,7 @@
     }
   };
 
-  const handlerExport = async () => {
+  const exportPerson = async () => {
     try {
       const response = await apiClient.get('/user/person/export_persons', { responseType: 'blob' });
 

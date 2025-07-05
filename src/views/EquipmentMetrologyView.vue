@@ -176,7 +176,10 @@
               alt="excel-import.svg"
             />
           </VButton>
-          <VButton class="button__export">
+          <VButton
+            class="button__export"
+            @click="exportEquipment"
+          >
             <img
               class="button__export--icon"
               src="@/assets/icons/sections/buttons/excel-export.svg"
@@ -396,6 +399,17 @@
     } catch (error) {
       console.error('Ошибка удаления оборудования:', error);
     }
+  };
+
+  const exportEquipment = async () => {
+    const response = await apiClient.get('/user/equipment/metrology/export_equipments');
+
+    const link = document.createElement('a');
+
+    link.href = URL.createObjectURL(new Blob([response.data]));
+    link.download = 'equipment.xlsx';
+
+    link.click();
   };
 
   onMounted(async () => {
