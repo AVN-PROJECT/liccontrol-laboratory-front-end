@@ -184,7 +184,7 @@
         <div class="person__page-menu-download-export">
           <VButton
             class="person__page-menu-export-button"
-            @click="handlerExport"
+            @click="exportPerson"
           >
             <img
               src="@/assets/icons/sections/buttons/excel-export.svg"
@@ -204,6 +204,9 @@
 <script setup>
   // vue.
   import { ref, onMounted } from 'vue';
+
+  // helpers.
+  import formatDate from '@/helpers/format/format.js';
 
   // composables.
   import apiClient from '@/composables/api/apiClient.js';
@@ -230,9 +233,9 @@
         organization_id: person.organization_id,
         fio: person.fio,
         certificate_number: person.certificate_number,
-        certificate_date: person.certificate_date,
+        certificate_date: formatDate(person.certificate_date),
         number_phone: person.number_phone,
-        certificate_valid_date: person.certificate_valid_date,
+        certificate_valid_date: formatDate(person.certificate_valid_date),
         equipments: person.equipments,
       }));
     } catch (err) {
@@ -303,7 +306,7 @@
     }
   };
 
-  const handlerExport = async () => {
+  const exportPerson = async () => {
     try {
       const response = await apiClient.get('/user/person/export_persons', { responseType: 'blob' });
 
