@@ -45,5 +45,7 @@
 </script>
 
 <style scoped lang="scss">
-  /* styles go here */
+  .dropdown-menu {
+    width: 100%;
+  }
 </style>
