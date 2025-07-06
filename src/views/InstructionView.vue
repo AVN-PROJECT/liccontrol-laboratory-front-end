@@ -14,12 +14,14 @@
     <div class="page__person">
       <h2 class="page__person-header">1. Страница “Персонал”</h2>
 
-      <p class="page__person--text">
-        Здесь хранится информация о сотрудниках, закреплённом за ними оборудовании и контролируются
-        сроки окончания действия аттестаций. Для просмотра истекающих в первую очередь аттестаций, в
-        столбцах “Дата аттестации” и “Окончание аттестации” предусмотрена сортировка по
-        убыванию/возрастанию.
-      </p>
+      <div class="person__description">
+        <p class="person__description--text">
+          Здесь хранится информация о сотрудниках, закреплённом за ними оборудовании и
+          контролируются сроки окончания действия аттестаций. Для просмотра истекающих в первую
+          очередь аттестаций, в столбцах “Дата аттестации” и “Окончание аттестации” предусмотрена
+          сортировка по убыванию/возрастанию.
+        </p>
+      </div>
 
       <div class="page__person-about-table">
         <img
@@ -31,22 +33,27 @@
           При необходимости каждое поле сотрудника может быть отредактировано.
         </p>
       </div>
-      <p class="page__person-about-forms">
-        Новых сотрудников можно добавить вручную в специальной форме. Также возможен быстрый
-        импорт/экспорт данных из файлов Excel.
-      </p>
 
-      <div class="page__person-about-forms-images">
-        <img
-          class="page__person-about-forms-images--form"
-          src="@/assets/images/screenshots/person/person-form.png"
-          alt="person-form.png"
-        />
-        <img
-          class="page__person-about-forms-images--excel"
-          src="@/assets/images/screenshots/person/person-excel.png"
-          alt="person-excel.png"
-        />
+      <div class="page__person-about-forms">
+        <div class="forms__about">
+          <p class="forms__about--text">
+            Новых сотрудников можно добавить вручную в специальной форме. Также возможен быстрый
+            импорт/экспорт данных из файлов Excel.
+          </p>
+        </div>
+
+        <div class="page__person-about-forms--images">
+          <img
+            class="page__person-about-forms-images--form"
+            src="@/assets/images/screenshots/person/person-form.png"
+            alt="person-form.png"
+          />
+          <img
+            class="page__person-about-forms-images--excel"
+            src="@/assets/images/screenshots/person/person-excel.png"
+            alt="person-excel.png"
+          />
+        </div>
       </div>
     </div>
 
@@ -191,6 +198,24 @@
 
     .page__person {
       text-align: left;
+
+      .page__person-about-table--image {
+        width: 70%;
+      }
+
+      .page__person-about-forms--images {
+        display: flex;
+
+        .page__person-about-forms-images--form {
+          width: 30%;
+          height: 40%;
+        }
+
+        .page__person-about-forms-images--excel {
+          width: 30%;
+          height: 40%;
+        }
+      }
     }
   }
 </style>
