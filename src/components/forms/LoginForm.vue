@@ -31,27 +31,14 @@
           @update="errors.email = ''"
         />
 
-        <div class="password-input-wrapper">
-          <VInput
-            v-model="form.password"
-            :type="showPassword ? 'text' : 'password'"
-            :error="!!errors.password"
-            color="grey"
-            placeholder="Пароль"
-            @update="errors.password = ''"
-          />
-          <button
-            type="button"
-            class="toggle-password-btn"
-            @click="showPassword = !showPassword"
-          >
-            <img
-              v-if="showPassword"
-              :src="eyeCloseIcon ? showPassword : eyeOpenIcon"
-              alt="Скрыть"
-            />
-          </button>
-        </div>
+        <VInput
+          v-model="form.password"
+          :type="showPassword ? 'text' : 'password'"
+          :error="!!errors.password"
+          color="grey"
+          placeholder="Пароль"
+          @update="errors.password = ''"
+        />
 
         <VInput
           v-model="form.license_key"
@@ -104,11 +91,12 @@
 
     <template v-if="showCookieBlock">
       <div class="wrapper__cookie">
-        <div>
-          <p class="wrapper__cookie--text">
+        <div class="wrapper__cookie--text">
+          <p class="cookie__warning--text">
             {{ policyText.policyWarning }}
             <a
               href=""
+              class="cookie__text--link"
               target="_blank"
               download="/Политика_в_отношении_обработки_персональных_данных.pdf"
             >
@@ -116,7 +104,10 @@
             </a>
           </p>
 
-          <p v-text="policyText.policyCondition"></p>
+          <p
+            class="cookie__condition--text"
+            v-text="policyText.policyCondition"
+          ></p>
         </div>
 
         <div class="wrapper__cookie--buttons">
@@ -127,7 +118,7 @@
               showCookieBlock = false;
             "
           >
-            Принято
+            Принять
           </VButton>
 
           <VButton
@@ -161,8 +152,9 @@
 
   // components.
   import VInput from '@/components/ui/VInput.vue';
-  import eyeCloseIcon from '@/assets/icons/sections/buttons/eye-close.svg';
-  import eyeOpenIcon from '@/assets/icons/sections/buttons/eye-open.svg';
+
+  // import eyeCloseIcon from '@/assets/icons/sections/buttons/eye-close.svg';
+  // import eyeOpenIcon from '@/assets/icons/sections/buttons/eye-open.svg';
 
   // text.
   import policyText from '@/assets/texts/policyText.js';
@@ -280,13 +272,14 @@
       width: 79px;
       height: 50px;
       border-radius: 4px;
-      border: 2px solid #1976d2;
-      background-color: #fff;
+      border: 2px solid $color-blue-light;
+      background-color: $color-light;
       transition: all 0.2s ease;
       cursor: pointer;
 
       .checkmark {
-        width: 100%;
+        width: 60%;
+        height: 60%;
       }
     }
   }
@@ -322,11 +315,6 @@
     }
   }
 
-  .checkmark {
-    width: 60%;
-    height: 60%;
-  }
-
   .wrapper__cookie {
     position: fixed;
     top: 73%;
@@ -336,7 +324,7 @@
     width: 70%;
     padding: 1.4% 1%;
     background: rgb(238 238 238 / 50%);
-    text-align: center;
+    text-align: left;
     transition: top 0.1s linear;
     box-shadow: 0 0 10px 1px rgb(0 0 0 / 25%);
     backdrop-filter: blur(3px);
@@ -344,9 +332,24 @@
     .wrapper__cookie--text {
       display: flex;
       flex-direction: column;
+      font-size: 1.6rem;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+
+      .cookie__warning--text,
+      .cookie__condition--text {
+        margin: 0;
+      }
+
+      .cookie__text--link {
+        text-decoration: underline;
+        color: $color-blue-light;
+      }
     }
 
     .wrapper__cookie--buttons {
+      gap: 1rem;
+
       .button__accept {
         display: inline-block;
         width: 120px;
@@ -356,56 +359,16 @@
         border-radius: 10px;
         border: none;
         background-color: $color-blue-sky;
+        cursor: pointer;
       }
 
       .button__reject {
-        gap: 2rem;
         border: none;
         text-decoration: underline;
         font-size: 1.1vw;
         font-weight: 400;
         color: $color-dark;
-      }
-    }
-
-    p {
-      margin: 5px 25px 5px 0;
-      font-size: 24px;
-      font-weight: 400;
-      letter-spacing: 0.04em;
-
-      a {
-        border-bottom: 1px solid #1976d2;
-        color: #1976d2;
-      }
-    }
-  }
-
-  .password-input-wrapper {
-    position: relative;
-
-    input {
-      width: 100%;
-      padding-right: 40px;
-    }
-
-    .toggle-password-btn {
-      position: absolute;
-      top: 35%;
-      right: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0;
-      border: none;
-      background: transparent;
-      transform: translateY(-50%);
-      cursor: pointer;
-
-      img {
-        display: block;
-        width: 30px;
-        height: 22px;
+        cursor: pointer;
       }
     }
   }
