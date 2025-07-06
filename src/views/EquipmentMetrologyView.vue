@@ -413,8 +413,6 @@
     editingId.value = item.uuid ?? index;
   };
 
-  console.log(editingId.value);
-
   const toggleDetails = (id) => {
     const index = openedRows.value.indexOf(id);
 

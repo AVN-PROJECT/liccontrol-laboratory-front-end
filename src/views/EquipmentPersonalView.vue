@@ -18,27 +18,13 @@
         >
           <AccordionComponent>
             <template #accordion-header>
-              <div
-                class="table__row"
-                :class="{ 'editing-row': editingId === (item.uuid ?? index), [item.status]: true }"
-              >
+              <div class="table__row">
                 <div class="table__cell body-cell-id">
-                  <div class="body-cell-id-wrapper">
-                    <p>{{ index + 1 }}</p>
-                  </div>
-                  <VButton class="table__button-delete">
-                    <img
-                      v-if="editingId === (item.uuid ?? index)"
-                      src="@/assets/icons/sections/buttons/basket-delete.svg"
-                      class="icon-action"
-                      alt="delete.svg"
-                      @click="deleteItem(item.uuid)"
-                    />
-                  </VButton>
+                  <p>{{ index + 1 }}</p>
                 </div>
 
                 <div class="table__cell body-cell-name">
-                  <p v-if="!editingId">{{ item.name }}</p>
+                  <p v-if="editingId !== (item.uuid ?? index)">{{ item.name }}</p>
 
                   <VInput
                     v-else
@@ -50,7 +36,7 @@
                   />
                 </div>
                 <div class="table__cell body-cell-number-serial">
-                  <p v-if="!editingId">{{ item.number_serial }}</p>
+                  <p v-if="editingId !== (item.uuid ?? index)">{{ item.number_serial }}</p>
                   <VInput
                     v-else
                     v-model="item.number_serial"
@@ -61,7 +47,7 @@
                   />
                 </div>
                 <div class="table__cell body-cell-address-operating">
-                  <p v-if="!editingId">{{ item.address_operating }}</p>
+                  <p v-if="editingId !== (item.uuid ?? index)">{{ item.address_operating }}</p>
                   <VInput
                     v-else
                     v-model="item.address_operating"
@@ -72,7 +58,7 @@
                   />
                 </div>
                 <div class="table__cell body-cell-agreement-number">
-                  <p v-if="!editingId">{{ item.agreement_number }}</p>
+                  <p v-if="editingId !== (item.uuid ?? index)">{{ item.agreement_number }}</p>
                   <VInput
                     v-else
                     v-model="item.agreement_number"
@@ -83,7 +69,7 @@
                   />
                 </div>
                 <div class="table__cell body-cell-person">
-                  <p v-if="!editingId">{{ item.person }}</p>
+                  <p v-if="editingId !== (item.uuid ?? index)">{{ item.person }}</p>
                   <VInput
                     v-else
                     v-model="item.person"
@@ -95,45 +81,22 @@
                 </div>
 
                 <div class="table__cell body-cell-actions">
-                  <div class="action-buttons">
-                    <div
-                      v-if="editingId === (item.uuid ?? index)"
-                      class="table__button-edit"
-                    >
-                      <VButton class="table__button-cancel">
-                        <img
-                          src="@/assets/icons/sections/buttons/cross-cancel.svg"
-                          class="icon-action"
-                          alt="cancel.svg"
-                          @click="cancelEdit"
-                        />
-                      </VButton>
-                      <VButton class="table__button-save">
-                        <img
-                          class="icon-action"
-                          src="@/assets/icons/sections/buttons/tick-save.svg"
-                          alt="save.svg"
-                          @click="saveEdit(item)"
-                        />
-                      </VButton>
+                  <VButton
+                    class="table__button--details"
+                    @click="toggleDetails(item.uuid ?? index)"
+                  >
+                    <div class="button__details--wrapper">
+                      <img
+                        class="button__wrapper--icon"
+                        :src="
+                          openedRows.includes(item.uuid ?? index)
+                            ? triangleUpIcon
+                            : triangleDownIcon
+                        "
+                        alt="triangle.svg"
+                      />
                     </div>
-                    <VButton
-                      class="table__button--details"
-                      @click="toggleDetails(item.uuid ?? index)"
-                    >
-                      <div class="button__details--wrapper">
-                        <img
-                          class="button__wrapper--icon"
-                          :src="
-                            openedRows.includes(item.uuid ?? index)
-                              ? triangleUpIcon
-                              : triangleDownIcon
-                          "
-                          alt="triangle.svg"
-                        />
-                      </div>
-                    </VButton>
-                  </div>
+                  </VButton>
                 </div>
               </div>
             </template>
@@ -143,7 +106,86 @@
               #accordion-body
             >
               <div class="table__row--details">
-                <div class="row__details-content">Организация арендатор</div>
+                <div class="row__details--buttons-left">
+                  <VButton
+                    class="table__button-delete"
+                    @click="deleteItem(item.uuid)"
+                  >
+                    <img
+                      src="@/assets/icons/sections/buttons/basket-delete.svg"
+                      class="table__button-delete-icon"
+                      alt="delete.svg"
+                    />
+                  </VButton>
+                </div>
+
+                <div class="row__details--row">
+                  <div class="table__cell body-cell-verification-organization">
+                    <p class="cell__header--text">Организация-арендатор</p>
+                    <div class="cell__header--content">
+                      <p v-if="editingId !== (item.uuid ?? index)">
+                        {{ item.organization_owner }}
+                      </p>
+                      <VInput
+                        v-else
+                        v-model="item.verification_organization"
+                        type="text"
+                        :value="item.verification_organization"
+                        color="white"
+                        class="input-field"
+                      />
+                    </div>
+                  </div>
+                  <div class="table__cell body-cell-verification-number">
+                    <p class="cell__header--text">Номер свидетельства</p>
+                    <div class="cell__header--content">
+                      <p v-if="editingId !== (item.uuid ?? index)">{{ item.person }}</p>
+                      <VInput
+                        v-else
+                        v-model="item.person"
+                        type="text"
+                        :value="item.person"
+                        color="white"
+                        class="input-field"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="row__details--buttons-right">
+                  <VButton
+                    class="table__button-edit"
+                    @click="toggleEdit(item, index)"
+                  >
+                    <img
+                      class="person__page-icon-action"
+                      src="@/assets/icons/sections/buttons/pencil-edit.svg"
+                      alt="edit.svg"
+                    />
+                  </VButton>
+
+                  <VButton
+                    v-if="editingId === (item.uuid ?? index)"
+                    class="table__button-save"
+                  >
+                    <img
+                      class="icon-action"
+                      src="@/assets/icons/sections/buttons/tick-save.svg"
+                      alt="save.svg"
+                      @click="saveEdit(item)"
+                    />
+                  </VButton>
+                  <VButton
+                    v-if="editingId === (item.uuid ?? index)"
+                    class="table__button-cancel"
+                  >
+                    <img
+                      src="@/assets/icons/sections/buttons/cross-cancel.svg"
+                      class="icon-action"
+                      alt="cancel.svg"
+                      @click="cancelEdit"
+                    />
+                  </VButton>
+                </div>
               </div>
             </template>
           </AccordionComponent>
@@ -209,6 +251,11 @@
     } else {
       openedRows.value.splice(index, 1);
     }
+  };
+
+  const toggleEdit = (item, index) => {
+    originalItem.value = { ...item };
+    editingId.value = item.uuid ?? index;
   };
 
   const getEquipments = async () => {
@@ -324,8 +371,10 @@
     box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
 
     .table__cell {
+      align-content: center;
       text-align: center;
-      font-size: 18px;
+      text-transform: uppercase;
+      font-size: 15px;
       font-weight: bold;
     }
   }
@@ -349,38 +398,49 @@
       justify-content: center;
       padding: 8px 4px;
       text-align: center;
-      font-size: 16px;
+      font-size: 14px;
 
       p {
         margin: 0;
       }
     }
-
-    .body-cell-id {
-      gap: 8px;
-
-      .body-cell-id-wrapper {
-        display: flex;
-        align-items: center;
-      }
-    }
-
-    .body-cell-actions {
-      justify-content: flex-end;
-
-      .action-buttons {
-        display: flex;
-        gap: 8px;
-      }
-    }
   }
 
   .table__row--details {
+    display: flex;
+    max-height: 170px;
     margin-top: -10px;
     padding: 16px;
     border-radius: 0 0 10px 10px;
     background-color: rgba($color-light, 0.98);
     grid-column: 1 / -1;
+
+    .cell__header--text {
+      align-content: center;
+      text-align: center;
+      text-transform: uppercase;
+      font-size: 15px;
+      font-weight: bold;
+    }
+  }
+
+  .row__details--row {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    gap: 2rem;
+  }
+
+  .row__details--buttons-right {
+    display: flex;
+    justify-content: flex-end;
+    width: 35%;
+    margin: auto 1rem 1rem 1rem;
+    gap: 1rem;
+  }
+
+  .row__details--buttons-left {
+    margin: auto 1rem 1rem 1rem;
   }
 
   .table__button--details {
@@ -400,6 +460,7 @@
   }
 
   .table__button-delete,
+  .table__button-edit,
   .table__button-cancel,
   .table__button-save {
     display: flex;
@@ -418,19 +479,9 @@
     }
   }
 
-  .icon-action {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-  }
-
   .input-field {
     width: 100%;
-    margin: -4px 0;
-  }
-
-  .editing-row {
-    background-color: rgba($color-light, 0.98);
+    margin-bottom: 1.5rem;
   }
 
   .equipment__page-menu {
