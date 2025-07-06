@@ -147,45 +147,57 @@
     <div class="page__agreement">
       <h2 class="page__agreement-header">4. Страница “Договоры”</h2>
 
-      <p class="page__agreement-description">
-        На данной странице ведётся учёт всех договоров Вашей компании. Выполненный договор можно
-        завершить нажатием кнопки “Завершить” и он будет добавлен в архив “Завершённые”:
-      </p>
+      <div class="page__agreement-description">
+        <p class="agreement__description--text">
+          На данной странице ведётся учёт всех договоров Вашей компании. Выполненный договор можно
+          завершить нажатием кнопки “Завершить” и он будет добавлен в архив “Завершённые”:
+        </p>
 
-      <img
-        class="page__agreement-table--image"
-        src="@/assets/images/screenshots/agreement/agreement-table.png"
-        alt="agreement-table.png"
-      />
-
-      <div>
         <img
-          class="page__equipment-personal-table--image"
-          src="@/assets/images/screenshots/agreement/agreement-status.png"
-          alt="agreement-status.png"
+          class="agreement__description--image"
+          src="@/assets/images/screenshots/agreement/agreement-table.png"
+          alt="agreement-table.png"
         />
       </div>
 
-      <div>
-        <div>
-          <p>Ниже расположена форма для добавления нового договора.</p>
-          <p>
-            При добавлении в договор оборудования, будет заполнена информация о договоре в
-            соответствующих полях этого оборудования:
-          </p>
+      <div class="page__agreement-about-status">
+        <img
+          class="agreement__status--image"
+          src="@/assets/images/screenshots/agreement/agreement-status.png"
+          alt="agreement-status.png"
+        />
+        <p class="agreement__status--text">
+          Как и на странице “Оборудование” программа отслеживает и подсвечивает договоры у которых
+          истекает срок исполнения:
+        </p>
+      </div>
+
+      <div class="page__agreement-about-form">
+        <div class="agreement__form--description">
+          <div class="form__description--text">
+            <p class="form__description-form--text">
+              Ниже расположена форма для добавления нового договора.
+            </p>
+
+            <p class="form__description-warning--text">
+              При добавлении в договор оборудования, будет заполнена информация о договоре в
+              соответствующих полях этого оборудования:
+            </p>
+          </div>
+
           <img
-            class="page__agreement-table--image"
+            class="form__description--image"
             src="@/assets/images/screenshots/agreement/agreement-info.png"
             alt="agreement-info.png"
           />
         </div>
-      </div>
 
-      <img
-        class="page__equipment-personal-table--image"
-        src="@/assets/images/screenshots/agreement/agreement-form.png"
-        alt="agreement-form.png"
-      />
+        <img
+          class="agreement__form--image"
+          src="@/assets/images/screenshots/agreement/agreement-form.png"
+          alt="agreement-form.png"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -196,6 +208,7 @@
 
 <style scoped lang="scss">
   .instruction__page-main {
+    gap: 2rem;
     display: flex;
     justify-content: center;
     padding: 5rem;
@@ -289,6 +302,48 @@
 
         .equipment-personal__description--image {
           width: 75%;
+        }
+      }
+    }
+
+    .page__agreement {
+      text-align: left;
+
+      .page__agreement-description {
+        .agreement__description--image {
+          width: 85%;
+        }
+      }
+
+      .page__agreement-about-status {
+        display: flex;
+        gap: 1rem;
+
+        .agreement__status--image {
+          width: 20%;
+        }
+
+        .agreement__status--text {
+          width: 30%;
+          text-align: left;
+        }
+      }
+
+      .page__agreement-about-form {
+        display: flex;
+        gap: 1.5rem;
+        text-align: right;
+
+        .agreement__form--description {
+          width: 25%;
+
+          .form__description--image {
+            width: 100%;
+          }
+        }
+
+        .agreement__form--image {
+          width: 50%;
         }
       }
     }
