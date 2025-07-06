@@ -53,9 +53,6 @@
             <template v-if="openWarning">
               <WarningComponent @close-modal="openWarning = !openWarning" />
             </template>
-            <template v-else>
-              <div class="warning-placeholder"></div>
-            </template>
 
             <template v-if="filter">
               <div class="header__menu-view-filter">
@@ -154,48 +151,35 @@
 
     .header__menu-view {
       display: flex;
+      width: 100%;
 
       .header__menu-button {
         display: flex;
+        width: 100%;
         border: 0;
         background: inherit;
+        font-weight: bold;
         cursor: pointer;
-
-        .header__menu-button-open-icon {
-          margin: 1.2rem;
-        }
+        gap: 1.2rem;
       }
 
       .header__menu-view-info {
         display: flex;
         align-items: flex-end;
-        justify-content: right;
-        width: 74%;
-        max-width: 74%;
+        justify-content: space-between;
+        width: 100%;
+        margin-top: 5rem;
         flex-direction: column;
-
-        .warning-placeholder {
-          display: flex;
-          width: 76%;
-          height: 90px;
-          max-height: 90px;
-          padding: 0.4rem;
-          background-color: inherit;
-        }
 
         .header__menu-view-filter {
           display: flex;
           align-items: center;
+          gap: 0.5rem;
           width: 25%;
-          margin-left: auto;
-          padding: 8px;
 
           .view__filter--text {
             margin: 0;
-          }
-
-          .view__filter--icon {
-            margin: 0.4rem;
+            font-weight: bold;
           }
         }
       }
