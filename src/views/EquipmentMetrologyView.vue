@@ -478,17 +478,16 @@
 
   const saveEdit = async (item) => {
     try {
-      const payload = {
-        uuid: item.id,
+      const data = {
+        uuid: item.uuid,
         name: item.name,
         number_serial: item.number_serial,
         verification_number: item.verification_number,
         verification_date: item.verification_date,
-
         valid_date: item.validate,
       };
 
-      await apiClient.patch('/user/equipment/metrology/edit_equipment', payload);
+      await apiClient.patch('/user/equipment/metrology/edit_equipment', data);
 
       editingId.value = null;
       originalItem.value = null;
@@ -572,7 +571,6 @@
     .table__row {
       display: grid;
       padding: 12px 8px;
-      border-radius: 10px;
       grid-template-columns: 5% 25% 10% 10% 15% 15% 10% 10%;
 
       .table__cell {

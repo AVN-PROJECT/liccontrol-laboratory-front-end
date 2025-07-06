@@ -120,7 +120,7 @@
                 </div>
 
                 <div class="row__details--row">
-                  <div class="table__cell body-cell-verification-organization">
+                  <div class="table__cell body-cell-organization-owner">
                     <p class="cell__header--text">Организация-арендатор</p>
                     <div class="cell__header--content">
                       <p v-if="editingId !== (item.uuid ?? index)">
@@ -128,9 +128,9 @@
                       </p>
                       <VInput
                         v-else
-                        v-model="item.verification_organization"
+                        v-model="item.organization_owner"
                         type="text"
-                        :value="item.verification_organization"
+                        :value="item.organization_owner"
                         color="white"
                         class="input-field"
                       />
@@ -139,12 +139,14 @@
                   <div class="table__cell body-cell-verification-number">
                     <p class="cell__header--text">Номер свидетельства</p>
                     <div class="cell__header--content">
-                      <p v-if="editingId !== (item.uuid ?? index)">{{ item.person }}</p>
+                      <p v-if="editingId !== (item.uuid ?? index)">
+                        {{ item.verification_number }}
+                      </p>
                       <VInput
                         v-else
-                        v-model="item.person"
+                        v-model="item.verification_number"
                         type="text"
-                        :value="item.person"
+                        :value="item.verification_number"
                         color="white"
                         class="input-field"
                       />
@@ -298,13 +300,13 @@
 
   const saveEdit = async (item) => {
     try {
-      const payload = {
-        uuid: item.id,
+      const data = {
+        uuid: item.uuid,
         name: item.name,
         number_serial: item.number_serial,
       };
 
-      await apiClient.patch('/user/equipment/personal/edit_equipment', payload);
+      await apiClient.patch('/user/equipment/personal/edit_equipment', data);
 
       editingId.value = null;
       originalItem.value = null;
@@ -315,12 +317,10 @@
     }
   };
 
-  const deleteItem = async (item) => {
+  const deleteItem = async (uuid) => {
     try {
       await apiClient.delete('/user/equipment/personal/delete_equipment', {
-        params: {
-          equipment_id: item.id,
-        },
+        data: { uuid: uuid },
       });
 
       await getEquipments();
@@ -421,6 +421,11 @@
       text-transform: uppercase;
       font-size: 15px;
       font-weight: bold;
+    }
+
+    .cell__header--content {
+      text-align: center;
+      font-size: 14px;
     }
   }
 
