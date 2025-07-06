@@ -42,7 +42,7 @@
     </button>
 
     <div class="login__footer">
-      <p class="login__footer-user-agreements">
+      <p class="login__footer--user-agreement">
         Не получили код?
         <br />
         <br />
@@ -156,7 +156,7 @@
   //  color: $color-blue;
   // }
 
-  .login__footer-user-agreements {
+  .login__footer--user-agreement {
     margin-top: 6.4%;
 
     a {

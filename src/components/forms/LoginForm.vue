@@ -8,17 +8,17 @@
           v-model="form.name"
           color="grey"
           :error="!!errors.name"
-          type="text"
+          class="form__field--input"
           placeholder="Наименование организации"
           @update="errors.name = ''"
         />
 
         <VInput
           v-model="form.inn"
-          type="text"
           color="grey"
           :error="!!errors.inn"
           placeholder="ИНН"
+          class="form__field--input"
           @update="errors.inn = ''"
         />
 
@@ -26,60 +26,70 @@
           v-model="form.email"
           type="email"
           color="grey"
+          class="form__field-input"
           :error="!!errors.email"
           placeholder="Электронная почта"
           @update="errors.email = ''"
         />
 
-        <VInput
-          v-model="form.password"
-          :type="showPassword ? 'text' : 'password'"
-          :error="!!errors.password"
-          color="grey"
-          placeholder="Пароль"
-          @update="errors.password = ''"
-        />
+        <div class="form__field--wrapper">
+          <VInput
+            v-model="form.password"
+            :type="showPassword ? 'text' : 'password'"
+            :error="!!errors.password"
+            color="grey"
+            class="form__field--input"
+            placeholder="Пароль"
+            @update="errors.password = ''"
+          />
+
+          <VButton
+            class="form__field--button"
+            @click="showPassword = !showPassword"
+          >
+            <img :src="showPassword ? eyeCloseIcon : eyeOpenIcon" />
+          </VButton>
+        </div>
 
         <VInput
           v-model="form.license_key"
           :error="!!errors.license_key"
-          type="text"
           color="grey"
+          class="form__field--input"
           placeholder="Введите ваш ключ"
           @update="errors.license_key = ''"
         />
       </div>
 
-      <div class="login-form-submit">
-        <button
-          class="login__form-button-login"
+      <div class="login__form--submit">
+        <VButton
+          class="submit__button"
           @click="handlerLoginButton"
         >
           Войти
-        </button>
+        </VButton>
       </div>
 
       <a
         href="#"
-        class="support"
-        @click.prevent=""
+        class="login__support"
       >
         Тех. поддержка
       </a>
 
       <div class="login__footer">
         <div
-          class="custom-checkbox"
+          class="login__footer--checkbox"
           @click="cookieAccepted = !cookieAccepted"
         >
           <img
             v-if="cookieAccepted"
             src="@/assets/icons/sections/buttons/tick-save.svg"
             alt="✓"
-            class="checkmark"
+            class="checkbox__checkmark"
           />
         </div>
-        <p class="login__footer-user-agreements">
+        <p class="login__footer--user-agreement">
           Нажимая “Войти”, вы соглашаетесь с
 
           <a href="#">Условиями использования сервиса</a>
@@ -153,8 +163,8 @@
   // components.
   import VInput from '@/components/ui/VInput.vue';
 
-  // import eyeCloseIcon from '@/assets/icons/sections/buttons/eye-close.svg';
-  // import eyeOpenIcon from '@/assets/icons/sections/buttons/eye-open.svg';
+  import eyeCloseIcon from '@/assets/icons/sections/buttons/eye-close.svg';
+  import eyeOpenIcon from '@/assets/icons/sections/buttons/eye-open.svg';
 
   // text.
   import policyText from '@/assets/texts/policyText.js';
@@ -238,137 +248,151 @@
 </script>
 
 <style scoped lang="scss">
-  .form__wrapper--fields {
-    display: flex;
-    width: 70.6%;
-    margin: 0 auto;
-    flex-direction: column;
-
-    p {
-      margin: 0;
-      color: $color-blue-light;
-      cursor: pointer;
+  .login__form--wrapper {
+    .form__wrapper--fields {
+      display: flex;
+      width: 70.6%;
+      gap: 1.5rem;
+      margin: 0 auto;
+      flex-direction: column;
     }
 
-    input {
-      margin-bottom: 5%;
-    }
-  }
-
-  .support {
-    margin: 0;
-    font-size: 0.95vw;
-    color: $color-blue;
-  }
-
-  .login__footer {
-    display: flex;
-    margin-top: 20px;
-
-    .custom-checkbox {
+    .form__field--wrapper {
+      position: relative;
       display: flex;
       align-items: center;
-      justify-content: center;
-      width: 79px;
-      height: 50px;
-      border-radius: 4px;
-      border: 2px solid $color-blue-light;
-      background-color: $color-light;
-      transition: all 0.2s ease;
-      cursor: pointer;
+      width: 100%;
 
-      .checkmark {
-        width: 60%;
-        height: 60%;
-      }
-    }
-  }
-
-  .login__footer-user-agreements {
-    margin: 0;
-
-    a {
-      border-bottom: 1px solid $color-dark;
-      color: $color-dark;
-      cursor: pointer;
-    }
-  }
-
-  .login__form-button-login {
-    margin: 5% 0 2.4% 0;
-    padding: 3% 5%;
-    border-radius: 10px;
-    border: none;
-    background-color: $color-blue-sky;
-    text-align: center;
-    font-family: Jura, sans-serif;
-    font-size: 1.7vw;
-    font-weight: 400;
-    color: #001f3f;
-    cursor: pointer;
-    box-shadow: 0 2px 4px rgb(0 31 63 / 20%);
-
-    &:hover {
-      background-color: #7ab8d6;
-      box-shadow: 0 4px 8px rgb(0 31 63 / 30%);
-      transform: translateY(-2px);
-    }
-  }
-
-  .wrapper__cookie {
-    position: fixed;
-    top: 73%;
-    left: 3%;
-    z-index: 2000;
-    display: flex;
-    width: 70%;
-    padding: 1.4% 1%;
-    background: rgb(238 238 238 / 50%);
-    text-align: left;
-    transition: top 0.1s linear;
-    box-shadow: 0 0 10px 1px rgb(0 0 0 / 25%);
-    backdrop-filter: blur(3px);
-
-    .wrapper__cookie--text {
-      display: flex;
-      flex-direction: column;
-      font-size: 1.6rem;
-      font-weight: 400;
-      letter-spacing: 0.04em;
-
-      .cookie__warning--text,
-      .cookie__condition--text {
-        margin: 0;
-      }
-
-      .cookie__text--link {
-        text-decoration: underline;
-        color: $color-blue-light;
-      }
-    }
-
-    .wrapper__cookie--buttons {
-      gap: 1rem;
-
-      .button__accept {
-        display: inline-block;
-        width: 120px;
-        height: 47px;
-        margin-top: 7px;
-        padding: 10px;
-        border-radius: 10px;
+      .form__field--button {
+        position: absolute;
+        top: 0.6rem;
+        right: 1rem;
         border: none;
-        background-color: $color-blue-sky;
+        background-color: inherit;
+        transition: 0.2ms ease;
         cursor: pointer;
       }
 
-      .button__reject {
-        border: none;
-        text-decoration: underline;
-        font-size: 1.1vw;
-        font-weight: 400;
+      .form__field--input {
+        width: 100%;
+      }
+    }
+
+    .login__support {
+      margin: 0;
+      font-size: 0.95vw;
+      color: $color-blue;
+    }
+
+    .login__footer {
+      display: flex;
+      margin-top: 20px;
+
+      .login__footer--checkbox {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 79px;
+        height: 50px;
+        border-radius: 4px;
+        border: 2px solid $color-blue-light;
+        background-color: $color-light;
+        transition: all 0.2s ease;
+        cursor: pointer;
+
+        .checkbox__checkmark {
+          width: 60%;
+          height: 60%;
+        }
+      }
+    }
+
+    .login__footer--user-agreement {
+      margin: 0;
+
+      a {
+        border-bottom: 1px solid $color-dark;
         color: $color-dark;
         cursor: pointer;
+      }
+    }
+
+    .submit__button {
+      margin: 5% 0 2.4% 0;
+      padding: 3% 5%;
+      border-radius: 10px;
+      border: none;
+      background-color: $color-green-light;
+      text-align: center;
+      font-family: Jura, sans-serif;
+      font-size: 1.7vw;
+      font-weight: 400;
+      color: #001f3f;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgb(0 31 63 / 20%);
+
+      &:hover {
+        background-color: $color-green-light;
+        box-shadow: 0 4px 8px rgb(0 31 63 / 30%);
+        transform: translateY(-2px);
+      }
+    }
+
+    .wrapper__cookie {
+      position: fixed;
+      top: 73%;
+      left: 3%;
+      z-index: 2000;
+      display: flex;
+      width: 70%;
+      padding: 1.4% 1%;
+      background: rgb(238 238 238 / 50%);
+      text-align: left;
+      transition: top 0.1s linear;
+      box-shadow: 0 0 10px 1px rgb(0 0 0 / 25%);
+      backdrop-filter: blur(3px);
+
+      .wrapper__cookie--text {
+        display: flex;
+        flex-direction: column;
+        font-size: 1.6rem;
+        font-weight: 400;
+        letter-spacing: 0.04em;
+
+        .cookie__warning--text,
+        .cookie__condition--text {
+          margin: 0;
+        }
+
+        .cookie__text--link {
+          text-decoration: underline;
+          color: $color-blue-light;
+        }
+      }
+
+      .wrapper__cookie--buttons {
+        gap: 1rem;
+
+        .button__accept {
+          display: inline-block;
+          width: 120px;
+          height: 47px;
+          margin-top: 7px;
+          padding: 10px;
+          border-radius: 10px;
+          border: none;
+          background-color: $color-blue-sky;
+          cursor: pointer;
+        }
+
+        .button__reject {
+          border: none;
+          text-decoration: underline;
+          font-size: 1.1vw;
+          font-weight: 400;
+          color: $color-dark;
+          cursor: pointer;
+        }
       }
     }
   }
