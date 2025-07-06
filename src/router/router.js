@@ -44,6 +44,7 @@ const router = createRouter({
               path: 'instruction',
               name: 'instruction',
               meta: { name: 'Инструкция' },
+              component: () => import('@/views/InstructionView.vue'),
             },
             {
               path: 'agreement',
