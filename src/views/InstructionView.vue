@@ -58,13 +58,15 @@
     </div>
 
     <div class="page__equipment">
-      <h2 class="page__equipment-header">Страница “Оборудование”</h2>
+      <h2 class="page__equipment-header">2. Страница “Оборудование”</h2>
 
-      <p class="page__equipment--text">
-        На данной странице ведётся учёт принадлежащего Вам оборудования, которые прошли поверку у
-        организаций-поверителей. Оборудование можно добавить автоматически из ФГИС «АРШИН» или
-        внести вручную, выбрав соответствующий вариант формы:
-      </p>
+      <div class="page__equipment--description">
+        <p class="equipment__description--text">
+          На данной странице ведётся учёт принадлежащего Вам оборудования, которые прошли поверку у
+          организаций-поверителей. Оборудование можно добавить автоматически из ФГИС «АРШИН» или
+          внести вручную, выбрав соответствующий вариант формы:
+        </p>
+      </div>
 
       <div class="page__equipment-images-forms">
         <img
@@ -78,42 +80,51 @@
           alt="equipment-import.png"
         />
       </div>
-      <p>
-        Программа автоматически подсвечивает оборудование с истекающим сроком поверки и будет
-        оповещать Вас в окне уведомлений:
-      </p>
 
-      <div class="page__equipment-images-status">
-        <img
-          class="page__equipment-images--status"
-          src="@/assets/images/screenshots/equipment/equipment-status.png"
-          alt="equipment-status.png"
-        />
-        <img
-          class="page__equipment-images--notifications"
-          src="@/assets/images/screenshots/equipment/equipment-notification.png"
-          alt="equipment-notification.png"
-        />
+      <div class="page__equipment-about-status">
+        <div class="equipment__status">
+          <p class="equipment__status--text">
+            Программа автоматически подсвечивает оборудование с истекающим сроком поверки и будет
+            оповещать Вас в окне уведомлений:
+          </p>
+        </div>
+        <div class="equipment__status--images">
+          <img
+            class="equipment-image--status"
+            src="@/assets/images/screenshots/equipment/equipment-status.png"
+            alt="equipment-status.png"
+          />
+          <img
+            class="equipment-image--notifications"
+            src="@/assets/images/screenshots/equipment/equipment-notification.png"
+            alt="equipment-notification.png"
+          />
+        </div>
       </div>
 
-      <div>
+      <div class="page__equipment-about-filter">
         <img
-          class="page__equipment-images--form"
-          src="@/assets/images/screenshots/equipment/equipment-form.png"
+          class="equipment__filter--image"
+          src="@/assets/images/screenshots/equipment/equipment-filter.png"
           alt="equipment-form.png"
         />
-        <p>Для отбора определённого оборудования можно воспользоваться фильтром</p>
+        <p class="equipment__filter--text">
+          Для отбора определённого оборудования можно воспользоваться фильтром
+        </p>
       </div>
-      <p>
-        Как и на странице “Персонал”, оборудование можно импортировать из файла Excel, но в таком
-        случае оно будет добавлено на страницу “Прочее оборудование”:
-      </p>
 
-      <img
-        class="page__equipment-images--form"
-        src="@/assets/images/screenshots/equipment/equipment-form.png"
-        alt="equipment-form.png"
-      />
+      <div class="page__equipment-about-excel">
+        <p class="equipment__excel--text">
+          Как и на странице “Персонал”, оборудование можно импортировать из файла Excel, но в таком
+          случае оно будет добавлено на страницу “Прочее оборудование”:
+        </p>
+
+        <img
+          class="equipment__excel--images"
+          src="@/assets/images/screenshots/equipment/equipment-excel.png"
+          alt="equipment-excel.png"
+        />
+      </div>
     </div>
 
     <div class="page__equipment-personal">
@@ -214,6 +225,56 @@
         .page__person-about-forms-images--excel {
           width: 30%;
           height: 40%;
+        }
+      }
+    }
+
+    .page__equipment {
+      text-align: left;
+
+      .equipment__description--text {
+        text-align: left;
+      }
+
+      .page__equipment-images-forms {
+        display: flex;
+        gap: 1rem;
+
+        .page__equipment-images--form {
+          width: 35%;
+        }
+
+        .page__equipment-images--import {
+          width: 20%;
+          height: 10%;
+        }
+      }
+
+      .equipment__status--images {
+        display: flex;
+        gap: 1rem;
+
+        .equipment-image--status {
+          width: 70%;
+          height: 20%;
+        }
+
+        .equipment-image--notifications {
+          width: 20%;
+          height: 5%;
+        }
+      }
+
+      .page__equipment-about-filter {
+        .equipment__filter--image {
+          width: 40%;
+          height: 40%;
+        }
+      }
+
+      .page__equipment-about-excel {
+        .equipment__excel--images {
+          width: 20%;
         }
       }
     }
