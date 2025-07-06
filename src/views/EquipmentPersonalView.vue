@@ -121,7 +121,7 @@
                       class="table__button--details"
                       @click="toggleDetails(item.uuid ?? index)"
                     >
-                      <div class="button__details-wrapper">
+                      <div class="button__details--wrapper">
                         <img
                           class="button__wrapper--icon"
                           :src="
@@ -389,7 +389,7 @@
     font-weight: bold;
     color: $color-blue-light;
 
-    .button__details-wrapper {
+    .button__details--wrapper {
       display: flex;
       align-items: center;
 

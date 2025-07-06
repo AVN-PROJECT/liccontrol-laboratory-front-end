@@ -345,7 +345,7 @@
           position: sticky;
           top: 0;
           z-index: 1;
-          background-color: white;
+          background-color: $color-light;
 
           .equipment__page-table-header-columns {
             .person__page-table-header-id {
