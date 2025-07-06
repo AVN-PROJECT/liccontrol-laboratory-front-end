@@ -18,7 +18,6 @@
           <tr
             v-for="(item, index) in persons"
             :key="item.uuid ?? index"
-            :class="[{ editing: editingId === (item.uuid ?? index) }, item.status]"
             class="equipment__page-table-columns"
           >
             <td class="person__page-table-cell-id">
@@ -40,7 +39,7 @@
 
             <td class="person__page-table-cell-fio">
               <p
-                v-if="!editingId"
+                v-if="editingId !== (item.uuid ?? index)"
                 class="person__page-table-value"
               >
                 {{ item.fio }}
@@ -56,7 +55,7 @@
             </td>
             <td class="person__page-table-cell-phone">
               <p
-                v-if="!editingId"
+                v-if="editingId !== (item.uuid ?? index)"
                 class="person__page-table-value"
               >
                 {{ item.number_phone }}
@@ -72,7 +71,7 @@
             </td>
             <td class="person__page-table-cell-certificate-number">
               <p
-                v-if="!editingId"
+                v-if="editingId !== (item.uuid ?? index)"
                 class="person__page-table-value"
               >
                 {{ item.certificate_number }}
@@ -88,7 +87,7 @@
             </td>
             <td class="person__page-table-cell-certificate-date">
               <p
-                v-if="!editingId"
+                v-if="editingId !== (item.uuid ?? index)"
                 class="person__page-table-value"
               >
                 {{ item.certificate_date }}
@@ -104,7 +103,7 @@
             </td>
             <td class="person__page-table-cell-certificate-valid-date">
               <p
-                v-if="!editingId"
+                v-if="editingId !== (item.uuid ?? index)"
                 class="person__page-table-value"
               >
                 {{ item.certificate_valid_date }}
@@ -120,7 +119,7 @@
             </td>
             <td class="person__page-table-cell-equipments">
               <p
-                v-if="!editingId"
+                v-if="editingId !== (item.uuid ?? index)"
                 class="person__page-table-value"
               >
                 {{ item.equipments || '-' }}
@@ -345,7 +344,7 @@
           position: sticky;
           top: 0;
           z-index: 1;
-          background-color: white;
+          background-color: $color-light;
 
           .equipment__page-table-header-columns {
             .person__page-table-header-id {
