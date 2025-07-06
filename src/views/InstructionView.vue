@@ -130,17 +130,18 @@
     <div class="page__equipment-personal">
       <h2 class="page__equipment-personal-header">3. Страница “Прочее оборудование”</h2>
 
-      <p>
-        Эта страница содержит оборудование не прошедшее поверку и отсутствующее во ФГИС “Аршин”. Для
-        переноса оборудования из “прочего” на страницу поверенного, необходимо заполнить поле “Номер
-        свидетельства” и дождаться обновления проверки данных с ФГИС “Аршин”.
-      </p>
-
-      <img
-        class="page__equipment-personal-table--image"
-        src="@/assets/images/screenshots/equipment/equipment-personal-table.png"
-        alt="equipment-personal-table.png"
-      />
+      <div class="page__equipment-personal-description">
+        <p class="equipment-personal__description--text">
+          Эта страница содержит оборудование не прошедшее поверку и отсутствующее во ФГИС “Аршин”.
+          Для переноса оборудования из “прочего” на страницу поверенного, необходимо заполнить поле
+          “Номер свидетельства” и дождаться обновления проверки данных с ФГИС “Аршин”.
+        </p>
+        <img
+          class="equipment-personal__description--image"
+          src="@/assets/images/screenshots/equipment/equipment-personal-table.png"
+          alt="equipment-personal-table.png"
+        />
+      </div>
     </div>
 
     <div class="page__agreement">
@@ -275,6 +276,19 @@
       .page__equipment-about-excel {
         .equipment__excel--images {
           width: 20%;
+        }
+      }
+    }
+
+    .page__equipment-personal {
+      text-align: left;
+
+      .page__equipment-personal-description {
+        display: flex;
+        flex-direction: column;
+
+        .equipment-personal__description--image {
+          width: 75%;
         }
       }
     }
