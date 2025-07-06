@@ -1,11 +1,11 @@
 <template>
   <div
     v-if="loginEmail"
-    class="login__confirm-email-form"
+    class="login__form--confirm-email"
   >
-    <h2 class="login__form-text">Подтвердите электронную почту</h2>
+    <h2 class="form__header--text">Подтвердите электронную почту</h2>
 
-    <p class="login__email-description">
+    <p class="form__description">
       На Вашу почту {{ loginEmail }} было отправлено письмо с кодом подтверждения.
       <br />
       <br />
@@ -29,25 +29,25 @@
 
     <p
       v-if="isCodeCorrect === false"
-      class="error-text"
+      class="form__error--text"
     >
       Введен неверный код
     </p>
 
-    <button
-      class="login__form-button-login"
+    <VButton
+      class="login__form--button"
       @click="handlerConfirmButton"
     >
       Подтвердить
-    </button>
+    </VButton>
 
     <div class="login__footer">
-      <p class="login__footer-user-agreements">
+      <p class="login__footer--user-agreement">
         Не получили код?
         <br />
         <br />
         <a
-          class="request_code"
+          class="form__reset-code"
           href="#"
           @click.prevent=""
         >
@@ -75,6 +75,7 @@
 
   // components.
   import VInput from '@/components/ui/VInput.vue';
+  import VButton from '@/components/ui/VButton.vue';
 
   // constants.
   const twoFAInput = ref(['', '', '', '']);
@@ -150,13 +151,7 @@
 </script>
 
 <style scoped lang="scss">
-  // .support {
-  //  margin: 0;
-  //  font-size: 0.85vw;
-  //  color: $color-blue;
-  // }
-
-  .login__footer-user-agreements {
+  .login__footer--user-agreement {
     margin-top: 6.4%;
 
     a {
@@ -165,31 +160,29 @@
       cursor: pointer;
     }
 
-    .request_code {
+    .form__reset-code {
       border-bottom: 0 solid $color-dark;
       color: $color-blue;
       cursor: pointer;
     }
   }
 
-  .login__form-button-login {
-    margin: 5% 0 6.4% 0;
+  .login__form--button {
+    margin: 2.2rem;
     padding: 4% 7%;
     border-radius: 10px;
     border: none;
-    background-color: $color-blue-sky;
+    background-color: $color-green-light;
     text-align: center;
-    font-family: Jura, sans-serif;
-    font-size: 1.9vw;
-    font-weight: 400;
-    color: #001f3f;
+    font-size: 1.3vw;
+    color: $color-dark-blue;
     cursor: pointer;
   }
 
   .login__form-two-fa {
     display: flex;
     justify-content: center;
-    gap: 61px;
+    gap: 3.5rem;
     margin-top: 8%;
   }
 
@@ -200,20 +193,17 @@
     border: none;
     background: rgb(217 217 217 / 30%);
     text-align: center;
-    font-family: Montserrat, sans-serif;
-    font-size: 20px;
-    font-weight: 400;
-    font-style: normal;
+    font-family: $font-family-paragraphs;
+    font-size: 1.5rem;
     color: #000;
     box-shadow: inset 0 0 4px 2px rgb(0 0 0 / 25%);
   }
 
-  .error-text {
+  .form__error--text {
     margin-top: 6%;
     margin-bottom: 0;
-    font-family: Montserrat, sans-serif;
+    font-family: $font-family-paragraphs;
     font-size: 0.9vw;
-    font-style: normal;
     color: $color-red;
   }
 </style>
