@@ -162,7 +162,6 @@
 
   // components.
   import VInput from '@/components/ui/VInput.vue';
-
   import eyeCloseIcon from '@/assets/icons/sections/buttons/eye-close.svg';
   import eyeOpenIcon from '@/assets/icons/sections/buttons/eye-open.svg';
 
@@ -324,10 +323,8 @@
       border: none;
       background-color: $color-green-light;
       text-align: center;
-      font-family: Jura, sans-serif;
       font-size: 1.7vw;
-      font-weight: 400;
-      color: #001f3f;
+      color: $color-dark-blue;
       cursor: pointer;
       box-shadow: 0 2px 4px rgb(0 31 63 / 20%);
 
