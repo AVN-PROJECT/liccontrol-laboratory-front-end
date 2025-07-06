@@ -1,9 +1,9 @@
 <template>
-  <div class="login-form__wrapper">
-    <div class="login-form__component">
-      <h1 class="header-login__text">Вход в личный кабинет</h1>
+  <div class="login__form--wrapper">
+    <div class="form__wrapper--content">
+      <h1 class="wrapper__login--text">Вход в личный кабинет</h1>
 
-      <div class="login__form">
+      <div class="form__wrapper--fields">
         <VInput
           v-model="form.name"
           color="grey"
@@ -40,18 +40,17 @@
             placeholder="Пароль"
             @update="errors.password = ''"
           />
-          <!--          <button-->
-          <!--            type="button"-->
-          <!--            class="toggle-password-btn"-->
-          <!--            @click="showPassword = !showPassword"-->
-          <!--          >-->
-          <!--            <img-->
-          <!--              v-if="showPassword"-->
-          <!--              src="@/assets/"-->
-          <!--              alt="Скрыть"-->
-          <!--            />-->
-          <!--            <img v-else src="@/assets/" alt="Показать" />-->
-          <!--          </button>-->
+          <button
+            type="button"
+            class="toggle-password-btn"
+            @click="showPassword = !showPassword"
+          >
+            <img
+              v-if="showPassword"
+              :src="eyeCloseIcon ? showPassword : eyeOpenIcon"
+              alt="Скрыть"
+            />
+          </button>
         </div>
 
         <VInput
@@ -88,7 +87,7 @@
         >
           <img
             v-if="cookieAccepted"
-            src=""
+            src="@/assets/icons/sections/buttons/tick-save.svg"
             alt="✓"
             class="checkmark"
           />
@@ -102,34 +101,44 @@
         </p>
       </div>
     </div>
-    <div
-      v-if="showCookieBlock"
-      class="login__cookie"
-      :style="{ bottom: `${scrollY + 20}px` }"
-    >
-      <p class="login__cookie-text">
-        Мы используем файлы cookies для улучшения работы сайта и большего удобства его
-        использования. Более подробную информацию об использовании файлов cookies можно найти здесь
-        <a
-          href=""
-          target="_blank"
-          download="/Политика_в_отношении_обработки_персональных_данных.pdf"
-        >
-          Политика в отношении обработки персональных данных.
-        </a>
-        Продолжая пользоваться сайтом, вы подтверждаете, что были проинформированы об использовании
-        файлов cookies сайтом https://liccontrol.ru/ и согласны с нашими правилами обработки
-        персональных данных. Вы можете отключить файлы cookies в настройках Вашего браузера.
-      </p>
-      <div class="login__cookie_options">
-        <div class="login__cookie-accept">
-          <a @click="acceptCookies">Принято</a>
+
+    <template v-if="showCookieBlock">
+      <div class="wrapper__cookie">
+        <div>
+          <p class="wrapper__cookie--text">
+            {{ policyText.policyWarning }}
+            <a
+              href=""
+              target="_blank"
+              download="/Политика_в_отношении_обработки_персональных_данных.pdf"
+            >
+              Политика в отношении обработки персональных данных.
+            </a>
+          </p>
+
+          <p v-text="policyText.policyCondition"></p>
         </div>
-        <div class="login__cookie-reject">
-          <a @click="rejectCookies">Отклонить</a>
+
+        <div class="wrapper__cookie--buttons">
+          <VButton
+            class="button__accept"
+            @click="
+              cookieAccepted = true;
+              showCookieBlock = false;
+            "
+          >
+            Принято
+          </VButton>
+
+          <VButton
+            class="button__reject"
+            @click="showCookieBlock = false"
+          >
+            Отклонить
+          </VButton>
         </div>
       </div>
-    </div>
+    </template>
   </div>
 </template>
 
@@ -152,18 +161,16 @@
 
   // components.
   import VInput from '@/components/ui/VInput.vue';
+  import eyeCloseIcon from '@/assets/icons/sections/buttons/eye-close.svg';
+  import eyeOpenIcon from '@/assets/icons/sections/buttons/eye-open.svg';
+
+  // text.
+  import policyText from '@/assets/texts/policyText.js';
+  import VButton from '@/components/ui/VButton.vue';
 
   // constants.
   const { setCurrentForm } = useUiUxStore();
   const { loginName, loginEmail } = storeToRefs(useUserStore());
-
-  defineProps({
-    message: String,
-    type: {
-      type: String,
-      default: 'info',
-    },
-  });
 
   const form = ref({
     name: '',
@@ -180,7 +187,6 @@
     license_key: '',
   });
   const scrollY = ref(0);
-  const toastList = ref([]);
   const cookieAccepted = ref(false);
   const showCookieBlock = ref(true);
   const showPassword = ref(false);
@@ -192,17 +198,9 @@
     disableBodyScroll();
   });
 
-  const showToast = (message, type = 'info') => {
-    const id = Date.now() + Math.random();
-    toastList.value.push({ message, id, type });
-
-    setTimeout(() => {
-      toastList.value = toastList.value.filter((t) => t.id !== id);
-    }, 5000);
-  };
-
   const validate = () => {
     const newErrors = {
+      name: strValidate(form.value.name, '', true),
       inn: strValidate(form.value.inn, 'inn', true),
       email: strValidate(form.value.email, 'email', true),
       password: strValidate(form.value.password, 'password', true),
@@ -241,45 +239,14 @@
       const responseData = err.response?.data;
 
       if (responseData?.errors && typeof responseData.errors === 'object') {
-        Object.values(responseData.errors).forEach((msg) => showToast(msg, 'error'));
-        return;
+        console.error(responseData.errors);
       }
-
-      if (Array.isArray(responseData?.errors)) {
-        responseData.errors.forEach((msg) => showToast(msg, 'error'));
-        return;
-      }
-
-      if (typeof responseData?.message === 'string') {
-        showToast(responseData.message, 'error');
-        return;
-      }
-
-      if (typeof responseData?.detail === 'string') {
-        showToast(responseData.detail, 'error');
-        return;
-      }
-
-      if (err.response?.status) {
-        showToast(`Ошибка сервера: ${err.response.status} ${err.response.statusText}`, 'error');
-        return;
-      }
-
-      showToast('Неизвестная ошибка сервера. Попробуйте позже.', 'error');
     }
-  };
-
-  const acceptCookies = () => {
-    showCookieBlock.value = false;
-  };
-
-  const rejectCookies = () => {
-    showCookieBlock.value = false;
   };
 </script>
 
 <style scoped lang="scss">
-  .login__form {
+  .form__wrapper--fields {
     display: flex;
     width: 70.6%;
     margin: 0 auto;
@@ -293,10 +260,6 @@
 
     input {
       margin-bottom: 5%;
-    }
-
-    .input-error {
-      border: 2px solid $color-red;
     }
   }
 
@@ -357,57 +320,14 @@
       box-shadow: 0 4px 8px rgb(0 31 63 / 30%);
       transform: translateY(-2px);
     }
-
-    &:active {
-      animation: buttonClick 0.4s ease;
-    }
-
-    &:after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 5px;
-      height: 5px;
-      border-radius: 100%;
-      background: rgb(255 255 255 / 50%);
-      opacity: 0;
-      transform: scale(1, 1) translate(-50%, -50%);
-      transform-origin: 50% 50%;
-    }
-
-    &:focus:not(:active):after {
-      animation: ripple 0.6s ease-out;
-    }
   }
 
-  @keyframes buttonClick {
-    0% {
-      transform: scale(1);
-    }
-
-    50% {
-      transform: scale(0.95);
-    }
-
-    100% {
-      transform: scale(1);
-    }
+  .checkmark {
+    width: 60%;
+    height: 60%;
   }
 
-  @keyframes ripple {
-    0% {
-      opacity: 0.5;
-      transform: scale(0, 0);
-    }
-
-    100% {
-      opacity: 0;
-      transform: scale(20, 20);
-    }
-  }
-
-  .login__cookie {
+  .wrapper__cookie {
     position: fixed;
     top: 73%;
     left: 3%;
@@ -421,6 +341,33 @@
     box-shadow: 0 0 10px 1px rgb(0 0 0 / 25%);
     backdrop-filter: blur(3px);
 
+    .wrapper__cookie--text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .wrapper__cookie--buttons {
+      .button__accept {
+        display: inline-block;
+        width: 120px;
+        height: 47px;
+        margin-top: 7px;
+        padding: 10px;
+        border-radius: 10px;
+        border: none;
+        background-color: $color-blue-sky;
+      }
+
+      .button__reject {
+        gap: 2rem;
+        border: none;
+        text-decoration: underline;
+        font-size: 1.1vw;
+        font-weight: 400;
+        color: $color-dark;
+      }
+    }
+
     p {
       margin: 5px 25px 5px 0;
       font-size: 24px;
@@ -430,34 +377,6 @@
       a {
         border-bottom: 1px solid #1976d2;
         color: #1976d2;
-      }
-    }
-
-    .login__cookie-accept {
-      display: inline-block;
-      width: 120px;
-      height: 47px;
-      margin-top: 7px;
-      padding: 10px;
-      border-radius: 10px;
-      background-color: $color-blue-sky;
-
-      a {
-        font-size: 1.2vw;
-        font-weight: 400;
-        color: #001f3f;
-      }
-    }
-
-    .login__cookie-reject {
-      margin-top: 20px;
-      margin-left: 10px;
-
-      a {
-        text-decoration: underline;
-        font-size: 1.1vw;
-        font-weight: 400;
-        color: #000;
       }
     }
   }
@@ -470,24 +389,24 @@
       padding-right: 40px;
     }
 
-    // .toggle-password-btn {
-    //  position: absolute;
-    //  right: 14px;
-    //  top: 35%;
-    //  transform: translateY(-50%);
-    //  background: transparent;
-    //  border: none;
-    //  cursor: pointer;
-    //  padding: 0;
-    //  display: flex;
-    //  align-items: center;
-    //  justify-content: center;
-    //
-    //  img {
-    //    width: 30px;
-    //    height: 22px;
-    //    display: block;
-    //  }
-    // }
+    .toggle-password-btn {
+      position: absolute;
+      top: 35%;
+      right: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      border: none;
+      background: transparent;
+      transform: translateY(-50%);
+      cursor: pointer;
+
+      img {
+        display: block;
+        width: 30px;
+        height: 22px;
+      }
+    }
   }
 </style>
