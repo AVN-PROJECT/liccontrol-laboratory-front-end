@@ -93,6 +93,48 @@
         </template>
       </div>
     </div>
+
+    <div class="agreement-page__side-menu">
+      <div class="side-menu__mode">
+        <div class="mode__buttons">
+          <VButton @click="status = 'active'">
+            <img
+              src="@/assets/icons/sections/buttons/agreement-active.svg"
+              alt="agreement-active.svg"
+            />
+          </VButton>
+          <VButton @click="status = 'finished'">
+            <img
+              src="@/assets/icons/sections/buttons/agreement-finished.svg"
+              alt="agreement-finished.svg"
+            />
+          </VButton>
+        </div>
+      </div>
+
+      <div class="side_menu__status">
+        <ul>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
+      </div>
+
+      <div class="side-menu__addition">
+        <VButton
+          class="button__add"
+          @click="agreementAddition = !agreementAddition"
+        >
+          Добавить договор
+        </VButton>
+      </div>
+
+      <template v-if="agreementAddition">
+        <div class="side-menu__modal">
+          <AgreementAdditionForm />
+        </div>
+      </template>
+    </div>
   </div>
 </template>
 
@@ -105,11 +147,13 @@
   import VInput from '@/components/ui/VInput.vue';
   import apiClient from '@/composables/api/apiClient.js';
   import formatDate from '@/helpers/format/format.js';
+  import AgreementAdditionForm from '@/components/forms/AgreementAdditionForm.vue';
 
   // constants.
   const editingId = ref(null);
   const agreements = ref([]);
   const status = ref('active');
+  const agreementAddition = ref(false);
 
   const getAgreements = async () => {
     const response = await apiClient.get(`/user/agreement/agreements?${status.value}`);
@@ -143,7 +187,7 @@
     gap: 10px;
 
     .agreement-page__table {
-      width: 80%;
+      width: 85%;
     }
 
     .table__header {
@@ -200,6 +244,22 @@
       .cell__field--input {
         width: 100%;
         margin-bottom: 1.5rem;
+      }
+    }
+
+    .agreement-page__side-menu {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 15%;
+      flex-direction: column;
+
+      .side-menu__modal {
+        position: absolute;
+        right: 3rem;
+        bottom: 0.5rem;
+        z-index: 10;
+        width: 35%;
       }
     }
   }
