@@ -32,7 +32,7 @@
                     type="text"
                     :value="item.name"
                     color="white"
-                    class="input-field"
+                    class="cell__field--input"
                   />
                 </div>
                 <div class="table__cell body-cell-number-serial">
@@ -43,7 +43,7 @@
                     type="text"
                     :value="item.number_serial"
                     color="white"
-                    class="input-field"
+                    class="cell__field--input"
                   />
                 </div>
                 <div class="table__cell body-cell-address-operating">
@@ -54,7 +54,7 @@
                     type="text"
                     :value="item.address_operating"
                     color="white"
-                    class="input-field"
+                    class="cell__field--input"
                   />
                 </div>
                 <div class="table__cell body-cell-agreement-number">
@@ -65,7 +65,7 @@
                     type="text"
                     :value="item.agreement_number"
                     color="white"
-                    class="input-field"
+                    class="cell__field--input"
                   />
                 </div>
                 <div class="table__cell body-cell-person">
@@ -76,13 +76,13 @@
                     type="text"
                     :value="item.person"
                     color="white"
-                    class="input-field"
+                    class="cell__field--input"
                   />
                 </div>
 
                 <div class="table__cell body-cell-actions">
                   <VButton
-                    class="table__button--details"
+                    class="table__button--action"
                     @click="toggleDetails(item.uuid ?? index)"
                   >
                     <div class="button__details--wrapper">
@@ -132,7 +132,7 @@
                         type="text"
                         :value="item.organization_owner"
                         color="white"
-                        class="input-field"
+                        class="cell__field--input"
                       />
                     </div>
                   </div>
@@ -148,7 +148,7 @@
                         type="text"
                         :value="item.verification_number"
                         color="white"
-                        class="input-field"
+                        class="cell__field--input"
                       />
                     </div>
                   </div>
@@ -448,7 +448,7 @@
     margin: auto 1rem 1rem 1rem;
   }
 
-  .table__button--details {
+  .table__button--action {
     border: none;
     background-color: inherit;
     font-weight: bold;
@@ -484,7 +484,7 @@
     }
   }
 
-  .input-field {
+  .cell__field--input {
     width: 100%;
     margin-bottom: 1.5rem;
   }

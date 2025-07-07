@@ -38,7 +38,7 @@
                     type="text"
                     :value="item.name"
                     color="white"
-                    class="input-field"
+                    class="cell__field--input"
                   />
                 </div>
                 <div class="table__cell body-cell-type">
@@ -49,7 +49,7 @@
                     type="text"
                     :value="item.type"
                     color="white"
-                    class="input-field"
+                    class="cell__field--input"
                   />
                 </div>
                 <div class="table__cell body-cell-verification-date">
@@ -60,7 +60,7 @@
                     type="text"
                     :value="item.verification_date"
                     color="white"
-                    class="input-field"
+                    class="cell__field--input"
                   />
                 </div>
                 <div class="table__cell body-cell-verification-valid">
@@ -71,7 +71,7 @@
                     type="text"
                     :value="item.verification_valid"
                     color="white"
-                    class="input-field"
+                    class="cell__field--input"
                   />
                 </div>
                 <div class="table__cell body-cell-verification-number">
@@ -82,7 +82,7 @@
                     type="text"
                     :value="item.verification_number"
                     color="white"
-                    class="input-field"
+                    class="cell__field--input"
                   />
                 </div>
 
@@ -92,7 +92,7 @@
 
                 <div class="table__cell body-cell-actions">
                   <VButton
-                    class="table__button--details"
+                    class="table__button--action"
                     @click="toggleDetails(item.uuid ?? index)"
                   >
                     <div class="button__details--wrapper">
@@ -146,7 +146,7 @@
                           type="text"
                           :value="item.verification_organization"
                           color="white"
-                          class="input-field"
+                          class="cell__field--input"
                         />
                       </div>
                     </div>
@@ -160,7 +160,7 @@
                           type="text"
                           :value="item.number_serial"
                           color="white"
-                          class="input-field"
+                          class="cell__field--input"
                         />
                       </div>
                     </div>
@@ -176,7 +176,7 @@
                           type="text"
                           :value="item.address_operating"
                           color="white"
-                          class="input-field"
+                          class="cell__field--input"
                         />
                       </div>
                     </div>
@@ -192,7 +192,7 @@
                           type="text"
                           :value="item.agreement_number"
                           color="white"
-                          class="input-field"
+                          class="cell__field--input"
                         />
                       </div>
                     </div>
@@ -209,7 +209,7 @@
                           type="text"
                           :value="item.person"
                           color="white"
-                          class="input-field"
+                          class="cell__field--input"
                         />
                       </div>
                     </div>
@@ -226,7 +226,7 @@
                           type="text"
                           :value="item.organization_owner"
                           color="white"
-                          class="input-field"
+                          class="cell__field--input"
                         />
                       </div>
                     </div>
@@ -647,7 +647,7 @@
       }
     }
 
-    .table__button--details {
+    .table__button--action {
       display: flex;
       border: none;
       background-color: inherit;
@@ -684,7 +684,7 @@
       }
     }
 
-    .input-field {
+    .cell__field--input {
       width: 100%;
       margin-bottom: 1rem;
     }

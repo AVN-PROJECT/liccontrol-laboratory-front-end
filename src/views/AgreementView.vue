@@ -1,6 +1,6 @@
 <template>
   <div class="agreement__page-main">
-    <div class="equipment-page__table">
+    <div class="agreement-page__table">
       <div class="table__header">
         <div class="table__cell header-cell-id">№</div>
         <div class="table__cell header-cell-agreement-number">№ Договора</div>
@@ -20,59 +20,74 @@
         >
           <div class="table__row">
             <div class="table__cell body-cell-id">
-              <p>{{ index + 1 }}</p>
+              <p class="cell__field--text">{{ index + 1 }}</p>
             </div>
 
             <div class="table__cell body-cell-agreement-number">
-              <p v-if="editingId !== (item.uuid ?? index)">{{ item.agreement_number }}</p>
+              <p
+                v-if="editingId !== (item.uuid ?? index)"
+                class="cell__field--text"
+              >
+                {{ item.agreement_number }}
+              </p>
 
               <VInput
                 v-else
                 v-model="item.agreement_number"
                 :value="item.agreement_number"
                 color="white"
-                class="input-field"
+                class="cell__field--input"
               />
             </div>
             <div class="table__cell body-cell-types-of-work">
-              <p>{{ [] }}</p>
+              <p class="cell__field--content">{{ [] }}</p>
             </div>
             <div class="table__cell body-cell-addresses">
-              <p>{{ [] }}</p>
+              <p class="cell__field--content">{{ [] }}</p>
             </div>
             <div class="table__cell body-cell-agreement-date">
-              <p v-if="editingId !== (item.uuid ?? index)">{{ item.agreement_start_date }}</p>
+              <p
+                v-if="editingId !== (item.uuid ?? index)"
+                class="cell__field--text"
+              >
+                {{ item.agreement_start_date }}
+              </p>
               <VInput
                 v-else
                 v-model="item.agreement_start_date"
                 type="date"
                 :value="item.agreement_start_date"
                 color="white"
-                class="input-field"
+                class="cell__field--input"
               />
             </div>
             <div class="table__cell body-cell-agreement-date-finish">
-              <p v-if="editingId !== (item.uuid ?? index)">{{ item.agreement_final_date }}</p>
+              <p
+                v-if="editingId !== (item.uuid ?? index)"
+                class="cell__field--text"
+              >
+                {{ item.agreement_final_date }}
+              </p>
               <VInput
                 v-else
                 v-model="item.agreement_final_date"
                 type="date"
                 :value="item.agreement_final_date"
                 color="white"
-                class="input-field"
+                class="cell__field--input"
               />
             </div>
 
             <div class="table__cell body-cell-persons">
-              <p>{{ [] }}</p>
+              <p class="cell__field--content">{{ [] }}</p>
             </div>
 
             <div class="table__cell body-cell-equipments">
-              <p>{{ [] }}</p>
+              <p class="cell__field--content">{{ [] }}</p>
             </div>
 
             <div class="table__cell body-cell-actions">
-              <VButton class="table__button--details">Завершить</VButton>
+              <VButton class="table__button--action">Завершить</VButton>
             </div>
           </div>
         </template>
@@ -119,5 +134,73 @@
 </script>
 
 <style lang="scss">
-  /* styles go here */
+  .agreement__page-main {
+    position: relative;
+    display: flex;
+    width: 100%;
+    padding: 20px 40px;
+    font-family: $font-family-base;
+    gap: 10px;
+
+    .agreement-page__table {
+      width: 80%;
+    }
+
+    .table__header {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      display: grid;
+      width: 100%;
+      padding: 12px 8px;
+      background-color: white;
+      grid-template-columns: 5% 10% 10% 12% 10% 10% 15% 10%;
+      box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
+
+      .table__cell {
+        align-content: center;
+        text-align: center;
+        text-transform: uppercase;
+        font-size: 15px;
+        font-weight: bold;
+      }
+    }
+
+    .table__body {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+
+      .table__row {
+        display: grid;
+        padding: 12px 8px;
+        border-radius: 10px;
+        grid-template-columns: 5% 10% 10% 12% 10% 10% 15% 10%;
+
+        .table__cell {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 8px 4px;
+          text-align: center;
+          font-size: 14px;
+
+          p {
+            margin: 0;
+          }
+        }
+      }
+
+      &:hover {
+        transform: scale(1.1);
+        transition: transform 0.2s ease;
+      }
+
+      .cell__field--input {
+        width: 100%;
+        margin-bottom: 1.5rem;
+      }
+    }
+  }
 </style>
