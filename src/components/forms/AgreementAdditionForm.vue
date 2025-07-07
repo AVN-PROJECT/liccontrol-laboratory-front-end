@@ -2,13 +2,13 @@
   <div class="agreement__form--addition">
     <div class="form__buttons--close">
       <VButton
-        class=""
-        click=""
+        class="form__button--close"
+        @click="emit('close-modal')"
       >
         <img
-          src=""
-          alt=""
-          class=""
+          src="@/assets/icons/sections/buttons/cross-cancel.svg"
+          alt="cross-close.svg"
+          class="form__button--icon"
         />
       </VButton>
     </div>
@@ -28,10 +28,15 @@
 
     <div class="form__buttons">
       <VButton
-        class=""
+        class="form__button--addition"
         @click="addAgreement"
       >
         Добавить договор
+        <img
+          src="@/assets/icons/sections/buttons/plus-addition.svg"
+          alt="plus-addition.svg"
+          class="button__addition--icon"
+        />
       </VButton>
     </div>
   </div>
