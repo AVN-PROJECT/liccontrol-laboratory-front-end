@@ -338,8 +338,6 @@
       }
 
       .side-menu__addition {
-        width: 90%;
-        height: 100%;
         margin-top: 1rem;
 
         .button__add {
@@ -357,11 +355,12 @@
 
       .side-menu__modal {
         position: absolute;
-        top: 7rem;
         right: 20rem;
+        bottom: 0;
         z-index: 10;
-        width: 35%;
-        height: 100%;
+        display: flex;
+        width: 40%;
+        max-height: 250vh;
       }
     }
   }

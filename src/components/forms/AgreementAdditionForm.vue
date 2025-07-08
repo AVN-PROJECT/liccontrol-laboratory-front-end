@@ -68,19 +68,36 @@
         </div>
 
         <div class="form__field">
-          <label
-            for="form__field--input"
-            class="field__label"
-          >
-            <span class="field__label--text">Адрес выполнения работ</span>
-            <VInput
-              class="form__field--input"
-              color="white"
-              size="medium"
-            />
-          </label>
+          <div class="form__field--content">
+            <label
+              for="form__field--input"
+              class="field__label"
+            >
+              <span class="field__label--text">Адрес выполнения работ</span>
+              <VInput
+                v-model="newItem"
+                class="form__field--input"
+                color="white"
+                size="medium"
+              />
+            </label>
 
-          <VButton class="field__button">
+            <div class="form__field--items">
+              <ul class="field__items--list">
+                <template
+                  v-for="(type, index) in newAgreement.addresses"
+                  :key="index"
+                >
+                  <li class="items__list--item">{{ type }}</li>
+                </template>
+              </ul>
+            </div>
+          </div>
+
+          <VButton
+            class="field__button"
+            @click="addNewItem(newItem, 'addresses')"
+          >
             <img
               class="content__button--icon"
               src="@/assets/icons/sections/buttons/plus-addition.svg"
@@ -201,19 +218,21 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 100%;
     padding: 1rem;
     border-radius: 0.5rem;
     background: linear-gradient(45deg, rgb(143 200 155 / 30%) 0%, #f5f5f5 100%);
     backdrop-filter: blur(5px);
     gap: 1.5rem;
+    box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
 
     .form__buttons--close {
       display: flex;
       justify-content: flex-end;
+      padding: 0;
 
       .form__button--close {
-        margin: 0.5rem;
+        margin: 0;
+        padding: 0;
         border: none;
         background-color: inherit;
         cursor: pointer;
@@ -285,6 +304,24 @@
             cursor: pointer;
           }
         }
+      }
+    }
+
+    .form__buttons {
+      display: flex;
+      justify-content: flex-end;
+
+      .form__button--addition {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        background-color: inherit;
+        text-decoration: underline;
+        font-weight: bold;
+        color: $color-blue-light;
+        cursor: pointer;
+        gap: 0.5rem;
       }
     }
   }
