@@ -229,7 +229,6 @@
 
       persons.value = response.data.map((person) => ({
         uuid: person.uuid,
-        organization_id: person.organization_id,
         fio: person.fio,
         certificate_number: person.certificate_number,
         certificate_date: formatDate(person.certificate_date),

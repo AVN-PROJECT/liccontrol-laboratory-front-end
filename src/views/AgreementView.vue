@@ -163,7 +163,11 @@
 
       <template v-if="agreementAddition">
         <div class="side-menu__modal">
-          <AgreementAdditionForm @close-modal="agreementAddition = false" />
+          <AgreementAdditionForm
+            :equipments="equipments"
+            :persons="persons"
+            @close-modal="agreementAddition = false"
+          />
         </div>
       </template>
     </div>
@@ -186,6 +190,19 @@
   const agreements = ref([]);
   const status = ref('active');
   const agreementAddition = ref(false);
+  const equipments = ref([]);
+  const persons = ref([]);
+
+  const getOptionsData = async () => {
+    const [equipmentPersonal, equipmentMetrology, personsData] = await Promise.all([
+      getEquipmentsPersonal(),
+      getEquipmentsMetrology(),
+      getPersons(),
+    ]);
+
+    persons.value = personsData;
+    equipments.value = [...equipmentPersonal, ...equipmentMetrology];
+  };
 
   const getAgreements = async () => {
     const response = await apiClient.get(`/user/agreement/agreements?status=${status.value}`);
@@ -204,8 +221,46 @@
     }
   };
 
+  const getEquipmentsPersonal = async () => {
+    const response = await apiClient.get('/user/equipment/personal/equipments');
+
+    if (response.status === 200 && Array.isArray(response.data)) {
+      return response.data.map((item) => ({
+        uuid: item.uuid,
+        name: item.name,
+        number_serial: item.number_serial,
+      }));
+    }
+  };
+
+  const getEquipmentsMetrology = async () => {
+    const response = await apiClient.get('/user/equipment/metrology/equipments');
+
+    if (response.status === 200 && Array.isArray(response.data)) {
+      return response.data.map((item) => ({
+        uuid: item.uuid,
+        name: item.name,
+        number_serial: item.number_serial,
+      }));
+    }
+  };
+
+  const getPersons = async () => {
+    try {
+      const response = await apiClient.get('/user/person/persons');
+
+      return response.data.map((person) => ({
+        uuid: person.uuid,
+        fio: person.fio,
+      }));
+    } catch (err) {
+      console.error('Ошибка загрузки сотрудников:', err);
+    }
+  };
+
   onMounted(async () => {
     await getAgreements();
+    await getOptionsData();
   });
 </script>
 

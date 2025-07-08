@@ -135,11 +135,61 @@
           </label>
         </div>
       </div>
+
       <div class="form__column">
-        <div class="form__field">
-          <label>
-            <VInput />
+        <div class="form__field--i">
+          <label
+            for="form__field--input"
+            class="field__label"
+          >
+            <span class="field__label--text">Сотрудники привлекаемые к работам</span>
+            <VSelect
+              :options="props.persons"
+              class="form__field--input"
+              :values="['fio']"
+              @select="(key) => selectOption(key, props.persons, 'persons')"
+            />
           </label>
+
+          <div class="form__field--items">
+            <ul class="field__items--list">
+              <template
+                v-for="(person, index) in newAgreement.persons"
+                :key="index"
+              >
+                <li class="items__list--item">
+                  {{ props.persons.find((item) => item.uuid === person).fio }}
+                </li>
+              </template>
+            </ul>
+          </div>
+        </div>
+
+        <div class="form__field form__field--content">
+          <label
+            for="form__field--input"
+            class="field__label"
+          >
+            <span class="field__label--text">Используемое оборудование</span>
+            <VSelect
+              :options="props.equipments"
+              class="form__field--input"
+              @select="(key) => selectOption(key, props.equipments, 'equipments')"
+            />
+          </label>
+
+          <div class="form__field--items">
+            <ul class="field__items--list">
+              <template
+                v-for="(equipment, index) in newAgreement.equipments"
+                :key="index"
+              >
+                <li class="items__list--item">
+                  {{ props.equipments.find((item) => item.uuid === equipment).name }}
+                </li>
+              </template>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
@@ -170,17 +220,19 @@
   // components.
   import VInput from '@/components/ui/VInput.vue';
   import VButton from '@/components/ui/VButton.vue';
-  // import triangleUpIcon from '@/assets/icons/sections/legends/triangle-up.svg';
-  // import triangleDownIcon from '@/assets/icons/sections/legends/triangle-down.svg';
+  import VSelect from '@/components/ui/VSelect.vue';
 
   // constants
-
-  // const props = defineProps({
-  //   persons: {
-  //     default: () => [],
-  //     type: Array,
-  //   },
-  // });
+  const props = defineProps({
+    persons: {
+      default: () => [],
+      type: Array,
+    },
+    equipments: {
+      default: () => [],
+      type: Array,
+    },
+  });
 
   const emit = defineEmits(['agreement-addition', 'close-modal']);
 
@@ -210,6 +262,12 @@
     emit('agreement-addition', newAgreement.value);
 
     resetForm(newAgreement.value);
+  };
+
+  const selectOption = (key, list, field) => {
+    const item = list.find((item) => item['uuid'] === key);
+
+    newAgreement.value[field].push(item.uuid);
   };
 </script>
 
@@ -253,40 +311,6 @@
           justify-content: flex-start;
           width: 100%;
           margin-bottom: 1rem;
-          gap: 0.5rem;
-
-          .form__field--content {
-            display: flex;
-            width: 100%;
-            flex-direction: column;
-            height: 100%;
-            gap: 0.5rem;
-
-            .form__field--items {
-              overflow-y: auto;
-              height: 5rem;
-              border-radius: 5px;
-              background-color: $color-light;
-              box-shadow: inset 0 0 4px 1px rgb(0 0 0 / 25%);
-
-              .field__items--list {
-                list-style: none;
-                font-size: 1rem;
-              }
-
-              &::-webkit-scrollbar {
-                position: absolute;
-                right: 0.5rem;
-                width: 6px;
-              }
-
-              &::-webkit-scrollbar-thumb {
-                height: 1rem;
-                border-radius: 3px;
-                background-color: $color-blue-light;
-              }
-            }
-          }
 
           .field__label {
             position: relative;
@@ -302,6 +326,39 @@
             border: none;
             background-color: inherit;
             cursor: pointer;
+          }
+        }
+
+        .form__field--content {
+          display: flex;
+          width: 100%;
+          flex-direction: column;
+          height: 100%;
+          gap: 0.5rem;
+        }
+
+        .form__field--items {
+          overflow-y: auto;
+          height: 5rem;
+          border-radius: 5px;
+          background-color: $color-light;
+          box-shadow: inset 0 0 4px 1px rgb(0 0 0 / 25%);
+
+          .field__items--list {
+            list-style: none;
+            font-size: 1rem;
+          }
+
+          &::-webkit-scrollbar {
+            position: absolute;
+            right: 0.5rem;
+            width: 6px;
+          }
+
+          &::-webkit-scrollbar-thumb {
+            height: 1rem;
+            border-radius: 3px;
+            background-color: $color-blue-light;
           }
         }
       }
