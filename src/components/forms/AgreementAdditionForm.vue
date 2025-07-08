@@ -55,6 +55,7 @@
               </ul>
             </div>
           </div>
+
           <VButton
             class="field__button"
             @click="addNewItem(newItem, 'types_of_work')"
@@ -221,45 +222,67 @@
 
     .form__columns {
       display: flex;
-      width: 90%;
+      width: 100%;
+      gap: 5rem;
 
       .form__column {
+        width: 100%;
+
         .form__field {
+          position: relative;
           display: flex;
-          align-items: end;
           justify-content: flex-start;
-          padding: 0.3rem;
+          width: 100%;
+          margin-bottom: 1rem;
           gap: 0.5rem;
 
+          .form__field--content {
+            display: flex;
+            width: 100%;
+            flex-direction: column;
+            height: 100%;
+            gap: 0.5rem;
+
+            .form__field--items {
+              overflow-y: auto;
+              height: 5rem;
+              border-radius: 5px;
+              background-color: $color-light;
+              box-shadow: inset 0 0 4px 1px rgb(0 0 0 / 25%);
+
+              .field__items--list {
+                list-style: none;
+                font-size: 1rem;
+              }
+
+              &::-webkit-scrollbar {
+                position: absolute;
+                right: 0.5rem;
+                width: 6px;
+              }
+
+              &::-webkit-scrollbar-thumb {
+                height: 1rem;
+                border-radius: 3px;
+                background-color: $color-blue-light;
+              }
+            }
+          }
+
           .field__label {
+            position: relative;
             display: flex;
             width: 100%;
             flex-direction: column;
           }
 
-          .form__field--items {
-            overflow-y: auto;
-            max-height: 80px;
-
-            &::-webkit-scrollbar {
-              width: 6px;
-            }
-
-            &::-webkit-scrollbar-track {
-              background: inherit;
-            }
-
-            &::-webkit-scrollbar-thumb {
-              height: 2rem;
-              border-radius: 3px;
-              background-color: $color-blue-light;
-            }
-          }
-
           .field__button {
-            margin-bottom: 0.1rem;
+            position: absolute;
+            top: 1.5rem;
+            right: -2rem;
             border: none;
             background-color: inherit;
+            cursor: pointer;
           }
         }
       }

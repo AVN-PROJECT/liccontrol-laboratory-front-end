@@ -357,10 +357,11 @@
 
       .side-menu__modal {
         position: absolute;
-        right: 3rem;
-        bottom: 0.5rem;
+        top: 7rem;
+        right: 20rem;
         z-index: 10;
         width: 35%;
+        height: 100%;
       }
     }
   }
