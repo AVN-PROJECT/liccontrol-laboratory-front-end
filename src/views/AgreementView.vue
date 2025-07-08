@@ -163,7 +163,7 @@
 
       <template v-if="agreementAddition">
         <div class="side-menu__modal">
-          <AgreementAdditionForm />
+          <AgreementAdditionForm @close-modal="agreementAddition = false" />
         </div>
       </template>
     </div>
