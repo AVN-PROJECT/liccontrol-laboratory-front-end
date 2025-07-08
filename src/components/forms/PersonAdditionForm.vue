@@ -73,7 +73,7 @@
         <p>Добавить сотрудника</p>
         <img
           class="person__page-menu-form-button-icon"
-          src="@/assets/icons/sections/buttons/plus-addition.svg"
+          src="@/assets/icons/sections/buttons/circle-plus-addition.svg"
           alt="plus.svg"
         />
       </VButton>

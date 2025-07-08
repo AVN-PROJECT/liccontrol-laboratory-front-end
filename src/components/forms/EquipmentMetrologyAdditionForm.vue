@@ -130,7 +130,7 @@
         <p class="equipment__page-menu-form-button-text">Добавить оборудование</p>
         <img
           class="equipment__page-menu-form-button-icon"
-          src="@/assets/icons/sections/buttons/plus-addition.svg"
+          src="@/assets/icons/sections/buttons/circle-plus-addition.svg"
           alt="plus.svg"
         />
       </VButton>

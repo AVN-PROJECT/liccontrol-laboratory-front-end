@@ -387,8 +387,6 @@
   import VButton from '@/components/ui/VButton.vue';
   import tickIcon from '@/assets/icons/sections/buttons/tick-save.svg';
   import crossIcon from '@/assets/icons/sections/buttons/cross-cancel.svg';
-  import triangleUpIcon from '@/assets/icons/sections/legends/triangle-up.svg';
-  import triangleDownIcon from '@/assets/icons/sections/legends/triangle-down.svg';
   import AccordionComponent from '@/components/modules/AccordionComponent.vue';
   import EquipmentMetrologyAdditionForm from '@/components/forms/EquipmentMetrologyAdditionForm.vue';
   import EquipmentMetrologyImportForm from '@/components/forms/EquipmentMetrologyImportForm.vue';

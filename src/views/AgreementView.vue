@@ -97,13 +97,22 @@
     <div class="agreement-page__side-menu">
       <div class="side-menu__mode">
         <div class="mode__buttons">
-          <VButton @click="status = 'active'">
+          <VButton
+            class="button__active"
+            @click="status = 'active'"
+          >
             <img
               src="@/assets/icons/sections/buttons/agreement-active.svg"
               alt="agreement-active.svg"
             />
           </VButton>
-          <VButton @click="status = 'finished'">
+
+          <hr class="button__line" />
+
+          <VButton
+            class="button__finished"
+            @click="status = 'finished'"
+          >
             <img
               src="@/assets/icons/sections/buttons/agreement-finished.svg"
               alt="agreement-finished.svg"
@@ -112,11 +121,33 @@
         </div>
       </div>
 
-      <div class="side_menu__status">
-        <ul>
-          <li></li>
-          <li></li>
-          <li></li>
+      <div class="side-menu__status">
+        <h4 class="status__list--header">До окончания договора:</h4>
+        <ul class="status__list">
+          <li class="list__item">
+            <img
+              class="list__item--icon"
+              src="@/assets/icons/sections/legends/circle-green.svg"
+              alt="circle-green.svg"
+            />
+            более 3-х месяцев
+          </li>
+          <li class="list__item">
+            <img
+              class="list__item--icon"
+              src="@/assets/icons/sections/legends/circle-orange.svg"
+              alt="circle-orange.svg"
+            />
+            менее 3-х месяцев
+          </li>
+          <li class="list__item">
+            <img
+              class="list__item--icon"
+              src="@/assets/icons/sections/legends/circle-red.svg"
+              alt="circle-red.svg"
+            />
+            менее 1-ого месяца
+          </li>
         </ul>
       </div>
 
@@ -126,6 +157,7 @@
           @click="agreementAddition = !agreementAddition"
         >
           Добавить договор
+          <img src="@/assets/icons/sections/buttons/agreement-addition.svg" />
         </VButton>
       </div>
 
@@ -156,7 +188,7 @@
   const agreementAddition = ref(false);
 
   const getAgreements = async () => {
-    const response = await apiClient.get(`/user/agreement/agreements?${status.value}`);
+    const response = await apiClient.get(`/user/agreement/agreements?status=${status.value}`);
 
     if (response.status === 200 && Array.isArray(response.data)) {
       agreements.value = response.data.map((item) => ({
@@ -253,6 +285,75 @@
       justify-content: center;
       width: 15%;
       flex-direction: column;
+      gap: 1rem;
+
+      .mode__buttons {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        flex-direction: column;
+        gap: 1.5rem;
+
+        .button__line {
+          width: 65%;
+          height: 3px;
+          margin: 0;
+          padding: 0;
+          border-radius: 5px;
+          border: none;
+          background-color: $color-green-light;
+        }
+
+        .button__active,
+        .button__finished {
+          border: none;
+          background-color: inherit;
+          cursor: pointer;
+        }
+      }
+
+      .side-menu__status {
+        display: flex;
+        align-items: flex-start;
+        justify-content: left;
+        margin-top: 1rem;
+        flex-direction: column;
+
+        .status__list {
+          display: flex;
+          margin: 0;
+          padding: 0;
+          list-style: none;
+          flex-direction: column;
+
+          .list__item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 0.5rem;
+            font-size: 1.1rem;
+          }
+        }
+      }
+
+      .side-menu__addition {
+        width: 90%;
+        height: 100%;
+        margin-top: 1rem;
+
+        .button__add {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 1rem;
+          border-radius: 15px;
+          border: none;
+          background-color: rgb(143 200 155 / 30%);
+          cursor: pointer;
+          gap: 0.5rem;
+        }
+      }
 
       .side-menu__modal {
         position: absolute;
