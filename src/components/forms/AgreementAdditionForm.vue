@@ -45,12 +45,12 @@
             </label>
 
             <div class="form__field--items">
-              <ul>
+              <ul class="field__items--list">
                 <template
                   v-for="(type, index) in newAgreement.types_of_work"
                   :key="index"
                 >
-                  <li>{{ type }}</li>
+                  <li class="items__list--item">{{ type }}</li>
                 </template>
               </ul>
             </div>
@@ -206,6 +206,18 @@
     background: linear-gradient(45deg, rgb(143 200 155 / 30%) 0%, #f5f5f5 100%);
     backdrop-filter: blur(5px);
     gap: 1.5rem;
+
+    .form__buttons--close {
+      display: flex;
+      justify-content: flex-end;
+
+      .form__button--close {
+        margin: 0.5rem;
+        border: none;
+        background-color: inherit;
+        cursor: pointer;
+      }
+    }
 
     .form__columns {
       display: flex;
