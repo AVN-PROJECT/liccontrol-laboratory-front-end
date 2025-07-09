@@ -166,6 +166,7 @@
           <AgreementAdditionForm
             :equipments="equipments"
             :persons="persons"
+            @agreement-addition="addAgreement"
             @close-modal="agreementAddition = false"
           />
         </div>
@@ -181,9 +182,11 @@
   // components.
   import VButton from '@/components/ui/VButton.vue';
   import VInput from '@/components/ui/VInput.vue';
+  import AgreementAdditionForm from '@/components/forms/AgreementAdditionForm.vue';
+
+  // helpers.
   import apiClient from '@/composables/api/apiClient.js';
   import formatDate from '@/helpers/format/format.js';
-  import AgreementAdditionForm from '@/components/forms/AgreementAdditionForm.vue';
 
   // constants.
   const editingId = ref(null);
@@ -218,6 +221,16 @@
         equipments: item.equipments,
         types_of_work: item.types_of_work,
       }));
+    }
+  };
+
+  const addAgreement = async (newAgreement) => {
+    try {
+      await apiClient.post('/user/agreement/save_agreement', newAgreement);
+
+      await getAgreements();
+    } catch (error) {
+      console.error(error);
     }
   };
 
