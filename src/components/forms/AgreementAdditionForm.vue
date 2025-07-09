@@ -22,6 +22,7 @@
           >
             <span class="field__label--text">№ Договора</span>
             <VInput
+              v-model="newAgreement.agreement_number"
               class="form__field--input"
               color="white"
               size="medium"
@@ -37,7 +38,7 @@
             >
               <span class="field__label--text">Вид работ</span>
               <VInput
-                v-model="newItem"
+                v-model="newType"
                 class="form__field--input"
                 color="white"
                 size="medium"
@@ -58,7 +59,7 @@
 
           <VButton
             class="field__button"
-            @click="addNewItem(newItem, 'types_of_work')"
+            @click="addNewItem(newType, 'types_of_work')"
           >
             <img
               class="content__button--icon"
@@ -75,7 +76,7 @@
             >
               <span class="field__label--text">Адрес выполнения работ</span>
               <VInput
-                v-model="newItem"
+                v-model="newAddress"
                 class="form__field--input"
                 color="white"
                 size="medium"
@@ -96,7 +97,7 @@
 
           <VButton
             class="field__button"
-            @click="addNewItem(newItem, 'addresses')"
+            @click="addNewItem(newAddress, 'addresses')"
           >
             <img
               class="content__button--icon"
@@ -112,6 +113,7 @@
           >
             <span class="field__label--text">Дата начала договора</span>
             <VInput
+              v-model="newAgreement.agreement_start_date"
               class="form__field--input"
               color="white"
               size="medium"
@@ -127,6 +129,7 @@
           >
             <span class="field__label--text">Дата окончания договора</span>
             <VInput
+              v-model="newAgreement.agreement_final_date"
               class="form__field--input"
               color="white"
               size="medium"
@@ -248,7 +251,8 @@
     types_of_work: [],
   });
 
-  const newItem = ref('');
+  const newAddress = ref('');
+  const newType = ref('');
 
   const addNewItem = (value, field) => {
     if (!value || !value.trim()) {
@@ -257,7 +261,11 @@
 
     newAgreement.value[field].push(value);
 
-    newItem.value = '';
+    if (field === 'types_of_work') {
+      newType.value = '';
+    } else if (field === 'addresses') {
+      newAddress.value = '';
+    }
   };
 
   const addAgreement = () => {

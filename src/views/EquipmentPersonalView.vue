@@ -366,9 +366,8 @@
     display: grid;
     width: 100%;
     padding: 12px 8px;
-    background-color: white;
+    background-color: inherit;
     grid-template-columns: 5% 25% 10% 15% 15% 15% 10% 10%;
-    box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
 
     .table__cell {
       align-content: center;

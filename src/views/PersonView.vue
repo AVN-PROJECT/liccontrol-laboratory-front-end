@@ -343,7 +343,7 @@
           position: sticky;
           top: 0;
           z-index: 1;
-          background-color: $color-light;
+          background-color: inherit;
 
           .equipment__page-table-header-columns {
             .person__page-table-header-id {

@@ -387,6 +387,8 @@
   import VButton from '@/components/ui/VButton.vue';
   import tickIcon from '@/assets/icons/sections/buttons/tick-save.svg';
   import crossIcon from '@/assets/icons/sections/buttons/cross-cancel.svg';
+  import triangleUpIcon from '@/assets/icons/sections/legends/triangle-up.svg';
+  import triangleDownIcon from '@/assets/icons/sections/legends/triangle-down.svg';
   import AccordionComponent from '@/components/modules/AccordionComponent.vue';
   import EquipmentMetrologyAdditionForm from '@/components/forms/EquipmentMetrologyAdditionForm.vue';
   import EquipmentMetrologyImportForm from '@/components/forms/EquipmentMetrologyImportForm.vue';
@@ -547,9 +549,8 @@
     display: grid;
     width: 100%;
     padding: 12px 8px;
-    background-color: white;
+    background-color: inherit;
     grid-template-columns: 5% 25% 10% 10% 15% 15% 10% 10%;
-    box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
 
     .table__cell {
       align-content: center;

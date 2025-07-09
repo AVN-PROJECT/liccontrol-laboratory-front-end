@@ -15,9 +15,10 @@
 
 <style scoped lang="scss">
   .accordion {
+    border-radius: 10px;
     background-color: $color-light;
-    box-shadow: 0 4px 6px rgb(0 0 0 / 10%);
     transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgb(0 0 0 / 10%);
 
     &:hover {
       transform: translateY(-2px);
