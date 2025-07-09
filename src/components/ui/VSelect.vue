@@ -1,20 +1,14 @@
 <template>
   <div :class="['VSelect', classes]">
-    <div class="preview__selected">
+    <div
+      class="preview__selected"
+      @click="showOptions = !showOptions"
+    >
       <div class="selected__option">
-        <p
-          v-for="field in props.values"
-          :key="field"
-          class="selected__option--text"
-        >
-          {{ props.options[0][field] }}
-        </p>
+        <p class="selected__option--text">{{ props.placeholder }}</p>
       </div>
 
-      <VButton
-        class="preview__button"
-        @click="showOptions = !showOptions"
-      >
+      <VButton class="preview__button">
         <img :src="showOptions ? triangleUpIcon : triangleDownIcon" />
       </VButton>
     </div>
@@ -23,7 +17,7 @@
       <div class="options">
         <ul class="options__list">
           <template
-            v-for="(option, index) in props.options"
+            v-for="(option, index) in props.options.slice(1)"
             :key="index"
           >
             <li
@@ -64,6 +58,10 @@
       default: () => ['name'],
       type: Array,
     },
+    placeholder: {
+      default: '',
+      type: String,
+    },
     color: {
       default: 'white',
       type: String,
@@ -84,11 +82,13 @@
 
 <style scoped lang="scss">
   .VSelect {
+    margin-bottom: 0.5rem;
+
     .preview__selected {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0.2rem;
+      margin-left: 0.7rem;
       gap: 0.4rem;
     }
 
@@ -101,27 +101,43 @@
     }
 
     .selected__option--text {
-      margin: 0.3rem;
+      margin: 0.4rem;
+      text-align: center;
+      font-size: 1rem;
+      color: rgba($color-black, 60%);
     }
 
     .options {
       overflow-y: auto;
       height: 5rem;
-      border-radius: 5px;
-      background-color: $color-light;
-      box-shadow: inset 0 0 4px 1px rgb(0 0 0 / 25%);
 
       .options__list {
+        display: flex;
+        align-items: flex-start;
+        justify-content: left;
+        margin: 0;
+        padding-left: 1rem;
         list-style: none;
+        flex-direction: column;
+      }
+
+      &::-webkit-scrollbar {
+        position: absolute;
+        right: 0.5rem;
+        width: 6px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        height: 1rem;
+        border-radius: 3px;
+        background-color: $color-blue-light;
       }
     }
 
     &._white {
-      .preview__selected {
-        border-radius: 5px;
-        background-color: $color-light;
-        box-shadow: inset 0 0 4px 1px rgb(0 0 0 / 25%);
-      }
+      border-radius: 5px;
+      background-color: $color-light;
+      box-shadow: inset 0 0 4px 1px rgb(0 0 0 / 25%);
     }
   }
 </style>

@@ -137,13 +137,14 @@
       </div>
 
       <div class="form__column">
-        <div class="form__field--i">
+        <div class="form__field--content">
           <label
             for="form__field--input"
             class="field__label"
           >
             <span class="field__label--text">Сотрудники привлекаемые к работам</span>
             <VSelect
+              :placeholder="'Фамилия Имя Отчество'"
               :options="props.persons"
               class="form__field--input"
               :values="['fio']"
@@ -172,6 +173,7 @@
           >
             <span class="field__label--text">Используемое оборудование</span>
             <VSelect
+              :placeholder="'Наименование оборудования'"
               :options="props.equipments"
               class="form__field--input"
               @select="(key) => selectOption(key, props.equipments, 'equipments')"
@@ -274,11 +276,12 @@
 <style scoped lang="scss">
   .agreement__form--addition {
     display: flex;
-    flex-direction: column;
     width: 100%;
     padding: 1rem;
     border-radius: 0.5rem;
     background: linear-gradient(45deg, rgb(143 200 155 / 30%) 0%, #f5f5f5 100%);
+    font-size: 1rem;
+    flex-direction: column;
     backdrop-filter: blur(5px);
     gap: 1.5rem;
     box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
@@ -304,6 +307,7 @@
 
       .form__column {
         width: 100%;
+        gap: 1rem;
 
         .form__field {
           position: relative;
@@ -333,13 +337,14 @@
           display: flex;
           width: 100%;
           flex-direction: column;
-          height: 100%;
+          margin-bottom: 0.5rem;
           gap: 0.5rem;
         }
 
         .form__field--items {
           overflow-y: auto;
           height: 5rem;
+          padding: 0.3rem 0 0.2rem 0;
           border-radius: 5px;
           background-color: $color-light;
           box-shadow: inset 0 0 4px 1px rgb(0 0 0 / 25%);
@@ -375,6 +380,7 @@
         border: none;
         background-color: inherit;
         text-decoration: underline;
+        font-size: 1.2rem;
         font-weight: bold;
         color: $color-blue-light;
         cursor: pointer;
