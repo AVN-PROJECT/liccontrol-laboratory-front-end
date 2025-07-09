@@ -26,6 +26,8 @@
           color="white"
           size="little"
           type="tel"
+          :mask="numberPhone"
+          maxlength="18"
         />
       </label>
 
@@ -73,7 +75,7 @@
         <p>Добавить сотрудника</p>
         <img
           class="person__page-menu-form-button-icon"
-          src="@/assets/icons/sections/buttons/plus-addition.svg"
+          src="@/assets/icons/sections/buttons/circle-plus-addition.svg"
           alt="plus.svg"
         />
       </VButton>
@@ -91,6 +93,7 @@
   // components.
   import VInput from '@/components/ui/VInput.vue';
   import VButton from '@/components/ui/VButton.vue';
+  import numberPhone from '@/helpers/masks/numberPhone.js';
 
   // constants.
   const emit = defineEmits(['person-addition']);

@@ -32,7 +32,7 @@
         <p class="buttons__addition--text">Добавить оборудование</p>
         <img
           class="buttons__addition--icon"
-          src="@/assets/icons/sections/buttons/plus-addition.svg"
+          src="@/assets/icons/sections/buttons/circle-plus-addition.svg"
           alt="plus.svg"
         />
       </VButton>
