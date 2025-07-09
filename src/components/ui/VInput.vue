@@ -5,6 +5,7 @@
     :class="['VInput', classes]"
     :value="modelValue"
     :type="type"
+    :maxlength="maxlength"
     :placeholder="placeholder"
     @input="handleInput"
     @paste="handlePaste"
@@ -19,6 +20,14 @@
     modelValue: {
       type: String,
       default: '',
+    },
+    mask: {
+      default: null,
+      type: Function,
+    },
+    maxlength: {
+      type: Number,
+      default: null,
     },
     placeholder: {
       type: String,
@@ -62,7 +71,12 @@
   });
 
   const handleInput = (event) => {
-    emit('update:modelValue', event.target.value);
+    if (prop.mask) {
+      emit('update:modelValue', prop.mask(event.target.value));
+    } else {
+      emit('update:modelValue', event.target.value);
+    }
+
     emit('input', event);
   };
 
