@@ -229,7 +229,6 @@
 
       persons.value = response.data.map((person) => ({
         uuid: person.uuid,
-        organization_id: person.organization_id,
         fio: person.fio,
         certificate_number: person.certificate_number,
         certificate_date: formatDate(person.certificate_date),
@@ -344,7 +343,7 @@
           position: sticky;
           top: 0;
           z-index: 1;
-          background-color: $color-light;
+          background-color: inherit;
 
           .equipment__page-table-header-columns {
             .person__page-table-header-id {

@@ -50,6 +50,7 @@ const router = createRouter({
               path: 'agreement',
               name: 'agreement',
               meta: { name: 'Договора' },
+              component: () => import('@/views/AgreementView.vue'),
             },
           ],
         },
