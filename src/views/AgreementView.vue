@@ -287,7 +287,7 @@
     gap: 10px;
 
     .agreement-page__table {
-      width: 85%;
+      width: 80%;
     }
 
     .table__header {
@@ -298,7 +298,7 @@
       width: 100%;
       padding: 12px 8px;
       background-color: inherit;
-      grid-template-columns: 5% 10% 10% 12% 10% 10% 15% 10%;
+      grid-template-columns: 5% 10% 10% 12% 10% 10% 15% 10% 10%;
 
       .table__cell {
         align-content: center;
@@ -319,7 +319,8 @@
         display: grid;
         padding: 12px 8px;
         border-radius: 10px;
-        grid-template-columns: 5% 10% 10% 12% 10% 10% 15% 10%;
+        transition: all 0.3s ease;
+        grid-template-columns: 5% 10% 10% 12% 10% 10% 15% 10% 10%;
 
         .table__cell {
           display: flex;
@@ -333,11 +334,27 @@
             margin: 0;
           }
         }
-      }
 
-      &:hover {
-        transform: scale(1.1);
-        transition: transform 0.2s ease;
+        .table__button--action {
+          width: 75%;
+          margin: 0;
+          padding: 0.5rem;
+          border-radius: 6px;
+          border: none;
+          background-color: rgba($color-green, 60%);
+          color: $color-light;
+          cursor: pointer;
+
+          &:hover {
+            transform: scale(1.1);
+            transition: transform 0.2s ease;
+          }
+        }
+
+        &:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 6px 12px rgb(0 0 0 / 15%);
+        }
       }
 
       .cell__field--input {
@@ -350,7 +367,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 15%;
+      width: 20%;
       flex-direction: column;
       gap: 1rem;
 
