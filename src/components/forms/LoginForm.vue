@@ -70,13 +70,6 @@
         </VButton>
       </div>
 
-      <a
-        href="#"
-        class="login__support"
-      >
-        Тех. поддержка
-      </a>
-
       <div class="login__footer">
         <div
           class="login__footer--checkbox"
@@ -140,6 +133,21 @@
         </div>
       </div>
     </template>
+
+    <template v-if="errors">
+      <div class="form__wrapper-errors">
+        <template
+          v-for="(error, index) in errors"
+          :key="index"
+        >
+          <ToastComponent
+            v-if="error"
+            :message="error"
+            color="red"
+          />
+        </template>
+      </div>
+    </template>
   </div>
 </template>
 
@@ -163,6 +171,7 @@
   // components.
   import VInput from '@/components/ui/VInput.vue';
   import VButton from '@/components/ui/VButton.vue';
+  import ToastComponent from '@/components/modules/ToastComponent.vue';
   import eyeCloseIcon from '@/assets/icons/sections/buttons/eye-close.svg';
   import eyeOpenIcon from '@/assets/icons/sections/buttons/eye-open.svg';
 
@@ -202,7 +211,7 @@
   });
 
   const validate = () => {
-    const newErrors = {
+    errors.value = {
       name: strValidate(form.value.name, '', true),
       inn: strValidate(form.value.inn, 'inn', true),
       email: strValidate(form.value.email, 'email', true),
@@ -210,10 +219,7 @@
       license_key: strValidate(form.value.license_key, '', true),
     };
 
-    errors.value = {
-      ...errors.value,
-      ...newErrors,
-    };
+    console.log(errors.value);
   };
 
   const handlerLoginButton = async () => {
@@ -250,11 +256,13 @@
 
 <style scoped lang="scss">
   .login__form--wrapper {
+    position: relative;
+
     .form__wrapper--fields {
       display: flex;
       flex-direction: column;
-      gap: 1.5rem;
       width: 70.6%;
+      gap: 1.5rem;
       margin: 0 auto;
     }
 
@@ -277,12 +285,6 @@
       .form__field--input {
         width: 100%;
       }
-    }
-
-    .login__support {
-      margin: 0;
-      font-size: 0.95vw;
-      color: $color-blue;
     }
 
     .login__footer {
@@ -393,6 +395,17 @@
           cursor: pointer;
         }
       }
+    }
+
+    .form__wrapper-errors {
+      position: absolute;
+      top: -13rem; // !! Подумаю над реализацией еще...
+      right: -35rem;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      height: 100%;
     }
   }
 </style>

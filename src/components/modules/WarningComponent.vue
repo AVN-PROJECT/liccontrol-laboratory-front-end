@@ -17,7 +17,7 @@
       <div class="content__text">
         <img
           class="content__text--icon"
-          src="@/assets/icons/sections/legends/exclamation-mark.svg"
+          src="@/assets/icons/sections/legends/exclamation-mark-blue.svg"
           alt="exclamation-mark.svg"
         />
         <p class="content__text--text">

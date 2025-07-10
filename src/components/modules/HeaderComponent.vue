@@ -119,7 +119,7 @@
     width: 100%;
     max-height: 200px;
     padding: 1vw;
-    background: linear-gradient(45deg, rgb(143 200 155 / 30%) 0%, #f5f5f5 100%);
+    background: linear-gradient(45deg, rgb(143 200 155 / 30%) 0%, $color-light-smoke 100%);
     font-family: $font-family-base;
 
     .header__menu-main {
@@ -127,8 +127,8 @@
       justify-content: flex-start;
       width: 55%;
       padding: 3vh;
-      border-right: 6px solid #8fc89b;
-      border-left: 6px solid #8fc89b;
+      border-right: 6px solid $color-green-light;
+      border-left: 6px solid $color-green-light;
 
       .header__menu-profile {
         display: flex;

@@ -111,7 +111,7 @@
     &._grey-white {
       border-radius: 10px;
       border: 0;
-      background-color: #d9d9d9;
+      background-color: $color-white-grey;
     }
 
     &._little {
