@@ -18,6 +18,7 @@
           color="grey"
           :error="!!errors.inn"
           placeholder="ИНН"
+          :maxlength="13"
           class="form__field--input"
           @update="errors.inn = ''"
         />
@@ -28,6 +29,7 @@
           color="grey"
           class="form__field-input"
           :error="!!errors.email"
+          :maxlength="120"
           placeholder="Электронная почта"
           @update="errors.email = ''"
         />
@@ -55,6 +57,7 @@
           v-model="form.license_key"
           :error="!!errors.license_key"
           color="grey"
+          :maxlength="39"
           class="form__field--input"
           placeholder="Введите ваш ключ"
           @update="errors.license_key = ''"
