@@ -162,12 +162,12 @@
 
   // components.
   import VInput from '@/components/ui/VInput.vue';
+  import VButton from '@/components/ui/VButton.vue';
   import eyeCloseIcon from '@/assets/icons/sections/buttons/eye-close.svg';
   import eyeOpenIcon from '@/assets/icons/sections/buttons/eye-open.svg';
 
   // text.
   import policyText from '@/assets/texts/policyText.js';
-  import VButton from '@/components/ui/VButton.vue';
 
   // constants.
   const { setCurrentForm } = useUiUxStore();
@@ -180,6 +180,7 @@
     password: '',
     license_key: '',
   });
+
   const errors = ref({
     name: '',
     inn: '',
@@ -187,6 +188,7 @@
     password: '',
     license_key: '',
   });
+
   const scrollY = ref(0);
   const cookieAccepted = ref(false);
   const showCookieBlock = ref(true);
@@ -250,10 +252,10 @@
   .login__form--wrapper {
     .form__wrapper--fields {
       display: flex;
-      width: 70.6%;
-      gap: 1.5rem;
-      margin: 0 auto;
       flex-direction: column;
+      gap: 1.5rem;
+      width: 70.6%;
+      margin: 0 auto;
     }
 
     .form__field--wrapper {
