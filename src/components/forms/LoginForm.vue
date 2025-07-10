@@ -156,7 +156,7 @@
 
 <script setup>
   // vue.
-  import { ref, onMounted } from 'vue';
+  import { ref, onMounted, onBeforeMount, onBeforeUnmount } from 'vue';
 
   // vuex.
   import { storeToRefs } from 'pinia';
@@ -212,6 +212,30 @@
     });
     disableBodyScroll();
   });
+
+  onBeforeMount(() => {
+    window.addEventListener('keydown', handlerEnter);
+    window.addEventListener('keydown', handlerTab);
+  });
+
+  onBeforeUnmount(() => {
+    window.removeEventListener('keydown', handlerEnter);
+    window.removeEventListener('keydown', handlerTab);
+  });
+
+  const handlerEnter = async (event) => {
+    if (event.key === 'Enter') {
+      await handlerLoginButton();
+    }
+  };
+
+  const handlerTab = async (event) => {
+    if (event.key === 'Tab') {
+      event.preventDefault();
+
+      showPassword.value = !showPassword.value;
+    }
+  };
 
   const validate = () => {
     errors.value = {

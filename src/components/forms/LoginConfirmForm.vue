@@ -36,7 +36,7 @@
 
     <VButton
       class="submit__button"
-      @click="handlerConfirmButton"
+      @click="submitConfirmCode"
     >
       Подтвердить
     </VButton>
@@ -60,7 +60,7 @@
 
 <script setup>
   // vue.
-  import { ref } from 'vue';
+  import { onBeforeMount, onBeforeUnmount, ref } from 'vue';
 
   // vuex.
   import { storeToRefs } from 'pinia';
@@ -90,6 +90,14 @@
 
   const router = useRouter();
 
+  onBeforeMount(() => {
+    window.addEventListener('keydown', handlerEnter);
+  });
+
+  onBeforeUnmount(() => {
+    window.removeEventListener('keydown', handlerEnter);
+  });
+
   const handlePaste = (event) => {
     event.preventDefault();
 
@@ -117,7 +125,13 @@
     }
   };
 
-  const handlerConfirmButton = async () => {
+  const handlerEnter = async (event) => {
+    if (event.key === 'Enter') {
+      await submitConfirmCode();
+    }
+  };
+
+  const submitConfirmCode = async () => {
     const code = twoFAInput.value.join('');
 
     if (strValidate(code, '', true)) {
