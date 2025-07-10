@@ -162,11 +162,10 @@
 
   // composables.
   import apiClient from '@/composables/api/apiClient.js';
+  import { useLockBodyScroll } from '@/composables/scroll/useBlockScrollBody.js';
 
   // utils.
-  const { disableBodyScroll } = useLockBodyScroll();
   import { strValidate } from '@/helpers/validation/validate.js';
-  import { useLockBodyScroll } from '@/composables/scroll/useBlockScrollBody.js';
 
   // components.
   import VInput from '@/components/ui/VInput.vue';
@@ -181,6 +180,7 @@
   // constants.
   const { setCurrentForm } = useUiUxStore();
   const { loginName, loginEmail } = storeToRefs(useUserStore());
+  const { disableBodyScroll } = useLockBodyScroll();
 
   const form = ref({
     name: '',
@@ -218,8 +218,6 @@
       password: strValidate(form.value.password, 'password', true),
       license_key: strValidate(form.value.license_key, '', true),
     };
-
-    console.log(errors.value);
   };
 
   const handlerLoginButton = async () => {

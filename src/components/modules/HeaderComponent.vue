@@ -86,6 +86,7 @@
 </template>
 
 <script setup>
+  // vue.
   import { ref, watch } from 'vue';
 
   // vuex.
