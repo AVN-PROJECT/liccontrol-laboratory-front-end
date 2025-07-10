@@ -81,7 +81,7 @@
     display: flex;
     justify-content: center;
     border-radius: 5px;
-    background: linear-gradient(45deg, rgb(143 200 155 / 30%) 0%, #f5f5f5 100%);
+    background: linear-gradient(45deg, rgb(143 200 155 / 30%) 0%, $color-light-smoke 100%);
     box-shadow: 0 4px 6px rgb(0 0 0 / 10%);
     backdrop-filter: blur(5px);
 

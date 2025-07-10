@@ -19,7 +19,7 @@
         ref="inputRefs"
         v-model="twoFAInput[index]"
         type="text"
-        maxlength="1"
+        :maxlength="1"
         class="two-fa-box"
         @input="handleInput(index)"
         @keydown="handlerBackspace($event, index)"
@@ -35,8 +35,8 @@
     </p>
 
     <VButton
-      class="login__form--button"
-      @click="handlerConfirmButton"
+      class="submit__button"
+      @click="submitConfirmCode"
     >
       Подтвердить
     </VButton>
@@ -60,7 +60,7 @@
 
 <script setup>
   // vue.
-  import { ref } from 'vue';
+  import { onBeforeMount, onBeforeUnmount, ref } from 'vue';
 
   // vuex.
   import { storeToRefs } from 'pinia';
@@ -72,6 +72,7 @@
   // utils.
   import Cookies from 'js-cookies/src/cookies.js';
   import { useUserStore } from '@/stores/userStore.js';
+  import { strValidate } from '@/helpers/validation/validate.js';
 
   // components.
   import VInput from '@/components/ui/VInput.vue';
@@ -88,6 +89,14 @@
   const { loginEmail, loginName } = storeToRefs(useUserStore());
 
   const router = useRouter();
+
+  onBeforeMount(() => {
+    window.addEventListener('keydown', handlerEnter);
+  });
+
+  onBeforeUnmount(() => {
+    window.removeEventListener('keydown', handlerEnter);
+  });
 
   const handlePaste = (event) => {
     event.preventDefault();
@@ -116,8 +125,20 @@
     }
   };
 
-  const handlerConfirmButton = async () => {
+  const handlerEnter = async (event) => {
+    if (event.key === 'Enter') {
+      await submitConfirmCode();
+    }
+  };
+
+  const submitConfirmCode = async () => {
     const code = twoFAInput.value.join('');
+
+    if (strValidate(code, '', true)) {
+      isCodeCorrect.value = false;
+
+      return;
+    }
 
     if (code.length === 4) {
       try {
@@ -167,7 +188,7 @@
     }
   }
 
-  .login__form--button {
+  .submit__button {
     margin: 2.2rem;
     padding: 4% 7%;
     border-radius: 10px;
@@ -177,6 +198,12 @@
     font-size: 1.3vw;
     color: $color-dark-blue;
     cursor: pointer;
+
+    &:hover {
+      background-color: $color-green-light;
+      box-shadow: 0 4px 8px rgb(0 31 63 / 30%);
+      transform: translateY(-2px);
+    }
   }
 
   .login__form-two-fa {
@@ -203,7 +230,7 @@
     margin-top: 6%;
     margin-bottom: 0;
     font-family: $font-family-paragraphs;
-    font-size: 0.9vw;
+    font-size: 1vw;
     color: $color-red;
   }
 </style>

@@ -32,18 +32,16 @@
           />
         </div>
 
-        <VButton
-          class="profile__page-info-edit"
-          @click="isEditing ? handleSubmit() : (isEditing = true)"
-        >
-          {{ isEditing ? 'Сохранить' : 'Редактировать сведения об организации' }}
-        </VButton>
-        <VButton
-          type="button"
-          class=""
-        >
-          Сменить пароль
-        </VButton>
+        <div class="profile__page-info-buttons">
+          <VButton
+            class="button__edit"
+            @click="isEditing ? updateProfile() : (isEditing = true)"
+          >
+            {{ isEditing ? 'Сохранить' : 'Редактировать сведения об организации' }}
+          </VButton>
+
+          <VButton class="button__change-password">Сменить пароль</VButton>
+        </div>
       </div>
     </div>
   </div>
@@ -96,6 +94,18 @@
   const isEditing = ref(false);
 
   onMounted(async () => {
+    await getProfile();
+  });
+
+  onBeforeMount(() => {
+    window.addEventListener('keydown', handlerEnter);
+  });
+
+  onBeforeUnmount(() => {
+    window.removeEventListener('keydown', handlerEnter);
+  });
+
+  const getProfile = async () => {
     const response = await apiClient.get('/user/profile/get_profile');
 
     const data = await response.data;
@@ -111,17 +121,9 @@
       userData.value.lastName.value,
       userData.value.middleName.value,
     ] = data.fio?.split(' ') || ['', '', ''];
-  });
+  };
 
-  onBeforeMount(() => {
-    window.addEventListener('keydown', handlerEnter);
-  });
-
-  onBeforeUnmount(() => {
-    window.removeEventListener('keydown', handlerEnter);
-  });
-
-  const handleSubmit = async () => {
+  const updateProfile = async () => {
     try {
       const originalFields = userData.value;
 
@@ -137,16 +139,16 @@
       });
 
       isEditing.value = false;
+
+      await getProfile();
     } catch (error) {
       console.error('Ошибка при сохранении:', error);
-
-      // const message = error?.response?.data?.detail || 'Не удалось сохранить изменения';
     }
   };
 
   const handlerEnter = async (event) => {
     if (event.key === 'Enter' && isEditing) {
-      await handleSubmit();
+      await updateProfile();
 
       isEditing.value = false;
     }
@@ -164,7 +166,7 @@
 
       .profile__page-base-card-company {
         width: 43%;
-        height: 250px;
+        height: 12rem;
         padding: 18px 34px 29px 34px;
         border-radius: 5px;
         background: rgb(255 255 255 / 50%);
@@ -176,7 +178,6 @@
           text-align: center;
           text-transform: uppercase;
           font-family: $font-family-base;
-          font-size: 2vw;
           color: $color-black;
         }
       }
@@ -191,12 +192,19 @@
       box-shadow: 0 0 5px rgb(0 0 0 / 25%);
 
       .profile__page-card-company {
-        .profile__page-info-edit {
-          border: 0;
-          background: none;
-          font-size: 24px;
-          color: rgb(25 118 210 / 80%);
-          cursor: pointer;
+        .profile__page-info-buttons {
+          display: flex;
+          justify-content: space-between;
+          padding: 0.5rem;
+
+          .button__change-password,
+          .button__edit {
+            border: 0;
+            background: none;
+            font-size: 1.3rem;
+            color: rgb(25 118 210 / 80%);
+            cursor: pointer;
+          }
         }
 
         .profile__page-card-row {
@@ -209,7 +217,7 @@
             width: 40%;
             margin-right: 25px;
             font-family: $font-family-base;
-            font-size: 15px;
+            font-size: 1rem;
             font-weight: bold;
             color: rgba($color-black, 0.6);
           }
@@ -220,7 +228,7 @@
             text-overflow: ellipsis;
             white-space: nowrap;
             font-family: $font-family-base;
-            font-size: 16px;
+            font-size: 1rem;
           }
         }
       }
