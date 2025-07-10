@@ -321,6 +321,7 @@
         border-radius: 10px;
         transition: all 0.3s ease;
         grid-template-columns: 5% 10% 10% 12% 10% 10% 15% 10% 10%;
+        box-shadow: 0 4px 6px rgb(0 0 0 / 10%);
 
         .table__cell {
           display: flex;
