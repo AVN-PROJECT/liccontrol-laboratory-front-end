@@ -154,7 +154,7 @@
           };
 
           if (location.hostname !== 'localhost') {
-            cookieOptions.domain = 'liccontrol.ru';
+            cookieOptions.domain = 'laboratory.liccontrol.ru';
             cookieOptions.secure = true;
           }
 
